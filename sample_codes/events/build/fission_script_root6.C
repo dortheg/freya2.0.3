@@ -11,7 +11,7 @@
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Cf252_sf_10k.dat.root", "READ");
+TFile *vetsex = new TFile("Pu240_n_0_5_50k.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
