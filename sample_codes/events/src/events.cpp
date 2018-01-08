@@ -64,12 +64,13 @@ int main() {
    niso=nisosf+nisoif;
 
    // read in Z, A, energy_MeV, fission type, number of iterations, output file name
-   readinput(Z, A, energy_MeV, fissiontype, iterations, outputfilename);
+   readinput(Z, A, energy_MeV, fissiontype, iterations, outputfilename); 
 
    FILE* fp = openfile(outputfilename);
    // fprintf(fp, "This is the output record from %g MeV n + %d%d -> f (%d events):\n\n", energy_MeV, Z, A, iterations);
    output_compound(fp, Z, A+1, (fissiontype==0)?0.:energy_MeV, iterations);
    
+
    for (int i=0; i<iterations; i++) {
       if (!FREYA_event(fp, Z, A, i, energy_MeV, fissiontype, *ZAs, *fistypes, niso)) {
          int errorlength=maxerrorlength;
@@ -114,6 +115,8 @@ void initFREYA(int& nisosf, int& nisoif, int& niso,
          exit(1);
       }
    }
+
+
    msfreya_getniso_c_(&nisosf, &nisoif);
    niso=nisosf+nisoif;
 
