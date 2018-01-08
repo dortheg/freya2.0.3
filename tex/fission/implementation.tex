@@ -1,0 +1,50 @@
+
+For neutron induced fission, this model is intended to be used with
+the low energy neutron interaction data libraries with class
+\textit{G4Fisslib} specified in the physics list as the
+\textit{G4HadronFissionProccess} instead of class
+\textit{G4NeutronHPFission}.\notgeant{
+Here is an example code snippet for registering this model in the physics 
+list: \input{snippet}}
+The constructor of \textit{G4FissLib}
+does two things. First it reads the necessary fission cross-section
+data in the file located in the directory specified by the environment
+variable \textit{NeutronHPCrossSections}. It does this by initializing
+one object of class \textit{G4NeutronHPChannel} per isotope present in
+the geometry. Second, it registers an instance of
+\textit{G4FissionLibrary} for each isotope as the model for that
+reaction/channel. When Geant4 tracks a neutron to a reaction site and
+the fission library process is selected among all other process for
+neutron reactions, the method \textit{G4FissLib::ApplyYourself} is
+called, and one of the fissionable isotopes present at the reaction
+site is selected. This method in turn calls
+\textit{G4NeutronHPChannel::ApplyYourself} which calls
+\textit{G4FissionLibrary::ApplyYourself}, where the induced neutrons
+and gamma-rays are emitted by sampling the fission library.
+
+For spontaneous fission the user must provide classes {\it
+PrimaryGeneratorAction}, {\it MultipleSource}, {\it
+MultipleSourceMessenger}, {\it SingleSource}, {\it SponFissIsotope} to
+generate spontaneous fission neutrons and gammas. Examples of these
+classes can be downloaded from \httpnuclear. Spontaneous fissions are
+generated in the {\it PrimaryGeneratorAction} class.
+The spontaneous fission
+source needs to be described in terms of geometry, isotopic
+composition and fission strength. Once this information is given, the
+constructor creates as many spontaneous fission isotopes of class {\it
+SponFissIsotope} as specified, and adds them to the source of class
+{\it MultipleSource}. When Geant needs to generate particles, it calls
+the method {\it PrimaryGeneratorAction::GeneratePrimaries}, which
+first sets the time of the next fission based on the fission rates
+entered in the constructor, and then calls the method {\it
+MultipleSource::GeneratePrimaryVertex} which determines which one of
+the spontaneous fission isotopes will fission. This method in turn
+calls the method {\it SponFissIsotope::GeneratePrimaryVertex} for the
+chosen isotope. It is in this method that the neutrons and photons
+sampled from the fission library are added to the stack of secondary
+particles.  Sources other than spontaneous fission isotopes can be
+added to the source of class {\it MultipleSource}. For instance, a
+background term emitting a large number of background gamma-rays can
+be added, as long as it derives from the class {\it SingleSource}. The
+intensity of that source would be set the same way as for the
+spontaneous fission isotope sources.

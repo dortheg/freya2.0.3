@@ -1,0 +1,106 @@
+# How to build the test cases
+# ---------------------------
+# Jerome Verbeke <verbeke2@llnl.gov>
+# 07/28/2014
+#
+
+# Description of test cases:
+#
+# angular_correlation_cpp: 
+#   Creates a file with the angular distribution of fission neutrons
+#   using the c++ interface of the LLNL Fission Library.
+#   Nuclear data: 2 MeV neutrons on Pu-239.
+#   Run time: 30 seconds
+#
+# angular_correlation_c:
+#   Creates a file with the angular distribution of fission neutrons
+#   using the c interface of the LLNL Fission Library. 
+#   Nuclear data: 2 MeV neutrons on Pu-239.
+#   Run time: 30 seconds
+#
+# nu_distribution:
+#   Creates a file with the probability of getting nu neutrons 
+#   per fission. 
+#   Nuclear data: 1 MeV neutrons on U-235.
+#   Run time: 1 second
+#
+# fission_neutron_spectra:
+#   Creates a file with the fission neutron spectra for different
+#   neutron multiplicities
+#   Nuclear data: 1 MeV neutrons on U-235.
+#   Run time: 40 second
+#
+# mannhart:
+#   Creates files with fission neutron spectra for different
+#   neutron multiplicities. Spectra built using Mannhart energy
+#   structure.
+#   Nuclear data: spontaneous fission of Pu-240.
+#   Run time: 30 second
+#
+# ff_yield:
+#   Creates (a) fission fragment mass distributions
+#           (b) TKE versus heavy fission fragment mass
+#   Nuclear data: thermal neutrons on Pu-239.
+#   Run time: 8 second
+#
+# nu_vs_Af:
+#   Creates (a) nu versus fission fragment mass
+#           (b) total nu versus total TKE
+#   Nuclear data: thermal neutrons on Pu-239.
+#   Run time: 64 seconds
+#
+# nnCorr:
+#   Creates (a) probability of n-n correlation versus angle 
+#               between fission neutrons
+#   Nuclear data: thermal neutrons on Pu-239.
+#   Run time: 71 seconds
+#
+# gamma_vs_Af:
+#   Creates (a) photon multiplicity as a function of fission 
+#               fragment mass
+#           (b) total photon energy as a function of fission 
+#               fragment mass
+#           (c) energy per photon as a function of fission 
+#               fragment mass
+#   Nuclear data: thermal neutrons on Pu-239.
+#   Run time: 81 seconds
+#
+# events:
+#   For each fission, writes to a file 
+#     (a) mass, charge, kinetic energy of pre-evap fragment #1, 
+#         the numbers of neutron and photon emitted by ff #1.
+#     (b) the 3-dimension momentum of ff #1.
+#     (c) the direction cosines of the neutrons emitted by ff #1.
+#     (d) the direction cosines of the photons emitted by ff #1.
+#     (e) mass, charge, kinetic energy of pre-evap fragment #2, 
+#         the numbers of neutron and photon emitted by ff #2.
+#     (f) the 3-dimension momentum of ff #2.
+#     (g) the direction cosines of the neutrons emitted by ff #2.
+#     (h) the direction cosines of the photons emitted by ff #2.
+#     (i) the direction cosines of the pre-fission neutrons.
+#   Nuclear data: thermal neutrons on Pu-239.
+#   Run time: 6 seconds
+#
+
+# ....to build with cmake
+cd test_case_directory
+mkdir build; cd build
+cmake ../src; make
+# NB: delete CMakeCache.txt between 2 invocations of cmake. Otherwise, 
+#     cmake variables in CMakeCache.txt will be re-used. For compiler 
+#     changes, `rm -rf *`
+# To profile the code, build the LLNL Fission Library in performance
+# profile mode, and build the sample codes with
+#   cmake -DPROF:BOOL=ON ../src; make VERBOSE=1
+# It was discovered that valgrind/kcachegrind are much much better to 
+# profile the code, because gcc -pg do not profile the shared library,
+# which is essential.
+
+# ....to run a test case (bash)
+source ../../../setup
+./executable_name
+
+# ....to plot results
+cd ../plot
+gnuplot script.gnu -
+

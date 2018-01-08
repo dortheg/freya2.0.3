@@ -1,0 +1,75 @@
+%
+% Use 'make' to run latex and generate the pdf file
+%
+% Doug Wright
+%
+% ADC 
+%
+% COK-2001-600 
+% 11-304 Physics concepts such as hydrodynamics, photon transport,
+% neutronics, fission, fusion, etc., when no classified information
+% or association is revealed.
+
+\documentclass[fleqn,11pt]{article}
+\usepackage{h4}
+
+\newcommand{\notgeant}[1]{#1} % include stuff that is not for geant manual
+
+\date{May 11, 2009}
+
+\version{}   % doc version number
+\ucrl{LLNL-ABS-413079}
+
+\mytitle{Detailed photofission physics library for Monte-Carlo radiation transport codes\footnote{This work was performed under the auspices of the U.S. Department of Energy by Lawrence Livermore National Laboratory under Contract DE-AC52-07NA27344.}
+\author{
+%%Fission Library Development Team\\
+Jerome M. Verbeke\footnote{Contact info: verbeke2@llnl.gov, 925-422-8337}, Doug Wright\\}
+\\
+Lawrence Livermore National Laboratory
+}
+
+\begin{document}
+\maketitle
+
+% \tableofcontents
+% \clearpage
+
+% \section{Photonuclear physics}
+
+Detection of nuclear weapons and special nuclear materials (SNM, certain types of
+uranium and plutonium) is crucial to thwarting nuclear proliferation and terrorism
+and to securing weapons and materials worldwide. Congress has funded a portfolio
+of detection R\&D and acquisition programs, and has mandated inspection at foreign
+ports of all U.S.-bound cargo containers.
+
+Nuclear weapons contain SNM, which produce unique or suspect signatures that
+can be detected. For instance, since they are very dense, they can be seen by 
+x-rays in the absence of heavy shielding. One class of SNM signatures detectable 
+passively is the emission of neutrons and gamma-rays due to both natural 
+radioactivity of actinides, and cosmic-ray induced fission. Passive detection 
+systems rely on a variety of such signatures ranging from spectroscopic 
+information from the decay of actinides, all the way to the detailed time 
+structure of the fission chains in the multiplying SNM. These signatures can be 
+enhanced by inducing fissions in the SNM using a neutron or photon beam in an 
+active interrogation detection scheme.
+
+National labs and private corporations are presently developing detection 
+technologies based on prompt and delayed fission gamma-rays and neutrons. 
+Current physics modeling capabilities of established Monte-Carlo radiation 
+transport codes are unfortunately limited and often do not offer the detailed 
+fission physiscs modeling required by both passive and active detection systems.
+
+The fission physics library developed at Lawrence Livermore National Lab aims
+at filling that need of the simulation community by offering detailed data-based 
+fission physics. The data-driven library models spontaneous, neutron-induced 
+fission as well as photofission. Since mcnpx v27b, the library can be turned on
+transparently via a programmatic interface.
+
+% \clearpage
+% \addcontentsline{toc}{section}{References}
+
+% \begin{thebibliography}{99}
+% \input{ieee_abstract_bib}
+% \end{thebibliography}
+
+\end{document}

@@ -1,0 +1,126 @@
+% !TEX root =  fission.tex
+%
+% Use 'make' to run latex and generate the pdf file
+%
+% Doug Wright
+%
+% ADC 
+%
+% COK-2001-600 
+% 11-304 Physics concepts such as hydrodynamics, photon transport,
+% neutronics, fission, fusion, etc., when no classified information
+% or association is revealed.
+
+\documentclass[fleqn,11pt]{article}
+\usepackage{h4}
+\usepackage{url}
+\usepackage{hyperref}  
+	\hypersetup{linktocpage}	% only link the page number, too ugly if you highlight the text in the TOC
+	\hypersetup{colorlinks}     % use color instead of box around link
+	\hypersetup{linkcolor=blue} % use blue instead of default red, because it looks better
+	\hypersetup{citecolor=blue}  	% default green does not show when printed, so use blue
+\input{local}	% macro definitions for this document
+
+
+\newcommand{\notgeant}[1]{#1} % include stuff that is not for geant manual
+
+\date{October 17, 2016}
+
+\version{}   % doc version number
+\ucrl{UCRL-AR-}
+
+\mytitle{Simulation of Neutron and Gamma Ray Emission\\ from Fission and Photofission}
+
+\author{
+J\'er\^ome M. Verbeke, Chris Hagmann, Doug Wright\footnote{
+Contact info: wright20@llnl.gov, 925-423-2347}\\
+\\
+Lawrence Livermore National Laboratory
+}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\clearpage
+
+
+\newpage \section*{Copyright notice}
+Copyright (c) 2006-2016 Lawrence Livermore National Security, LLC.\\
+Produced at the Lawrence Livermore National Laboratory \\
+UCRL-CODE-224807.
+
+All rights reserved. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+\begin{itemize}
+\item  Redistributions of source code must retain the above copyright notice, this list of conditions and the disclaimer below.
+
+\item  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the disclaimer (as noted below) in the documentation and/or other materials provided with the distribution.
+
+\item  Neither the name of the LLNS/LLNL nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+\end{itemize}
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL LAWRENCE LIVERMORE NATIONAL SECURITY, LLC, THE U.S. DEPARTMENT OF ENERGY OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Additional BSD Notice
+
+\begin{enumerate}
+\item This notice is required to be provided under our contract with the U.S. Department of Energy (DOE). This work was produced at Lawrence Livermore National Laboratory under Contract No. DE-AC52-07NA27344 with the DOE. 
+
+\item  Neither the United States Government nor Lawrence Livermore National Security, LLC nor any of their employees, makes any warranty, express or implied, or assumes any liability or responsibility for the accuracy, completeness, or usefulness of any information, apparatus, product, or process disclosed, or represents that its use would not infringe privately-owned rights. 
+
+\item Also, reference herein to any specific commercial products, process, or services by trade name, trademark, manufacturer or otherwise does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or Lawrence Livermore National Security, LLC. The views and opinions of authors expressed herein do not necessarily state or reflect those of the United States Government or Lawrence Livermore National Security, LLC, and shall not be used for advertising or product endorsement purposes.
+\end{enumerate}
+
+\section{Introduction}
+
+This paper describes a general-purpose and extensible software library
+to accurately simulate neutron and gamma-ray distributions from fission
+reactions (spontaneous, neutron induced and photon induced).  This was
+originally motivated as a tool for detailed statistical studies of fission chains in multiplying
+media. 
+
+This library provides an event-by-event list of neutrons and gamma rays for a specific
+fission reaction and is intended to be used in conjunction with a Monte Carlo transport code.
+The parent code provides the reaction cross-section information, whereas this library samples
+the neutron and gamma multiplicity and energy distributions. This library is data-driven 
+and incorporates all available
+multiplicity measurements found in the literature. Empirical models
+are employed whenever multiplicity data are not available.
+
+Essentially no data are available for the correlations between the
+neutrons and gammas, so this model samples these distributions
+independently. By default, this model effectively scales the
+multiplicity data to match the average multiplicity value
+($\bar{\nu}$) found in external evaluated data libraries. At present
+the gammas and neutrons are emitted isotropically. The data and
+empirical models are described in detail in the following subsections.
+
+Different versions of this software library have been incorporated into 
+{\tt MCNP6.2\textsuperscript{\textregistered}},
+{\tt MCNPX 2.7.0},
+{\tt Geant4.10},
+{\tt TRIPOLI-4.10\textsuperscript{\textregistered}} and
+{\tt MORET}. The standalone version of the software library can be downloaded from \httpnuclear.
+
+\section{{\tt FREYA}}
+Since Version 1.9 we provide a distribution of an interface to the Fission Reaction Event Yield Algorithm. With Version 2.0, {\tt FREYA}~\cite{Verbeke 2016} enables the emission of completely correlated fission secondaries from individual realizations of fission processes on an event-by-event basis for the following isotopes
+\begin{itemize}
+\item neutron-induced fission: $^{233}$U, $^{235}$U, $^\text{238}$U, $^{239}$Pu and $^\text{241}$Pu, from thermal up to $E_n = 20 \mev$
+\item spontaneous fission:	$^{238}$U, $^\text{238}$Pu, $^{240}$Pu, $^\text{242}$Pu, $^{244}$Cm and $^{252}$Cf
+\end{itemize}
+
+{\tt FREYA} is written in FORTRAN~90 and has been tested with private builds of {\tt MCNPX} and {\tt Geant4.10} with both gfortran and the Intel Fortran compiler. For more information regarding {\tt FREYA} see \url{http://nuclear.llnl.gov/simulation}.
+
+\input{physics}  \clearpage
+\input{photofission} \clearpage
+\input{usermanual} \clearpage
+
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{99}
+\input{fission_geant_bib}
+\input{usermanual_bib}
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,39 @@
+#!/bin/csh
+#
+# check_bugs [1]
+#
+# default is to run all 1
+#
+# Jerome Verbeke
+
+set CC  = gcc
+set CXX = g++
+set FC  = gfortran
+
+#....choose linker based on availability of fortran compiler
+which $FC > /dev/null && set LD=$FC || set LD=$CXX
+
+setenv LD_LIBRARY_PATH ../src
+setenv INCLUDE '-I../include -L../src'
+setenv LIBS '-lFission -lstdc++ -lm'
+# setenv EXTRAFCFLAGS '-nofor_main'
+setenv EXTRAFCFLAGS ''
+
+#....process command line arguments (select which test to run)
+if ($# == 0 ) then
+    set test1
+else
+    set test$1
+endif
+
+if ($?test1) then
+   which $FC > /dev/null || echo Need $FC to link FREYA test && exit
+   echo Compiling and linking testFreya
+   $CC  testFreya_bug1.c -g -O3 -c $INCLUDE
+   $LD  testFreya_bug1.o -g -O3 -o testFreya_bug1 $EXTRAFCFLAGS $INCLUDE $LIBS
+
+   setenv FREYADATAPATH ../data_freya
+   echo "set FREYADATAPTH=$FREYADATAPATH"
+   echo "running testFreya_bug1 (takes < 1 second on aztec)"
+   time ./testFreya_bug1
+endif

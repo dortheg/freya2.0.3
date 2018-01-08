@@ -1,0 +1,106 @@
+% !TEX root =  fission.tex
+\pagebreak
+\subsection{Fission library interface}\label{sec:api}
+
+The interface to the fission library consists of 27 C functions, each of which will be described below. For examples of creating a stand-alone executable with the programmer's interface, consult the directory \texttt{regr} in the software release.
+
+\subsection*{void genspfissevt\_(int *isotope, double *time)}
+This function is called to trigger a spontaneous fission. Multiple neutrons and gamma-rays are generated and stored in a stack along with their energies, directions and emission times. The arguments of this function are
+
+\begin{tabbing}
+\indent isotope: \=entered in the form ZA (e.g. 94239 for $^{239}$Pu) \\
+\indent time: \> the time of the spontaneous fission \\
+\end{tabbing}
+
+The generated neutrons and gamma-rays, along with their properties will be lost upon the next call to genspfissevt\_(),
+genfissevt\_() or genphotofissevt\_(). Therefore, they must be retrieved immediately by the caller using the appropriate 
+functions described below.
+
+\subsection*{void genfissevtdir\_(int *isotope, double *time, double *nubar, double *eng, double *ndir)}
+This function is called to trigger a neutron-induced fission. In addition to the arguments above, the fission inducing neutron
+is characterized by:
+
+\begin{tabbing}
+\indent nubar: \= user-specified average number of neutrons emitted per fission (e.g. as tabulated in the \\ 
+\> cross-section libraries used by the particle transport code) \\
+\indent eng: \> energy of the neutron inducing fission \\
+\indent ndir: \> normalized incident neutron direction, array with three elements (u,v,w) \\
+\end{tabbing}
+
+Either the average number $\bar{\nu}$ of neutrons emitted per fission or the energy \textit{eng} of the fission inducing 
+neutron will be used to determine the number of neutrons sampled, see function setnudist\_ below. The number 
+of gamma-rays sampled only depends on $\bar{\nu}$. Similarly to genspfissevt\_(), the generated neutrons and gamma-rays are lost upon subsequent calls to genspfissevt\_(), genfissevt\_() or genphotofissevt\_(). The direction $ndir$ of the incident neutron is only used by the {\tt FREYA} model.
+
+\subsection*{void genfissevt\_(int *isotope, double *time, double *nubar, double *eng)}
+Same as call to {\bf genfissevtdir\_()} but {\tt FREYA} samples the incident neutron direction randomly.
+
+\subsection*{void genphotofissevt\_(int *isotope, double *time, double *nubar, double *eng)}
+This function is called to trigger a photon-induced fission. In addition to the arguments specified in genfissevt\_, the 
+fission inducing neutron is characterized by:
+
+\begin{tabbing}
+\indent nubar: \= user-specified average number of neutrons emitted per photofission (e.g. as tabulated in the \\ 
+\> photonuclear cross-section libraries used by the particle transport code) \\
+\indent eng: \> energy of the photon inducing fission \\
+\end{tabbing}
+
+Either the average number $\bar{\nu}$ of neutrons emitted per photofission or the energy \textit{eng} of the fission inducing 
+photon will be used to determine the number of neutrons sampled, see function setnudist\_ below. The number of gamma-rays sampled only depends on $\bar{\nu}$. Similarly to genspfissevt\_(), the generated neutrons and gamma-rays are lost upon subsequent calls to genspfissevt\_(), genfissevt\_() or genphotofissevt\_().
+
+\subsection*{int getnnu\_() and int getpnu\_()}
+
+These functions return the numbers of fission neutrons and gamma-rays emitted in the fission reaction, or -1 if no number could be sampled in the fission library due to lack of data. The reader is referred to the physics reference manual to find the list of isotopes for which sampling will return positive numbers.
+
+\subsection*{double getneng\_(int *index) and 
+double getpeng\_(int *index) \newline
+double getnvel\_(int *index) and 
+double getpvel\_(int *index)}
+
+These functions return the energies and velocities of the neutrons/gamma-rays.
+
+\subsection*{double getndircosu\_(int *index), double getndircosv\_(int *index), \newline double getndircosw\_(int *index) \newline \newline
+double getpdircosu\_(int *index), double getpdircosv\_(int *index), \newline double getpdircosw\_(int *index)}
+
+These 2 families of functions return the direction cosines of the velocity vector on the x, y and z axes for the fission 
+neutrons and gamma-rays.
+
+\subsection*{double getnage\_(int *index) and double 
+getpage\_(int *index)}
+
+This functions returns the age of the fission neutron/gamma-ray, or -1 if index is out of range. The age returned might be 
+different from the time specified in genfissevt\_(), genspfissevt\_() and genphotofissevt\_() for delayed neutrons and gamma-rays, see function setdelay\_() below. Currently, delayed fission neutrons/gamma-rays are not implemented, so all fission products 
+are emitted promptly.
+
+\subsection*{void setdelay\_(int *delay)}~\label{setdelay}
+
+This function is called to enable delayed neutrons and gamma-rays. The argument \textit{delay} is set to 
+
+\begin{tabbing}
+\indent0 (default) \= for strictly prompt neutrons and photons \\
+\indent1 (n/a) \> for prompt neutrons, prompt and delayed photons \\
+\indent2 (n/a) \> for prompt and delayed neutrons, prompt photons \\
+\indent3 (n/a) \> for prompt and delayed neutrons, prompt and delayed photons \\
+\end{tabbing}
+
+Delayed neutrons and gamma-rays have not yet been implemented in the fission library. This setting has presently no effect on the age sampling. All neutrons and photons are currently emitted promptly (delay=0).
+
+\subsection*{void setcorrel\_(int *correlation)}\label{setcorrel}
+
+This function is called to set the type of neutron/gamma-ray correlation.  The argument \textit{correlation} is set to
+
+\begin{tabbing}
+\indent 0 (default) \= for no correlation between neutrons and photons \\
+\indent 1 \> \parbox[t]{5.5in}{total fission neutron energy and total fission gamma-ray energy are sampled from normal distributions of means given in Beck et al.~\cite{Beck 2007}. No correlation between the number of neutrons and the number of gamma-rays} \\
+\indent 2 \> \parbox[t]{5.5in}{total fission neutron energy and total fission gamma-ray energy are sampled from normal distributions of means given in Vogt~\cite{Vogt 2008}. No correlation between the number of neutrons and the number of gamma-rays} \\
+\indent 3 \> \parbox[t]{5.5in}{number and energy correlation between neutrons and photons provided by {\tt FREYA} whenever available.} \\
+\end{tabbing}
+
+\input{arg}
+
+\subsection*{void setrngf\_(float (*funcptr) (void)) and void setrngd\_(double (*funcptr) (void))}
+
+This function sets the random number generator to the user-defined
+one specified in the argument. If either setrngf\_() or setrngd\_() are
+not specified, the default system call srand48() is used. The 
+arguments are random number generator functions that returns 
+variables of type float and double respectively.

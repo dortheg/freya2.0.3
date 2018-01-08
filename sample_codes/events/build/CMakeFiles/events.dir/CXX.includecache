@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Applications/freya_v2.0.3/sample_codes/events/src/../../../include/Fission.h
+
+/Applications/freya_v2.0.3/sample_codes/events/src/events.cpp
+stdio.h
+-
+iostream
+-
+math.h
+-
+stdlib.h
+/Applications/freya_v2.0.3/sample_codes/events/src/stdlib.h
+Fission.h
+/Applications/freya_v2.0.3/sample_codes/events/src/Fission.h
+

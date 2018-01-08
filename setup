@@ -1,0 +1,27 @@
+# Jerome Verbeke, LLNL, April 17, 2017
+# sets variables LD_LIBRARY_PATH, DYLD_LIBRARY_PATH, FREYADATAPATH
+#
+# usage:
+#   source ./setup
+#
+
+#....get absolute path to this file in variable "here"
+#    uses code from
+#    http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in/246128#246128
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+here="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+
+# path to fission library libFission.*
+export LD_LIBRARY_PATH=${here}/lib/:${LD_LIBRARY_PATH}
+export DYLD_LIBRARY_PATH=${here}/lib/:${DYLD_LIBRARY_PATH}   # for MacOS X
+
+# path to freya data
+export FREYADATAPATH=${here}/data_freya
+

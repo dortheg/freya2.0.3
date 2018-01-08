@@ -1,0 +1,4 @@
+To make the pdf file do this (there is no makefile anymore):
+
+pdflatex llnl_proposed_photofission.tex
+

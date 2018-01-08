@@ -1,0 +1,53 @@
+% !TEX root =  fission.tex
+\subsection*{void setnudist\_(int *nudist)
+\label{setnudist}}
+
+This selects the data to be sampled for the neutron number distributions for neutron-induced fission. If there is no data
+available, then in all cases the Terrell approximation is used. The argument \textit{nudist} can take 3 values:
+
+\begin{tabbing}
+
+\indent 0 \hspace*{.55in} \= \parbox[t]{5.5in}{ Use the fit to the Zucker and Holden tabulated P$_\nu$ distributions as a function of energy for $^{235}$U, $^{238}$U and $^{239}$Pu.}\\
+
+\indent 1 \> \parbox[t]{5.5in}{Use fits to the Zucker and Holden tabulated P$_\nu$  distribution as a function of energy for $^{238}$U and  $^{239}$Pu, and a fit to the Zucker and Holden data as well as the Gwin, Spencer and Ingle data (at thermal 
+ energies) as a function of energy for $^{235}$U.}\\
+
+\indent 2 \> \parbox[t]{5.5in}{Use the fit to the Zucker and Holden tabulated P$_\nu$ distributions as a function of $\bar{\nu}$. The $^{238}$U fit is used for the $^{232}$U, $^{234}$U, $^{236}$U and $^{238}$U isotopes, the $^{235}$U fit for $^{233}$U 
+and $^{235}$U, the $^{239}$Pu fit for $^{239}$Pu and $^{241}$Pu.}\\
+
+\indent 3 (default) \> \parbox[t]{5.5in}{Use the discrete Zucker and Holden tabulated P$_\nu$ distributions and corresponding $\bar{\nu}$s. Sampling based on the incident neutron $\bar{\nu}$. The $^{238}$U data tables are used for the $^{232}$U, $^{234}$U, $^{236}$U  and $^{238}$U isotopes, the $^{235}$U data for $^{233}$U and $^{235}$U, the $^{239}$Pu data for $^{239}$Pu and $^{241}$Pu.}
+
+\end{tabbing}
+
+\subsection*{void setcf252\_(int *ndist, int *neng)}
+
+This function is specific to the spontaneous fission of $^{252}$Cf. It selects the data to be sampled for the neutron number and energy distributions and takes the following arguments:
+
+\begin{tabbing}
+\indent ndist: \= Sample the number of neutrons \\
+\indent \> 0 (default) \= 
+from the tabulated data measured by Spencer \\
+\indent \> 1 \> from 
+Boldeman's data \\
+\\
+\indent neng: Sample the spontaneous fission 
+neutron energy \\
+\indent \> 0 (default)\> from Mannhart corrected  Maxwellian spectrum \\
+\indent \> 1 \> from Madland-Nix theoretical spectrum \\
+\indent \> 2 \> from the Froehner Watt spectrum \\
+\end{tabbing}
+
+\subsection*{void getfreya\_errors\_(int *length, char *error)}
+When called, this function returns potential errors that could have occurred in {\tt FREYA}; for instance if the data required by {\tt FREYA} cannot be found. It takes the following arguments:
+\begin{tabbing}
+\indent length: \= length of error message \\
+\indent error: \> pointer to an allocated array of characters devoted to the error message \\
+\end{tabbing}
+When returning, the length of the error message will be 1 is no error occurred. It will be greater than 1 otherwise.
+
+\subsection*{void setfreyadatapath\_(char *path)}
+This function is called to set the path to the directory where the data required by {\tt FREYA} is located. It takes the following argument:
+\begin{tabbing}
+\indent path: \= character string containing the path to the directory containing the data required by {\tt FREYA}. \\
+\end{tabbing}
+

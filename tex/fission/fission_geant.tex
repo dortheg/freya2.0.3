@@ -1,0 +1,50 @@
+% Geant4 Physics Manual Entry
+%
+% Use 'make' to run latex and generate the pdf file
+%
+% Doug Wright
+
+\documentclass[11pt]{article}
+\usepackage{h4}
+
+\newcommand{\notgeant}[1]{}% exclude some things from the geant manual
+
+%\ucrl{UCRL-AR-228518}
+
+\begin{document}
+
+\section{Fission with improved multiplicity sampling}
+
+As an alternative to the fission model described in the previous
+section there is a modified model that produces more accurate
+multiplicity distributions for the emitted neutrons and gamma rays
+from spontaneous and neutron-induced fission. This was motivated by
+detailed statistical studies of fission chains in multiplying
+media. This model is data-driven and incorporates all available
+multiplicity measurements found in the literature. Empirical models
+are employed whenever multiplicity data are not available.
+Essentially no data are available for the correlations between the
+neutrons and gammas, so this model samples these distributions
+independently. By default, this model effectively scales the
+multiplicity data to match the average multiplicity value
+($\bar{\nu}$) found in the GEANT4 evaluated data library. Therefore,
+only isotopes that have a measured $\bar{\nu}$ in the data library
+will emit fission gammas or neutrons. At present the gammas and
+neutrons are emitted isotropically. The data and empirical models are
+described in detail in the following subsections.
+
+\input{physics}
+
+\subsection{Implementation}
+
+\input{implementation}
+
+Different sampling methods can be selected by calling the following functions.
+\input{arg}
+
+\clearpage
+\begin{thebibliography}{99}
+\input{fission_geant_bib}
+\end{thebibliography}
+
+\end{document}

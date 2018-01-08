@@ -1,0 +1,28 @@
+# Instructions to build the test case
+# -----------------------------------
+# Jerome Verbeke
+# 04/27/2017
+#
+# to build test case using G4LEND and LLNL Fission Library/FREYA, 
+# type
+./recipe
+#
+
+# setup geant4 environment on your system, e.g. at LLNL do
+# --------------------------------------------------------
+   bash
+   source /usr/gapps/cern/geant4.10.03.p01/setup
+   mkdir build
+   cd    build
+
+# Compile and link to produce geant4 executable: fission
+# ----------------------------------------------
+# use local version of fission library (from ../../lib/libFission.*)
+# and activate FREYA
+#    valid for Geant4.10.03
+   CXX=`which g++` CC=`which gcc` cmake ../. -DUSE_FREYA:BOOL=ON -DGeant4_DIR=$G4LIB
+   make
+
+# Run the test program
+   export FREYADATAPATH=../../data_freya
+   fission test.mac | tee test.out

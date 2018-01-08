@@ -1,0 +1,4 @@
+12-9-09
+o improved text for energy conservation (both neutron and gamma sections)
+o removed mention of COG since COG developers not responding and previous iteration of
+fission library we put in COG is now very out of date.

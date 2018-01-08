@@ -1,0 +1,21 @@
+#!/bin/bash
+# Jerome Verbeke, 2017.04.27
+#
+# Build test case using G4LEND and LLNL Fission Library/FREYA
+#
+
+# setup Geant4 environment
+source /usr/gapps/cern/geant4.10.03.p01/setup
+source /usr/gapps/cern/root_v5.34.36/setup
+source ../setup
+
+# build executable
+mkdir build
+cd    build
+CXX=`which g++` CC=`which gcc` cmake ../. -DUSE_FREYA:BOOL=ON -DGeant4_DIR=$G4LIB
+make
+
+# run simulation
+fission test.mac | tee test.out
+
+

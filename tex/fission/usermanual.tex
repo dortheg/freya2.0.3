@@ -1,0 +1,58 @@
+% !TEX root =  fission.tex
+%
+%
+% Use 'make' to run latex and generate the pdf file
+%
+% Doug Wright
+%
+% ADC 
+%
+% COK-2001-600 
+% 11-304 Physics concepts such as hydrodynamics, photon transport,
+% neutronics, fission, fusion, etc., when no classified information
+% or association is revealed.
+
+%\ucrl{UCRL-TM-229496}
+
+\section{User Manual}
+
+This section describes how to use this software library to accurately simulate neutron and gamma-ray emission from individual fission reactions.
+The latest version of the library can be downloaded from \httpnuclear. Consult the file \texttt{Release\_notes.txt} in the software release to see the compatibility of this library with specific versions of {\tt MCNPX}, {\tt MCNP6}, and {\tt Geant4}.  Earlier versions of the library are distributed in the public release of {\tt MCNPX 2.7.0}~\cite{MCNPX} and {\tt Geant4}~\cite{Geant1,Geant2}.
+
+The following sections describe how to run this library with {\tt MCNPX}/{\tt MCNP6} (Section~\ref{sec:mcnpx}) and {\tt Geant4} (Section~\ref{sec:geant4}), while Section~\ref{sec:api} describes the programmer's interface. 
+For examples of creating a stand-alone executable with the programmer's interface, consult the directory \texttt{regr} in the software release.
+
+\subsection{Limitations of the fission library~\label{Limitations of the fission library}}
+
+The range of neutron energies for which induced fission neutron 
+multiplicity data are available in the literature spans the range 
+from 0 to 10~MeV, to which corresponds a range of $\bar{\nu}$ 
+values.  The sampling of number of neutrons per fission is based on 
+either the incident neutron energy or the $\bar{\nu}$ corresponding to 
+that energy (depending on the option selected in \textit{setnudist}). 
+
+When sampling is based on $\bar{\nu}$ (the default), 
+and the $\bar{\nu}$ is in the range for which we have multiplicity 
+data from the literature, that data is used. Outside that 
+range, the Terrell approximation is used.
+
+If the user selects the option to sample based on energy, and
+the energy is within the range for which we have multiplicity 
+data from the literature, that data is used.  If the energy is above 10 MeV, then 
+the 10 MeV data is used. As this will be inaccurate as the energy becomes much higher
+than 10 MeV, the user should select sampling based on $\bar{\nu}$ in this case. 
+The same considerations apply for photofission.
+
+In the case of spontaneous fission, data is only available 
+for the following isotopes: $^{232}$Th, $^{232}$U, 
+$^{233}$U, $^{234}$U, $^{235}$U, $^{236}$U, $^{238}$U, 
+$^{237}$Np, $^{238}$Pu, $^{239}$Pu, $^{240}$Pu, $^{241}$Pu, 
+$^{242}$Pu, $^{241}$Am, $^{242}$Cm, $^{244}$Cm, $^{249}$Bk, 
+and $^{252}$Cf. 
+The Monte-Carlo codes {\tt MCNPX} and {\tt Geant4} do not emit any particles if a different spontaneous fission 
+isotope is specified.
+
+\input{mcnpx.tex}
+\input{geant4.tex}
+%\input{cog.tex}
+\input{interface.tex}

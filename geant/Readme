@@ -1,0 +1,45 @@
+# Instructions to build the test case
+# -----------------------------------
+# Jerome Verbeke
+# 09/04/2015
+
+
+# setup geant4 environment on your system, e.g. at LLNL do
+# --------------------------------------------------------
+   bash
+   source /usr/gapps/cern/geant4.10.03.p01/setup
+   mkdir build
+   cd    build
+
+# Compile and link to produce geant4 executable: fission
+# (choose one of the following)
+# ----------------------------------------------
+# a) use local version of fission library (from ../../lib/libFission.*)
+#    valid for Geant4.10.01
+   CXX=`which g++` CC=`which gcc` cmake ../. -DUSE_FISSION_NEW:BOOL=ON -DGeant4_DIR=$G4LIB
+   make
+
+# b) same as above and activate FREYA
+#    valid for Geant4.10.01
+   CXX=`which g++` CC=`which gcc` cmake ../. -DUSE_FISSION_NEW:BOOL=ON -DUSE_FREYA:BOOL=ON -DGeant4_DIR=$G4LIB
+   make
+
+# c) use old fission library built into geant
+#    valid for Geant4 version strictly greater than reference 4-10-00-ref-06
+#    run fails for Geant4 versions between 4.9.6 and 4.10.00
+   CXX=`which g++` CC=`which gcc` cmake ../. -DGeant4_DIR=$G4LIB
+   make
+
+# Run the test program
+   source ../../setup
+   fission test.mac | tee test.out
+
+# compare to reference output 
+# (based on cmake USE_FISSION_NEW:BOOL=ON USE_FREYA:BOOL=ON and specific Geant version)
+   diff test.out ../test.ref
+
+# Notes
+# -----
+# March 23, 2017
+# --------------
+# See note in ../Makefile regarding the c/c++ compiler versions

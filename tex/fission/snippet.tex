@@ -1,0 +1,16 @@
+\begin{verbatim}
+    G4ProcessManager* pmanager = particle->GetProcessManager();
+    G4String particleName = particle->GetParticleName();
+
+    if (particleName == "gamma") {
+      (...)
+    } else if (particleName == "neutron") {
+      (...)
+      // Fission library model
+      G4HadronFissionProcess *theFissionProcess = new G4HadronFissionProcess();
+      G4FissLib* theFissionModel = new G4FissLib;
+      theFissionProcess->RegisterMe(theFissionModel);
+      pmanager->AddDiscreteProcess(theFissionProcess);
+      (...)
+    } else ...
+\end{verbatim}

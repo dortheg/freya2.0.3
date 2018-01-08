@@ -1,0 +1,57 @@
+HOW TO BUILD THE LLNL FISSION LIBRARY
+-------------------------------------
+To compile the fission library (will be installed in local directory "lib"):
+   make
+
+Optional:
+   To test the library and compare to reference output
+      make test
+
+See src/Readme for expert build instructions
+
+HOW TO BUILD A SAMPLE CODE
+--------------------------
+Follow the example in recipe
+
+HEADER FILES:
+-------------
+To invoke the fission library from a c/c++ code, add the following
+header to your code
+        #include "Fission.h" (c)
+        #include "Fission.hh" (c++)
+and invoke the functions described in the header file to generate
+fission reactions and return their parameters.
+The most important functions are as follows:
+        extern void genspfissevt_(int *isotope, double *time);
+        extern void genfissevt_(int *isotope, double *time, double *nubar, double *eng);
+        extern void genphotofissevt_(int *isotope, double *time, double *nubar, double *eng);
+generate spontaneous, neutron- and photon- induced fission reactions, respectively. 
+The functions
+        extern int getnnu_();
+        extern int getpnu_();
+return the number of neutrons and gamma-rays for that fission reaction.
+        extern double getneng_(int *index);
+        extern double getpeng_(int *index);
+return the energies of the fission neutrons and gamma-rays.
+
+The seed of the default random number generator can be set explicitely using
+        void seed(unsigned short int s[3])
+
+To invoke the fission library from a FORTRAN code, add the following 
+header file to your code:
+	#include "Fission.inc"
+and invoke the functions as above (without the trailing underscore _).
+
+
+HOW TO LINK TO THE FISSION LIBRARY:
+-----------------------------------
+To link in libFission.a/libFission.so, compile the main code with
+        -lFission
+preceded by the path to the library on the compile line.
+
+For the shared library libFission.so: at run time, set the following 
+variables 
+        export LD_LIBRARY_PATH=../lib
+        export DYLD_LIBRARY_PATH=../lib # MacOSX
+to be the path to the library.
+

@@ -1,0 +1,345 @@
+FILE MAP
+========
+
+DIRECTORY include
+#################
+Contains header files
+
+include/Fission.h, include/Fission.hh, src/Fission.cc
+-----------------------------------------------------
+c interface to LLNL Fission Library
+
+include/fissionEvent.h
+----------------------
+definition of class fissionEvent
+
+
+
+
+DIRECTORY src
+#############
+Contains implementation files
+
+src/fissionEvent.cc
+-------------------
+Implementations of class fissionEvent constructor/destructor methods.
+Constructor generates one array of outgoing fission neutrons, and one array of outgoing fission photons.
+Number of neutrons comes from JEROME
+
+src/SmpFreya.cc
+---------------
+Implementations of class fissionEvent methods
+   SmpFreya
+      request a fission from FREYA
+   saveFREYANeutron
+      copies FREYA neutron momenta arrays to LLNL Fission Library's neutron direction (u,v,w) and energy arrays
+   saveFREYAPhoton
+      copies FREYA photon momenta arrays to LLNL Fission Library's photon direction (u,v,w) and energy arrays
+   handle_freya_error
+      returns true if an error was produced by FREYA
+   getFREYAerrors
+      return errors produced by FREYA
+
+
+FISSIONEVENT METHODS FOR SAMPLING NUMBER OF FISSION NEUTRONS
+============================================================
+
+src/SmpNuDistDataU235.cc, src/SmpNuDistDataU238.cc, src/SmpNuDistDataPu239.cc,
+src/SmpNuDistDataPu239_241.cc, src/SmpNuDistDataU232_234_236_238.cc, src/SmpNuDistDataU233_235.cc,
+src/SmpSpNuDistData.cc, src/SmpSpNubarData.cc
+--------------------------------------------------------------------------------------------------
+Implementations of class fissionEvent methods
+   SmpNuDistDataU235
+   SmpNuDistDataU238
+   SmpNuDistDataPu239
+   SmpNuDistDataPu239_241
+   SmpNuDistDataU232_234_236_238
+   SmpNuDistDataU233_235
+      Sample a number of neutrons from the multiplicity distributions for neutron-induced fissions, 
+      for the isotopes specified. Uses interpolation for energy regions between measured multiplicity 
+      distributions. 
+   SmpSpNuDistData
+      Samples number of neutrons from spontaneous fission
+   SmpSpNubarData
+      Samples average number of neutrons per spontaneous fission
+
+src/SmpNuDistDataPu239_241_MC.cc, src/SmpNuDistDataU232_234_236_238_MC.cc, src/SmpNuDistDataU233_235_MC.cc
+----------------------------------------------------------------------------------------------------------
+Implementations of class fissionEvent methods
+   SmpNuDistDataPu239_241_MC
+   SmpNuDistDataU232_234_236_238_MC
+   SmpNuDistDataU233_235_MC
+      Sample a number of neutrons from the multiplicity distributions for spontaneous fissions, for the 
+      isotopes specified. Instead of interpolation for energy regions between measured multiplicity 
+      distributions, uses probabilistic sampling of these measured multiplicity distributions.
+
+src/SmpTerrell.cc
+-----------------
+Implementations of class fissionEvent method
+   SmpTerrell
+      Samples a number of neutrons using the Terrell model
+
+
+
+FISSIONEVENT METHODS FOR SAMPLING FISSION NEUTRON ENERGIES AND VECLOCITIES
+==========================================================================
+
+src/SmpWatt.cc, src/SmpSpWatt.cc, src/SmpNVel.cc, src/SmpNEngCf252.cc,
+src/SmpIsoDir.cc
+---------------------------------------------------------------------
+Implementations of class fissionEvent methods
+   SmpNEngCf252
+      Samples neutron energies for Cf-252 source.
+   SmpSpWatt
+   SmpWatt
+      Samples neutron energies using Watt spectrum for spontaneous and neutron-induced fissions.
+   SmpNVel
+      Given a neutron energy, returns the speed of that neutron.
+   SmpIsoDir
+      Samples a direction isotropically.
+
+
+FISSIONEVENT METHODS FOR SAMPLING NUMBER OF FISSION PHOTONS
+===========================================================
+
+src/SmpSpNugDistData.cc, src/SmpNugDist.cc
+------------------------------------------
+Implementations of class fissionEvent methods
+   src/SmpSpNugDistData.cc
+   src/SmpNugDist.cc
+      Samples a number of secondary photons for spontaneous fission, and neutron-induced fission.
+      SmpNugDist calls getNubarg
+         src/getNubarg.cc
+         ----------------
+         getNubarg
+            Returns the average number of fission photons from neutron-induced fission.
+
+
+
+FISSIONEVENT METHODS FOR SAMPLING FISSION PHOTON ENERGIES AND VELOCITIES
+========================================================================
+
+src/SmpGEng.cc, src/SmpPVel.cc
+------------------------------
+Implementation of class fissionEvent method
+   SmpGEng
+      Samples photon energies from a parameterized spectrum.
+   SmpPVel.cc
+      Returns c, the speed of light.
+   SmpIsoDir
+      Samples a direction isotropically.
+
+
+
+FISSIONEVENT METHODS FOR SAMPLING NUMBER OF FISSION NEUTRON AND NEUTRON ENERGIES SIMULTANEOUSLY
+                 AND FOR SAMPLING NUMBER OF FISSION PHOTONS AND PHOTON ENERGIES SIMULTANEOUSLY
+===============================================================================================
+
+src/SmpNPEnergyCons.cc
+----------------------
+Implementation of class fissionEvent method
+   SmpNPEnergyCons
+      Returns the energy of prompt neutrons and photons emitted by fission. Calls functions
+      getTotEngN, getTotEngP and normsinv.
+
+      src/getTotEngN.cc
+      -----------------
+      Implementation of class fissionEvent method
+         getTotEngN
+            Returns the average total energy available to prompt fission neutrons. Calls
+            getTotEngNEnergyCons and getTotEngNEnergyConsAllActinides
+
+            src/getTotEngNEnergyCons.cc, src/getTotEngNEnergyConsAllActinides.cc
+            --------------------------------------------------------------------
+            Implementations of class fissionEvent methods
+               getTotEngNEnergyCons
+               getTotEngNEnergyConsAllActinides
+                  Return the average total energy of prompt neutrons emitted by fission.
+
+      src/getTotEngP.cc
+      -----------------
+      Implementation of class fissionEvent method
+         getTotEngP
+            Returns the average total energy available to prompt fission gamma-rays. Calls
+            getTotEngPEnergyCons and getTotEngPEnergyConsAllActinides
+
+            src/getTotEngPEnergyCons.cc, src/getTotEngPEnergyConsAllActinides.cc
+            --------------------------------------------------------------------
+            Implementations of class fissionEvent methods
+               getTotEngPEnergyCons
+               getTotEngPEnergyConsAllActinides
+                  Return the average total energy of prompt photons emitted by fission.
+
+      src/normsinv.cc
+      -----------------
+      Implementation of class fissionEvent method
+         normsinv
+            Returns the inverse cdf of a normal distribution.
+
+
+
+FREYA RELATED FILES
+===================
+
+src/msFREYA_setup.F90
+---------------------
+Implementation of FREYA subroutines/functions
+   msfreya_setup
+      Sets up FREYA for fission generation
+   msfreya_getniso
+      Returns numbers of spontaneous and induced fission isotopes
+   msfreya_getzas
+      Returns one array with the ZAs of the fission isotopes
+              one array with the fission type 
+   SCISSION
+      Tabulates the Q-value Qsciss for fission of given species at excitation E*.
+   MASSES
+      Prepares the fission-fragment mass distribution for a given species.
+   SplitFits
+      Tabulates the multi-gaussian fits to the fission-fragment mass distribution.
+   SetupRandom
+      Sets up & checks the random-number generators ran1.
+   msFREYA_usehostrng
+      Sets the code up to use the host random number generator rngdptr.
+   DROP
+      Calculates the Lysekil nuclear mass defect + Wigner + Pairing + Shift.
+   alevel
+      Returns level density parameter.
+   Gammanf
+      Calculates the widths for neutron evaporation and fission.
+   gsM
+      Returns ground-state mass of nucleus.
+   msFREYA_SEPn
+      Returns neutron separation energy.
+   BARRIER
+      Returns fission barrier
+   rng
+      Default random number generator.
+   ran0
+      ran2 from Numerical Recipes p.197.
+   ran1
+      random number generator from Numerical Recipes p.197.
+   xnormal
+      Returns a normal-distributed number.
+      
+src/msFREYA_event.F90
+---------------------
+Implementation of FREYA subroutines/functions
+   msfreya_event
+      To generate one complete fission event.
+   PreEq
+      Considers possible emission of one pre-equilibrium neutron.
+   EVAP1n
+      Simulates ONE single neutron evaporation from a compound nucleus.
+   DDECAY
+      Simulates sequential decay of an excited fission fragment.
+   NthFission
+      Considers pre-fission neutron emission, n'th-chance fission.
+
+src/msFREYA_data.F90
+--------------------
+Implementation of FREYA data structures.
+
+src/msFREYA_error.F90
+---------------------
+FREYA errors handling.
+
+src/msFREYA_interfaces.F90
+--------------------------
+Interfaces between c++ and FORTRAN
+
+
+
+UTILITY FUNCTIONS
+=================
+
+src/getNSepEng.cc
+-----------------
+Implementation of class fissionEvent method
+   getNSepEng
+      Returns the neutron separation energy S_n (usefull for photofission).
+
+src/rngc.cc
+-----------
+Implementation of class fissionEvent method
+   rngc
+      Random number generator.
+
+src/allocateMem.cc
+------------------
+Implementation of class fissionEvent method
+   allocateMem
+      Allocates memory for the arrays of neutrons and photons
+
+src/erf.cc
+----------
+Implementation of class fissionEvent method
+   erf
+      Returns error function.
+
+src/fissionerr.cc
+-----------------
+Implementation of class fissionEvent method
+   fissionerr
+      Handles errors in LLNL Fission Library
+
+
+
+
+DIRECTORY data_freya
+####################
+All data files required by FREYA.
+
+
+DIRECTORY doc
+#############
+doc/fission.pdf
+---------------
+   LLNL Fission Library User Manual: "Simulation of Neutron and Gamma Ray Emission from 
+                                      Fission and Photofission"
+doc/FREYA_User_Manual_v1.pdf
+----------------------------
+   FREYA User Manual: "Fission Reaction Event Yield Algorithm FREYA User Manual"
+
+
+DIRECTORY geant
+###############
+contains instructions on how to run the LLNL Fission Library/FREYA package within Geant4.
+
+
+DIRECTORY regr
+##############
+contains a suite of regression tests
+
+
+DIRECTORY sample_codes
+######################
+contains a number of sample codes to run FREYA simulations:
+
+sample_codes/Readme
+-------------------
+   Explains how to build and run the sample codes.
+
+sample_codes/angular_correlation_c
+----------------------------------
+   Produces a plot of the anisotropy of the fission neutron emission.
+   Uses the LLNL Fission Library C interface.
+
+sample_codes/angular_correlation_cpp
+------------------------------------
+   Produces a plot of the anisotropy of the fission neutron emission.
+   Uses the LLNL Fission Library C++ interface.
+
+sample_codes/ff_yield
+---------------------
+   Produces a plot of the fission fragment yield curve
+
+sample_codes/fission_neutron_spectra
+------------------------------------
+   Produces a plot of the fission neutron energy distribution
+
+sample_codes/nu_distribution
+----------------------------
+   Produces a plot of the distribution of the number of neutrons emitted per fission.
+
+

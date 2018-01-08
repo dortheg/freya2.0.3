@@ -1,0 +1,23 @@
+% !TEX root =  fission.tex
+\pagebreak
+\subsection{{\tt Geant4}}\label{sec:geant4}
+
+Version 1.2 of this library has been available in the public release of Geant4 since version 4.9.0. 
+Geant4.9.6 and later require version 1.9 or later of this library. Version 2.0 of the LLNL Fission Library has been tested with Geant4.10.02 as an external library that overrides the built-in fission library. It is available at \httpnuclear  . 
+% To use the built-in version there is no need to download or compile the fission library itself and the standard Geant4 makefile is sufficient. 
+An example of building a Geant4 executable and activating the fission library is given in the \texttt{geant} directory 
+in the fission library source code distribution. This directory also includes an example and explicit instructions for overriding the built-in fission library with the latest version.
+
+\subsection*{Limitations}
+
+The neutron-induced fission data available in G4NDL4.5 is limited. At the time of this writing, there are only data files for  isotopes of radium, actinium, thorium, protactinium and uranium. The origin of the data has not been investigated. For other isotopes, induced fission will not emit any particles. This fission library does not have any spontaneous fission data for isotopes other than the ones listed in section~\ref{Limitations of the fission library}.
+Photofission has not been implemented in {\tt Geant4}.
+
+\subsection*{Execution}
+
+The environment variable \textit{NeutronHPCrossSections} must point to the G4NDL directory, where the induced fission cross-sections and data are located.
+
+\subsection*{Description of the C++ classes}
+
+\input{implementation}
+

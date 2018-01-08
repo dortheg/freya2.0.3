@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Jerome Verbeke, April 17, 2017
+# recipe to compile the LLNL Fission Library and
+# to build and run the sample code events
+# Prerequisite: cmake in your PATH
+#
+
+samplecodedir=events
+samplecodename=events
+
+# Step 1: Build the LLNL Fission Library:
+# ---------------------------------------
+make
+
+# Step 2: Build the sample code
+# ---------------------------
+cd sample_codes
+cd ${samplecodedir}
+mkdir build; cd build
+cmake ../src; make
+
+# Step 3: Run the sample code
+# ---------------------------
+source ../../../setup
+./${samplecodename}
+echo Sample code ${samplecodename} executed in directory sample_codes/${samplecodedir}/build

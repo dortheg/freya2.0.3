@@ -1,0 +1,99 @@
+% Original Author: Doug Wright   September 9, 2003
+
+%%%%%
+%%%%% Load useful packages
+%%%%%
+\usepackage{graphicx} % \includegraphics needed for Figures
+\usepackage{amsmath}  % enhance math modes
+\usepackage{times}    % use Times Roman text font 
+                      % instead of default Computer Modern Roman
+\usepackage{mathptmx} % use Times Roman font in math mode
+                      % need this if you use times.sty
+
+% LC version of fullpage.sty is out of date and does not give proper margins
+% so copied the new version (from MacOSX) into reports/macros
+%   /usr/share/texmf/tex/latex/misc/fullpage.sty  (1998)    BAD
+%   /usr/share/texmf/tex/latex/preprint/fullpage.sty (1999) GOOD
+%
+\usepackage{h4fullpage} % set paper to USletter and margins to 1in all around
+\headsep=2\baselineskip % otherwise headings run into the text at top of page
+
+% Make sure that dvips and xdvi are using 8.5x11 (default is A4)
+% Use 'texconfig dvips paper letter' to set the defaults to letter
+%     'texconfig xdvi us'
+
+\usepackage{physics} % macros/physics.sty has useful definitions for physics documents
+
+%%%%%
+%%%%% change title to include doc# and UCRL (if available)
+%%%%%
+\newcommand{\mytitle}[1]{
+\title{ {\small \hfill \versionnum\\
+                \hfill \ucrlnum\\}
+        \bf #1}}
+
+\newcommand{\version}[1]{\newcommand{\versionnum}{#1}}
+\newcommand{\ucrl}[1]{\newcommand{\ucrlnum}{#1}}
+
+%%%%%
+%%%%% Figure macros
+%%%%%
+%%%%% \Figure{file}{caption}             % expects eps/file.eps
+%%%%% \FigureH{hsize}{file}{caption}     % height=hsize e.g. 4in
+%%%%% \FigureW{wsize}{file}{caption}     % width =wsize
+%%%%% \FigureWfrac{wsize}{file}{caption} % width=wsize /linewidth
+%%%%%
+%%%%% Reference figure as, Figure~\ref{file}
+%%%%%
+
+\newcommand{\Figure}[2]      {\epsFigure{                   }{#1}{#2}}
+\newcommand{\FigureH}[3]     {\epsFigure{ height=#1         }{#2}{#3}}
+\newcommand{\FigureW}[3]     {\epsFigure{ width=#1          }{#2}{#3}}
+\newcommand{\FigureWfrac}[3] {\epsFigure{ width=#1\linewidth}{#2}{#3}}
+
+%%%%%
+%%%%% \epsFigure{size}{file}{caption}
+%%%%%
+\newcommand{\epsFigure}[3]{
+  \def\file@{eps/#2.eps}  %....look for files in subdir 'eps'
+  \IfFileExists{\file@}    
+    { \def\insert@{ \includegraphics[#1]{\file@}}} %....insert file if it exists
+    { \def\insert@{ \framebox[5in]{\rule{0in}{3in}\file@}}}  %....otherwise make box with the filename
+    \genericFigure{\insert@}{#2}{#3}
+}
+
+%%%%%
+%%%%% \genericFigure{graphics_command}{label}{caption}
+%%%%%
+\newcommand{\genericFigure}[3]{
+  \begin{figure}[hbt] \centering
+  \mbox{#1}\\
+  \mycaption{#3}{#2}
+  \end{figure}}
+
+\newcommand{\mycaption}[2]{\parbox{5in}{\caption{#1\label{#2}}}}
+
+%%%%%
+%%%%% Table macros
+%%%%%
+%%%%%          1       2      3       4
+%%%%% \Table{label}{caption}{layout}{data}
+%%%%%
+%%%%% \Table{table1}{Event fractions for different candidate types}{|l|r|}{
+%%%%% \hline
+%%%%% Type      & Fraction (\%) \\ 
+%%%%% IFR   & 35  \\
+%%%%% ECAL  & 30  \\
+%%%%% Total & 65  \\ 
+%%%%% \hline
+%%%%% }
+%%%%%
+\newcommand{\Table}[4]{
+\begin{table}[bt]
+\begin{center}
+\caption{#2\label{#1}}\medskip
+\begin{tabular}{#3}#4
+\end{tabular}
+\end{center}
+\end{table}
+}

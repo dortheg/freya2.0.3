@@ -1,0 +1,131 @@
+#!/bin/sh
+#
+# run_test [1|2|3|4|5|6]
+#
+# default is to run all 6
+#
+# Jerome Verbeke, 10/30/2014
+# mods by Doug Wright
+
+export CC=gcc
+export CXX=g++
+export FC=gfortran
+
+#....choose linker based on availability of fortran compiler
+which $FC > /dev/null && export LD=$FC || export LD=$CXX
+
+export LD_LIBRARY_PATH=../lib
+export DYLD_LIBRARY_PATH=${LD_LIBRARY_PATH} # MacOSX
+export INCLUDE='-I../include'
+export LIBS='-L../lib -lFission -lstdc++ -lm'
+# export EXTRAFCFLAGS='-nofor_main'
+export EXTRAFCFLAGS=''
+
+#....process command line arguments (select which test to run)
+if [ $# -eq 0 ]; then
+    export test1=1
+    export test2=1
+    export test3=1
+    export test4=1
+    export test5=1
+    export test6=1
+else
+    export test$1=1
+fi
+
+#....compile and run the tests
+if [ ! -z ${test1+x} ]; then
+   echo Compiling and linking testSpNuDist
+   $CC testSpNuDist.c -c -g $INCLUDE
+   $LD testSpNuDist.o -g -o testSpNuDist $EXTRAFCFLAGS $LIBS
+
+   echo "running testSpNuDist (takes 13 seconds on aztec)"
+   if [ -f testSpNuDist.res ]; then rm -f testSpNuDist.res; fi
+   time ./testSpNuDist
+   diff -s testSpNuDist.res testSpNuDist.goldref
+   diff -s testSpspec.res testSpspec.goldref
+   echo
+fi
+
+if [ ! -z ${test2+x} ]; then
+   echo Compiling and linking testNuDist
+   $CC  testNuDist.c -g -c $INCLUDE
+   $LD  testNuDist.o -g -o testNuDist $EXTRAFCFLAGS $LIBS
+
+   echo "running testNuDist (takes 38 seconds on aztec)"
+   if [ -f testNuDist.res ]; then rm -f testNuDist.res; fi
+   if [ -f testspec.res ]; then rm -f testspec.res; fi
+   time ./testNuDist
+   diff -s testNuDist.res testNuDist.goldref
+   diff -s testspec.res testspec.goldref
+   echo
+fi
+
+if [ ! -z ${test3+x} ]; then
+   echo Compiling and linking testEngCons
+   $CC  testEngCons.c -g -c $INCLUDE
+   $LD  testEngCons.o -g -o testEngCons $EXTRAFCFLAGS $LIBS
+
+   echo "running testEngCons (takes 29 seconds on aztec)"
+   if [ -f testEngConsNudist.res ]; then rm -f testEngConsNudist.res; fi
+   if [ -f testEngConsSpec.res ]; then rm -f testEngConsSpec.res; fi
+   if [ -f testEngConsSpecTotal.res ]; then rm -f testEngConsSpecTotal.res; fi
+   if [ -f testEngConsTotal.res ]; then rm -f testEngConsTotal.res; fi
+   time ./testEngCons
+   diff -s testEngConsNudist.res testEngConsNudist.goldref
+   diff -s testEngConsSpec.res testEngConsSpec.goldref
+   diff -s testEngConsSpecTotal.res testEngConsSpecTotal.goldref
+   diff -s testEngConsTotal.res testEngConsTotal.goldref
+   echo
+fi
+
+if [ ! -z ${test4+x} ]; then
+   echo Compiling and linking testEngConsAllActinides
+   $CC  testEngConsAllActinides.c -g -c $INCLUDE
+   $LD  testEngConsAllActinides.o -g -o testEngConsAllActinides $EXTRAFCFLAGS $LIBS
+
+   echo "running testEngConsAllActinides (takes 56 seconds on aztec)"
+   if [ -f testEngConsAllActNudist.res ]; then rm -f testEngConsAllActNudist.res; fi
+   if [ -f testEngConsAllActSpec.res ]; then rm -f testEngConsAllActSpec.res; fi
+   if [ -f testEngConsAllActSpecTotal.res ]; then rm -f testEngConsAllActSpecTotal.res; fi
+   if [ -f testEngConsAllActTotal.res ]; then rm -f testEngConsAllActTotal.res; fi
+   time ./testEngConsAllActinides
+   diff -s testEngConsAllActNudist.res testEngConsAllActNudist.goldref
+   diff -s testEngConsAllActSpec.res testEngConsAllActSpec.goldref
+   diff -s testEngConsAllActSpecTotal.res testEngConsAllActSpecTotal.goldref
+   diff -s testEngConsAllActTotal.res testEngConsAllActTotal.goldref
+fi
+
+if [ ! -z ${test5+x} ]; then
+   echo Compiling and linking testPhotofission
+   $CC  testPhotofission.c -g -c $INCLUDE
+   $LD  testPhotofission.o -g -o testPhotofission $EXTRAFCFLAGS $LIBS
+
+   echo "running testPhotofission (takes 39 seconds on aztec)"
+   if [ -f testPhotofissionNuDist.res ]; then rm -f testPhotofissionNuDist.res; fi
+   if [ -f testPhotofissionSpec.res ]; then rm -f testPhotofissionSpec.res; fi
+   time ./testPhotofission
+   diff -s testPhotofissionNuDist.res testPhotofissionNuDist.goldref
+   diff -s testPhotofissionSpec.res testPhotofissionSpec.goldref
+   echo
+fi
+
+if [ ! -z ${test6+x} ]; then
+   which $FC > /dev/null || ( echo Need $FC to link FREYA test && exit )
+   echo Compiling and linking testFreya
+   $CC  testFreya.c -g -O3 -DFREYA -c $INCLUDE
+   $LD  testFreya.o -g -O3 -o testFreya $EXTRAFCFLAGS $LIBS
+
+   export FREYADATAPATH=../data_freya
+   echo "set FREYADATAPATH=$FREYADATAPATH"
+   echo "running testFreya (takes 25 seconds on aztec)"
+   if [ -f testFreyaSpec.res ]; then rm -f testFreyaSpec.res; fi
+   if [ -f testFreyaSpecTotal.res ]; then rm -f testFreyaSpecTotal.res; fi
+   if [ -f testFreyaTotal.res ]; then rm -f testFreyaTotal.res; fi
+   time ./testFreya
+   diff -s testFreyaNuDist.res testFreyaNuDist.goldref
+   diff -s testFreyaSpec.res testFreyaSpec.goldref
+   diff -s testFreyaSpecTotal.res testFreyaSpecTotal.goldref
+   diff -s testFreyaTotal.res testFreyaTotal.goldref
+   echo
+fi

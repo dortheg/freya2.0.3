@@ -1,0 +1,3 @@
+Freya/Decays:
+	Standard RIPL decay files WITH half-lifes listed in Ek.dat.
+	

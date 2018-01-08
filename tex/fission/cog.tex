@@ -1,0 +1,56 @@
+\pagebreak
+\subsection{COG}
+This physics module has been submitted to the COG development team
+and will appear in a future release.  The fission library libFission.a
+can be sampled for induced fissions in COG using the \textit{FISSLIB}
+keyword in the MIX block of the input deck. This is not the
+default. The \textit{NUOPTION} can not be used concurrently, it is not
+compatible with \textit{FISSLIB}.
+
+COG is similar to MCNPX in that it emits a number of gamma-rays
+at each neutron collision site, and this number is independent
+on the reaction type. The keyword \textit{NOGAMPRO} can be used
+to completely turn off this gamma-ray production.
+
+Spontaneous fissions are implemented using a COG user source.
+A sample user source {\tt spfiss.F} is available in the COG distribution 
+subdirectory {\tt usrsor}. Compiling a COG user source is easy:
+\begin{verbatim}
+	make -f COGUserlib.make in=spfiss.F
+\end{verbatim}
+Using the right compiler at compile time is important, and if this
+becomes an issue, a COG developer should be contacted. It is also 
+important to use a COG version that is compatible with user
+sources and user detectors. Not all COG versions work with
+user sources/detectors. Photofission has not been implemented in
+COG.
+
+An example of input deck using the {\tt spfiss.F} spontaneous
+fission source is located in the {\tt usrsor} directory. The important
+lines related to the user source are in the SOURCE block:
+
+{ \small
+\begin{verbatim}
+SOURCE
+NPART = 5e4  $ NPART is the sum of spontaneous fission neutrons and photons
+$ 
+$ The source below is for a HEU shell (93% enriched in U-235).
+$ We neglect here the spontaneous fissions in U-235. The fission rate 
+$ for 350 g of U-238 is 350[g]*1.36*10E-2[n/g/s] = 4.76 n/s. With
+$ spontaneous nubar equal to 2.01, we have 
+$  4.76[n/s]/2.01[n/fission] = 2.368 fissions/sec
+$      name    isotope  strength  xcenter  ycenter  zcenter  Rin  Rout  FissRate
+$              (1)      (2)       (3)      (4)      (5)      (6)  (7)   (8)
+USRSOR spfiss  92238    1.        0.       0.       0.       1.   3.96  2.368
+$
+\end{verbatim}
+}
+NPART is the sum of all source particles, that is both spontaneous
+fission neutrons and gamma-rays. The line USRSOR has several arguments:
+The argument under {\tt name} specify the FORTRAN subroutine to be used a 
+the spontaneous fission source: {\tt spfiss}. The first numeric argument is 
+the isotope in the form ZA, followed by the source strength (not relevant
+in this case), the center of the shell (x, y, z), the inner and outer
+radii and the fission rate in fissions/second. Note the units of the
+fission rate, fissions/second and not neutrons/second.
+

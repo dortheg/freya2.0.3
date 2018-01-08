@@ -1,0 +1,100 @@
+OUTLINE OF CALL SEQUENCE
+========================
+
+fissionEvent {
+    # correlationoption==3
+    SmpFreya {
+        msfreya_setup_ {
+            msFREYA_SEPn
+            gsM {
+                DROP
+            }
+            alevel
+            Gammanf {
+                alevel
+            }
+            SCISSION
+            MASSES {
+	        SplitFits
+            }
+        }
+        msfreya_getniso_
+        msfreya_getzas_
+        msfreya_usehostrng_
+        msFREYA_SEPn
+        msFREYA_gsMassN
+        msfreya_event_ {
+            NthFission {
+                PreEq {
+                    msFREYA_SEPn
+                }
+                EVAP1n {
+                    alevel
+                }
+            }
+            xnormal
+            DDECAY {
+                gsM
+                alevel
+            }
+        }
+    }
+
+    # spontaneous fission
+    SmpSpNuDistData
+    SmpSpNugDistData
+
+    # neutron-induced fission
+    # correlationoption==1
+    # neutron emission
+    # nudistoption==1
+    SmpNuDistDataU235
+    SmpNuDistDataU238
+    SmpNuDistDataPu239
+    SmpTerrell
+
+    # nudistoption==2
+    SmpNuDistDataU232_234_236_238
+    SmpNuDistDataU233_235
+    SmpNuDistDataPu239_241
+    SmpTerrell
+
+    # nudistoption==3
+    SmpNuDistDataU232_234_236_238_MC
+    SmpNuDistDataU233_235_MC
+    SmpNuDistDataPu239_241_MC
+    SmpTerrell
+
+    # photon emission
+    SmpNugDist {
+        getNubarg
+    }
+
+    # neutron-photon emission
+    # correlationoption==2
+    SmpNPEnergyCons {
+        getTotEngN {
+            getTotEngNEnergyCons
+            getTotEngNEnergyConsAllActinides
+        }
+        getTotEngP {
+            getTotEngPEnergyCons
+            getTotEngPEnergyConsAllActinides
+        }
+        normsinv
+        SmpWatt
+        SmpGEng
+    }
+
+    # last-resort (default if all else fails)
+    # spontaneous fission
+    SmpNEngCf252
+    SmpSpWatt
+    SmpGEng
+    SmpIsoDir
+
+    # neutron-induced fission
+    SmpWatt
+    SmpGEng
+    SmpIsoDir
+}

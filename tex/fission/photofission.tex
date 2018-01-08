@@ -1,0 +1,237 @@
+\section{Photofission}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Photonuclear physics}
+
+A photonuclear interaction begins with the absorption of a photon by a nucleus, leaving the nucleus in an excited state. The nucleus then undergoes multiple de-excitation processes emitting secondary particles and possibly undergoing fission. There are two main mechanisms for photon absorption in a nucleus: through the giant dipole resonance (relevant for photon energies in the range 8-20~MeV) and quasi-deutron absorption (relevant if photon energy $<$~150~MeV).  
+
+The giant dipole resonance can be viewed as an electromagnetic wave (photon) inducing an electric dipole-like vibrational resonance of the nucleus as a whole, which results in a collective excitation of the nucleus. The giant dipole resonance occurs with highest probability when the wavelength of the photon is comparable to the size of the nucleus. 
+This typically occurs for photon energies in the range of 8 to 20 MeV and has a resonance width of a few MeV. 
+For energies above 20 MeV, photons are mostly absorbed through the quasi-deuteron absorption process.
+Here the incident photon interacts with the dipole moment of a correlated neutron-proton pair inside the target nucleus. 
+
+Once the photon has been absorbed by the nucleus, single or multiple particle emission can occur. For energies below 150~MeV, a combination of gamma-rays, neutrons, protons, deuterons, tritons, helium-3 particles, alphas and fission fragments can be emitted. The threshold for the production of a given secondary particle is governed by the separation energy of that particle, which is typically a few MeV up to 10's of MeV.  Most of these particles are emitted via pre-equilibrium and equilibrium mechanisms.
+
+Pre-equilibrium emission occurs when a particle within the nucleus receives a large amount of energy from the absorption mechanism and escapes the binding force of the nucleus after at least one, but very few, interactions with other particles. 
+This process occurs on a fast time scale compared to equilibrium emission.
+
+Equilibrium emission can be viewed as particle evaporation. This process typically occurs after the available energy has been distributed among the nucleons. In the classical sense, particles boil out of the nucleus as they penetrate the nuclear potential barrier. For heavy elements, evaporation neutrons are emitted preferentially (versus charged particles, such as protons, deuterons, alphas, etc.) as they are not subject to the Coulomb barrier. After these initial emissions, the nucleus will be left in an excited state, and will relax to the ground state by the emission of one or more gamma-rays. 
+
+Fission is often modeled as a form of evaporation, and it occurs at roughly the same time scale (i.e. it competes with equilibrium emission but occurs after pre-equilibrium emission), however it is a completely separate kind of process.  Fission is viewed as a mostly adiabatic distortion of a highly deformed nucleus. The fission process results in two fragments.  For each parent nucleus, there is a relatively broad distribution of possible daughter fragment combinations. Each daughter nucleus can then undergo further decay.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Photonuclear data}\label{Photonuclear data}
+
+%Photonuclear Data for Applications"~\cite{Oblozinsky 1998} was 
+%released with ENDF-6~\cite{McLane 1997} in 2000 in a format 
+%data library~\cite{Chadwick 1999}.  
+
+In the mid 1990's a research coordination project was formed under the auspices of the International Atomic Energy Agency (IAEA) to collect all relevant experimental photonuclear data and to release a library of evaluated data files covering major isotopes of importance to structural, shielding, activation analysis, fission, and transmutation applications~\cite{Oblozinsky 1998}.  
+The two main goals were:
+\begin{enumerate}
+	\item Review and choose the highest quality photonuclear data available at that time, taking from the Korean Atomic Energy Institute (KAERI), the Japanese Atomic Energy Institute 
+(JENDL), a collaboration between IPPE/Obninsk and CDFE/Moscow (BOFOD, Russia), 
+the Chinese Nuclear Data Center (CNDC) and the Los Alamos National Laboratory (LANL) libraries;
+	\item Develop new evaluations for important nuclei not covered by other libraries.
+\end{enumerate}
+
+As part of this coordinated effort, the LANL Nuclear Theory and Applications group (T-2) produced a series of photonuclear evaluations for the Accelerator Production of Tritium (APT) project. These were released in 1999 as the LANL150u nuclear data library~\cite{Chadwick 1999}.  
+
+The complete IAEA photonuclear library was released in 2000 \cite{IAEAphoto}, which itself contained all of the LANL150u library. 
+Later, the US nuclear data program produced a new photonuclear data library as part of ENDF/B-VII.0, which was released in 2006~\cite{ENDFB7}. 
+There is substantial overlap between evaluations among these libraries: the ENDF/B-VII.0 photonuclear data was taken almost entirely from the IAEA Photonuclear Library, with only 24 isotopes added/improved. The actinides that were improved for ENDF/B-VII.0 now contain prompt and delayed fission neutron spectra.  In addition, $^{240}$Pu and $^{241}$Am were added to ENDF/B-VII.0.  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Emission of particles from photofission}
+
+Because of the lack of data as much as the lack of usable 
+theoretical model for photofission, the photofission library
+used here is mainly based on neutron-induced data. This model
+assumes that nuclei will usually fission the same way, independently of the
+particle that excited them, whether it be a neutron or photon, 
+as long as the excitation levels are the same. Based on that 
+assumption, the model only needs to know the excited level of
+the nucleus. With this model in mind, the library can 
+determine the multiplicity distributions of the neutrons and 
+gammas emitted by photofission from their neutron-induced 
+fission counterparts. The energy spectra of the neutrons and 
+gammas emitted by photofission are determined similarly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Limitations of the photofission model}
+
+The photofission model requires knowledge of the neutron separation energies and of the Watt spectra of the fissioning nuclei. Because the Watt spectra are only available for 40 isotopes in table~\ref{table:nubar for induced fission}, the photofission library only works for the 40 isotopes listed in table~\ref{table:photofission isotopes}.
+
+\subsubsection*{Neutron number distribution}\label{sec:neutron number distribution for photofission}
+The number $\nu$ of prompt neutrons emitted per photofission 
+is sampled from a prompt fission neutron multiplicity distribution. 
+Similarly to the case of neutron-induced fission, the neutron 
+multiplicity distribution for photofission can be obtained four 
+ways, depending on the option selected\notgeant{ via the internal 
+variable {\tt nudist} (default=3)}. It can be obtained from the
+Zucker and Holden data \cite{Zucker and Holden 1986}
+\notgeant{ ({\tt nudist=0})}, from that data along with the 
+Gwin, Spencer and Ingle data~\cite{Gwin 1984}
+\notgeant{ ({\tt nudist=1})}, or from the two other methods 
+\notgeant{ ({\tt nudist=2,3})} described in 
+Sec.~\ref{sec:neutron number distribution}.
+
+For the first two methods\notgeant{ ({\tt nudist=0,1})}, 
+the neutron multiplicity distribution
+depends on the incident neutron energy. Neutron multiplicity
+distributions are widely available for neutron-induced fissions,
+as we have seen in Sec.~\ref{sec:neutron number distribution}, but
+not so for photofission. To be able to use the neutron-induced 
+multiplicity distributions for the photofission reaction, we will 
+reduce the energy of the incident photon by the neutron separation 
+energy of the neutron in the nucleus to account for the extra 
+energy that an incident neutron brings in as it is captured by a 
+nucleus. If the resulting "neutron-equivalent" energy happens to 
+be negative --- which happens rarely --- the model constrains this
+neutron-equivalent energy to be 0. 
+This is an important constraint as a nucleus could fission by a 
+photon of lower energy than the neutron separation energy for that 
+nucleus.  Given the lack of data in this energy regime, we assume 
+in this case that the fission is induced by a thermal neutron. Once 
+this adjustment is made to the neutron-equivalent energy, we 
+consider in this model that the nucleus is in the same excited 
+state as the one that would have been brought there by a neutron
+inducing fission, and thus the nucleus would fission the same way.
+
+One important point is the nucleus that is used for 
+photofission. In a neutron-induced fission reaction, a nucleus 
+captures a neutron before fissioning. Thus the number of 
+neutrons in the nucleus increases by 1 for a very short time 
+before fissioning. In a photofission on the contrary, the 
+number of neutrons remains the same. Consequently, in order to 
+use neutron-induced fission data (such as the prompt fission
+multiplicity distribution) to handle photofission, one has to 
+use the neutron-induced fission data for an isotope that has one 
+less neutron: Z(A-1). The following example illustrates this 
+point. Let's consider a 10 MeV photon on a $^{236}$U nucleus. If 
+the $^{236}$U nucleus photofissions, the model assumes that this 
+photofission can as well be represented by a neutron-induced 
+fission, that is by a x MeV neutron on a $^{235}$U nucleus, 
+because the $^{235}$U nucleus first captures the neutron and 
+becomes an excited $^{236}$U nucleus. The energy x of the 
+neutron inducing fission is the incident photon energy reduced 
+by the neutron separation energy $S_n$, that is 
+10 MeV - 6.5448 MeV, or 3.4552 MeV. In conclusion, the model will
+use the data for a 3.4552 MeV neutron inducing fission in a 
+$^{235}$U nucleus to emulate the 10 MeV photon photofissioning 
+the $^{236}$U nucleus.
+
+\newcommand{\nuphoto}{$\bar{\nu}_\mathrm{photofission}$}
+
+For the next two methods\notgeant{ ({\tt nudist=2,3})}, the 
+average number \nuphoto\ of prompt photofission neutrons 
+must be provided by the parent code. These two methods proved to 
+be very useful as new photonuclear data libraries such as 
+ENDF/B-VII contain that quantity as a function of the incident 
+photon energy for a good number of isotopes (see 
+Sec.~\ref{Photonuclear data}). Based on the ZA of the nucleus 
+and on the value of \nuphoto,
+the full photofission multiplicity distribution for nucleus ZA
+is built from the neutron-induced fission multiplicity 
+distributions data (as in
+Sec.~\ref{sec:neutron number distribution}) for a nucleus with one 
+less neutron Z(A-1) and setting \nuphoto. 
+For instance, for photofission on $^{240}$Pu with 
+\nuphoto$=2.5$, the model uses the multiplicity 
+distributions from neutron-induced fission on $^{239}$Pu with 
+$\bar{\nu}=2.5$. This model assumes that a nucleus ZA incurring 
+photofission with as average \nuphoto\ fission 
+neutrons is in the same excited state and fissions the same way as
+a nucleus Z(A-1) incurring neutron-induced fission with an 
+average $\bar{\nu}$ neutrons, as long as $\bar{\nu}$ equals
+\nuphoto. The number $\nu$ of prompt neutrons 
+emitted per photofission is finally sampled from the full 
+photofission multiplicity distribution.
+
+\vspace{-.5\baselineskip}% take out some space, so the table fits on the page
+\subsubsection*{Neutron energy distribution}\label{sec:neutron energy distribution for photofission}
+The energy distribution of the neutrons emitted by photofission of
+a nucleus ZA is assumed to be the Watt spectrum described in 
+Sec.~\ref{sec:neutron energy distribution}. The parameters $a$ and $b$
+in Eq.~\ref{eq:Watt spectrum equation} are taken from 
+table~\ref{table:nubar for induced fission} for a nucleus of 
+one less neutron, i.e. Z(A-1). While $b=1$, $a$ depends on the incident 
+neutron energy via Eq.~\ref{eq:energy-dependent a for Watt spectrum}. 
+The incident neutron energy $E$ in 
+Eq.~\ref{eq:energy-dependent a for Watt spectrum} is however replaced 
+by a neutron equivalent energy, which is equal to the energy of the 
+incident photon minus the neutron separation energy in nucleus ZA.
+Because the Watt spectrum is only available for the 40 isotopes listed in Table~\ref{table:nubar for induced fission}, the photofission library only works for the 40 isotopes listed in Table~\ref{table:photofission isotopes}.
+%
+\begin{longtable}{|c|c||c|c||c|c||c|c|}
+\caption{Isotopes available for photofission, along with their neutron separation energies $S_n$ in MeV. All values but for $^{241}$U are taken from Firestone~\cite{Firestone 1996}.}\label{table:photofission isotopes}\\
+\hline
+isotope    & $S_n$   & isotope    & $S_n$   & isotope    & $S_n$   & $S_n$   & isotope \\
+\hline
+$^{232}$Th & 6.4381  & $^{239}$U  & 4.80626 & $^{240}$Pu & 6.5335  & $^{245}$Cm & 5.5198 \\
+$^{233}$Th & 4.78635 & $^{240}$U  & 5.933   & $^{241}$Pu & 5.24160 & $^{246}$Cm & 6.4580 \\
+$^{234}$Th & 6.189   & $^{241}$U~\footnote{The separation energy $S_n$ for $^{241}$U was estimated to be 4.589~MeV $\pm$ 0.298~MeV from Refs.~\cite{Wapstra 2003, Audi 2003} where the $^{241}$U mass was estimated and not measured.}  & 4.589   & $^{242}$Pu & 6.3094  & $^{247}$Cm & 5.156 \\
+$^{234}$Pa & 5.217   & $^{236}$Np & 5.730   & $^{243}$Pu & 5.034   & $^{248}$Cm & 6.213 \\
+$^{233}$U  & 5.760   & $^{237}$Np & 6.580   & $^{244}$Pu & 6.021   & $^{249}$Cm & 4.7135 \\
+$^{234}$U  & 6.8437  & $^{238}$Np & 5.48809 & $^{242}$Am & 5.53757 & $^{250}$Bk & 4.970 \\
+$^{235}$U  & 5.29784 & $^{239}$Np & 6.2168  & $^{243}$Am & 6.3670  & $^{250}$Cf & 6.6247 \\
+$^{236}$U  & 6.5448  & $^{237}$Pu & 5.8775  & $^{244}$Am & 5.3637  & $^{251}$Cf & 5.109 \\
+$^{237}$U  & 5.125   & $^{238}$Pu & 7.0005  & $^{243}$Cm & 5.6933  & $^{252}$Cf & 6.172 \\
+$^{238}$U  & 6.1520  & $^{239}$Pu & 5.6465  & $^{244}$Cm & 6.8007  & $^{253}$Cf & 4.806 \\
+\hline
+\pagebreak
+\end{longtable}
+%
+
+The same neutron energy conservation methods as the ones 
+presented in Sec.~\ref{sec:neutron energy distribution} are 
+available to photofission. The prompt fission neutron energies can
+either be sampled independently, or be constrained by one of two 
+energy conservation principles. In the latter two cases, the energy 
+$E_n$ of the incident neutron in Eqs.~\ref{eq:Beck's expressions 
+for the energy-dependent average outgoing prompt fission neutron 
+energy} and ~\ref{Quadratic expression for the energy-dependent average outgoing prompt fission neutron/gamma energy} is replaced by the neutron-equivalent 
+incident photon energy. The first energy constraint method works
+only for the following 3 isotopes incurring photofission: $^{236}$U, 
+$^{239}$U and $^{240}$Pu, while the second one works for the 40
+isotopes listed in table~\ref{table:photofission isotopes}.
+
+\subsubsection*{Gamma-ray number distribution}\label{sec:gamma-ray number distribution for photofission}
+
+The number of gamma-rays emitted at each photofission is sampled from
+the same negative binomial as for neutron-induced fissions, see 
+Eq.~\ref{eq:negative binomial distribution}. To compute $\bar{G}$,
+the photofission model uses Z protons and A-1 nucleons instead of 
+Z protons and A nucleons --- to account for the additional neutron that 
+is first captured in a neutron-induced fission --- and if needed the 
+neutron-equivalent energy of the photon inducing photofission
+instead of the incident neutron energy.
+
+\subsubsection*{Gamma-ray energy distribution}\label{sec:gamma-ray energy distribution for photofission}
+
+The energies of the gamma-rays emitted by photofission are sampled
+the same way as neutron-induced fission and is explained in 
+Sec.~\ref{sec:gamma-ray energy distribution}. They can be sampled
+three different ways, either independently or bound by one of two 
+constraints on the total energy available to all prompt fission
+gamm-rays energy using either Eqs.~\ref{eq:total gamma-ray energy, Beck} 
+or ~\ref{Quadratic expression for the energy-dependent average outgoing prompt fission neutron/gamma energy}.
+For last 2 methods using the energy bounds, the energy $E_n$ of 
+incident neutron is replaced by the neutron-equivalent energy of 
+the photon inducing photofission. In case of the first method 
+binding the total energy available to all prompt fission 
+gamma-rays, this method works only for the following 3 isotopes 
+incurring photofission: $^{236}$U, $^{239}$U and $^{240}$Pu.
+
+\subsubsection*{Advantages of the photofission model}\label{sec:advantages of the photofission model}
+
+The fission library enables the user to simulate the 
+photofission process exactly, and therefore enables 
+coincidence counting of photofission neutrons and gammas 
+for instance. This is different from the default settings of
+{\tt MCNPX} for instance, where secondary particles emitted by 
+photonuclear interactions are only correct on average over a 
+large number of interactions, because the numbers of secondary 
+particles, as well as their energies and directions are 
+averaged over all possible photonuclear interactions.  
+
+
