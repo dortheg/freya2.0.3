@@ -213,8 +213,10 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
          } else if (fissiontype==2) {
             // photon-induced fission
             eps0 = ePart;
-            En=ePart-sepni;
-            if (En<0) En=0.;
+            En = -eps0;
+            //En=ePart-sepni;
+            //if (En<0) En=0.;
+
          }
          break;
       default:
@@ -314,7 +316,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    }
    //....print results for pre-fission neutrons
    //output_ff(fp, fissionindex+1, Z, A+1-nmultff0, eps0, nmultff0, gmultff0, P0); //old 
-   
+
    if (fissiontype==1){
     output_ff(fp, fissionindex+1, Z, A+1-nmultff0, eps0, nmultff0, gmultff0, P0);
    }
