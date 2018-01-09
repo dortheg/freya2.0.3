@@ -68,23 +68,7 @@ int main() {
 
    FILE* fp = openfile(outputfilename);
    // fprintf(fp, "This is the output record from %g MeV n + %d%d -> f (%d events):\n\n", energy_MeV, Z, A, iterations);
-   //output_compound(fp, Z, A+1, (fissiontype==0)?0.:energy_MeV, iterations); //old
-
-   //output_compound(fp, Z, A+((fissiontype==0)?0:1), (fissiontype==0)?0.:energy_MeV, iterations);
-   
-   
-   if (fissiontype==1){
-    //neutron induced
-    output_compound(fp, Z, A+1, energy_MeV, iterations);
-   }
-   if (fissiontype==0) {
-    //spontaneous
-    output_compound(fp, Z, A, 0, iterations);
-   }
-   if (fissiontype==2) {
-    //photofission
-    output_compound(fp, Z, A, energy_MeV, iterations);
-   }
+   output_compound(fp, Z, A+1, (fissiontype==0)?0.:energy_MeV, iterations);
    
 
    for (int i=0; i<iterations; i++) {
@@ -186,23 +170,9 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
          break;
       case 1:
          // neutron-induced fission
-         double sepni;
-         sepni = msfreya_sepn_c_(iK,Z,freyaA);
-         if (msfreya_errorflagset_c_()==1) return false;
-
-         if (fissiontype==1) {
-            // neutron-induced fission
-            eps0 = sepni+ePart;
-            En=ePart;
-         } else if (fissiontype==2) {
-            // photon-induced fission
-            eps0 = ePart;
-            En=ePart-sepni;
-            if (En<0) En=0.;
-         }
       case 2:
          // photon-induced fission
-         //double sepni;
+         double sepni;
          sepni = msfreya_sepn_c_(iK,Z,freyaA);
          if (msfreya_errorflagset_c_()==1) return false;
 
@@ -313,15 +283,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
      }
    }
    //....print results for pre-fission neutrons
-   //output_ff(fp, fissionindex+1, Z, A+1-nmultff0, eps0, nmultff0, gmultff0, P0); //old 
-   
-   if (fissiontype==1){
-    output_ff(fp, fissionindex+1, Z, A+1-nmultff0, eps0, nmultff0, gmultff0, P0);
-   }
-   else{
-    output_ff(fp, fissionindex+1, Z, A-nmultff0, eps0, nmultff0, gmultff0, P0);
-   }
-   
+   output_ff(fp, fissionindex+1, Z, A+1-nmultff0, eps0, nmultff0, gmultff0, P0);
    output_secondaries(fp, ptypes0, particles, 0);
 
    //....print results for fission fragment #1
@@ -402,22 +364,17 @@ void readinput(int& Z, int& A, double& E, int& fissiontype, int& iterations, cha
   cin >> Z;
   cout << "Value of A: ";
   cin >> A;
-  cout << "Fissiontype (0 for sf, 1 for n induced and 2 for pf): ";
-  cin >> fissiontype;
-  cout << "Value of energy (in units of MeV, 0 for spontaneous fission): ";
+  cout << "Value of energy (in units of MeV, -1 for spontaneous fission): ";
   cin >> E;
   cout << "Number of iterations: ";
   cin >> iterations;
   cout << "Output file name: ";
   cin >> outputfilename;
-
-  //fissiontype=1;
+  fissiontype=1;
+  if (-1==E) fissiontype=0;
   if (0==fissiontype)
     cout << iterations << " spontaneous fissions of " << Z << A << endl;
-  else if (1==fissiontype)
-    cout << iterations << " neutron induced fissions of " << Z << A << endl;
-  else if (2==fissiontype)
-    cout << iterations << " photofissions of " << Z << A << endl;
-
+  else
+    cout << iterations << " neutron-induced fissions of " << Z << A << " (E=" << E << " MeV)" << endl;
   cout << "output file name: " << outputfilename << endl;
 }
