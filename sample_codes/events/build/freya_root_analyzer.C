@@ -14,7 +14,6 @@ TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 //
 Double_t pi = 3.14159265359;
 
-
 //Photon emission multiplicities
 TH1D *hframe_p_mult_0;
 TH1D *hframe_p_mult_1;
@@ -85,7 +84,7 @@ cout << "mean_number_of_photons_FF1: " << mean << endl;
 
 mytree->Draw("m2>>hframe_p_mult_2");
 mean = hframe_p_mult_2->GetMean();
-cout << "mean_number_of_photons_FF1: " << mean << endl;
+cout << "mean_number_of_photons_FF2: " << mean << endl;
 
 mytree->Draw("m1:m2>>hframe_p_multi","","col");
 mytree->Draw("m0:m2:m1>>hframe_p_multi3D","","lego");
@@ -140,7 +139,7 @@ moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 
 Double_t p_multiplicity = moments[1];
 
-cout << "\n Average photon multiplicity: " << p_multiplicity << endl;
+cout << "\nAverage photon multiplicity: " << p_multiplicity << endl;
 
 /*
 cout << "\n Photons Moments" << endl;
@@ -212,18 +211,35 @@ h_ph_E_total->Add(hframe_ph_E_1,1.0);
 h_ph_E_total->Add(hframe_ph_E_2,1.0);
 
 //Average gamma ray energies
-cout << "\n" << endl;
-mean = hframe_ph_E_0->GetMean();
-cout << "Mean photon energy F0: " << mean << " MeV" << endl;
-
-mean = hframe_ph_E_1->GetMean();
-cout << "Mean photon energy F1: " << mean << " MeV" << endl;
-
-mean = hframe_ph_E_2->GetMean();
-cout << "Mean photon energy F2: " << mean << " MeV" << endl;
+Double_t mean_ph_E_0;
+Double_t mean_ph_E_1;
+Double_t mean_ph_E_2;
 
 cout << "\n" << endl;
+mean_ph_E_0 = hframe_ph_E_0->GetMean();
+cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << endl;
 
+mean_ph_E_1 = hframe_ph_E_1->GetMean();
+cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << endl;
+
+mean_ph_E_2 = hframe_ph_E_2->GetMean();
+cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << endl;
+
+cout << "\n" << endl;
+
+Double_t sum;
+Double_t total_ph_number_0 = 0;
+Double_t total_ph_number_1 = 0;
+Double_t total_ph_number_2 = 0;
+
+/*
+// normalize the multiplicites
+h_ph_E_total->Sumw2();
+norm = h_ph_E_total->Integral();
+// norm = norm * n_multiplicity;
+norm /= max_h_ph_E;
+h_ph_E_total->Scale(1./norm);
+*/
 
 // at the moment if no photon is emitted, this is tabulated in bin 0
 cout << "Workaround as long as underflow bin is /WRONG/" << endl;
@@ -235,10 +251,25 @@ h_ph_E_total->GetYaxis()->SetTitle("Number of Photons");
 h_ph_E_total->SetTitle("Photon spectrum");
 h_ph_E_total->Draw("E");
 
-
 //Total gamma ray energy
+//FABIO; here, if I change to int i=1, then the underflow bin is included...
+for (int i=2; i<nbins_h_ph_E_total+2;i++){
+  total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);
+  total_ph_number_1 += hframe_ph_E_1->GetBinContent(i);
+  total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
+}
 
+//cout << "Total Photons FF0: " << total_ph_number_0 << endl;
+//cout << "Total Photons FF1: " << total_ph_number_1 << endl;
+// cout << "Total Photons FF2: " << total_ph_number_2 << endl;
 
+cout << "\n" << endl;
+cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" << endl;
+cout << "Total Photon Energy FF1: " << total_ph_number_1*mean_ph_E_1 << " MeV" << endl;
+cout << "Total Photon Energy FF2: " << total_ph_number_2*mean_ph_E_2 << " MeV" << endl;
+cout << "\n" << endl;
+
+cout << "Total Photon energy all fragments: " << total_ph_number_0*mean_ph_E_0 + total_ph_number_1*mean_ph_E_1 + total_ph_number_2*mean_ph_E_2 << " MeV" << endl;
 }
 
 
