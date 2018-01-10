@@ -251,17 +251,16 @@ h_ph_E_total->GetYaxis()->SetTitle("Number of Photons");
 h_ph_E_total->SetTitle("Photon spectrum");
 h_ph_E_total->Draw("E");
 
+
 //Total gamma ray energy
+
+//Find total number of gamma rays emitted
 //FABIO; here, if I change to int i=1, then the underflow bin is included...
 for (int i=2; i<nbins_h_ph_E_total+2;i++){
   total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);
   total_ph_number_1 += hframe_ph_E_1->GetBinContent(i);
   total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
 }
-
-//cout << "Total Photons FF0: " << total_ph_number_0 << endl;
-//cout << "Total Photons FF1: " << total_ph_number_1 << endl;
-// cout << "Total Photons FF2: " << total_ph_number_2 << endl;
 
 cout << "\n" << endl;
 cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" << endl;
