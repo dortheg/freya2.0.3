@@ -8,6 +8,16 @@
 #include "TChain.h"
 #include <algorithm>
 
+//////////////////////////////////////////////////////////////
+// To be used in Dorthea's master, to analyze FREYA output files
+//
+// Includes:
+// - mean number of photons emitted
+// - mean photon energy
+// - total photon energy, per fragment and for all three fragments
+/////////////////////////////////////////////////////////////////
+
+
 TFile *vetsex = new TFile("Cf252_sf_10k.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 

@@ -6,7 +6,7 @@ U       92 239   '(n,f)'                 3                -      U239.xs    U239
 Pu      94 238      'sf'                 0     Pu238sf.Y-Af            -             -            1  Pu238sf.TKE-Af
 Pu      94 240   '(n,f)'                 3                -     Pu240.xs   Pu240.PreEq            1  Pu240.TKE-Af
 Pu      94 240      'sf'                 0     Pu240sf.Y-Af            -             -            1  Pu240sf.TKE-Af
-Pu      94 241   '(n,f)'                 3                -     Pu241.xs   Pu241.PreEq            1  Pu241.TKE-Af
+Pu      94 241   '(g,f)'                 3                -     Pu241.xs   Pu241.PreEq            1  Pu241.TKE-Af
 Pu      94 242   '(n,f)'                 3                -     Pu242.xs   Pu242.PreEq            1  Pu242.TKE-Af
 Pu      94 242      'sf'                 0     Pu242sf.Y-Af            -             -            1  Pu242sf.TKE-Af
 Cm      96 244      'sf'                 0     Cm244sf.Y-Af            -             -            1  Cm244sf.TKE-Af

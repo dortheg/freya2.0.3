@@ -32,7 +32,7 @@ int main(){
     //typedef basic_string_view<char> string_view;  
     //The root tree is based on the event file name. Just adding .root onto it
     
-    char filename[128]="Pu240_n_0_5_50k.dat";
+    char filename[128]="pu239_test_n.dat";
     char rootfile[128];
     char command[128];
     

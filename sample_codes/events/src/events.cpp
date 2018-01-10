@@ -158,7 +158,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    // Find the index of the fission/isotope
    bool foundfission=false;
    int iKm1=0;
-   for (iKm1=0; iKm1<niso; iKm1++)
+   for (iKm1=0; iKm1<niso+1; iKm1++)
       if (isotope == ZAs[iKm1] && ((fissiontype==0) == (fistypes[iKm1]==0))) {
          foundfission=true;
          break;
