@@ -9,6 +9,9 @@
 
 using namespace std;
 
+//Changed version
+
+
 extern "C" {
    extern int msfreya_setup_c_();
    extern int msfreya_event_c_(int,double,double,double*,int*,int*,double*,int*,int*,double*,int*,double*,int*,double*);
@@ -158,7 +161,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    // Find the index of the fission/isotope
    bool foundfission=false;
    int iKm1=0;
-   for (iKm1=0; iKm1<niso+1; iKm1++)
+   for (iKm1=0; iKm1<niso; iKm1++)
       if (isotope == ZAs[iKm1] && ((fissiontype==0) == (fistypes[iKm1]==0))) {
          foundfission=true;
          break;
