@@ -10,7 +10,7 @@
 
 using namespace std;
 
-//Changed version
+//changed version, 11.jan, MY PROGRAM,
 
 
 extern "C" {

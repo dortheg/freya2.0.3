@@ -16,6 +16,7 @@
 // - mean number of photons emitted
 // - mean photon energy
 // - total photon energy, per fragment and for all three fragments
+// - writes these quantties to a file file.dat
 /////////////////////////////////////////////////////////////////
 
 
@@ -152,6 +153,7 @@ moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 
 Double_t p_multiplicity = moments[1];
 
+//Average photon multiplicity is the first moment
 cout << "Average photon multiplicity: " << p_multiplicity << "\n" << endl;
 
 /*
