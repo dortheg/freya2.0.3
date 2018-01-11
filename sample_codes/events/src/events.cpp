@@ -6,6 +6,7 @@
 #include <math.h>
 #include "stdlib.h"
 #include "Fission.h"
+#include <fstream>
 
 using namespace std;
 
@@ -30,6 +31,9 @@ void init(void);
 void initFREYA(int& nisosf, int& nisoif, int& niso,
                int** ZAs, int** fistypes);
 bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart, 
+                 int fissiontype, int*& ZAs, int*& fistypes, int niso
+                );
+double FREYA_event_eps0(FILE* fp, int Z, int A, double ePart, 
                  int fissiontype, int*& ZAs, int*& fistypes, int niso
                 );
 FILE* openfile(char* name);
@@ -89,7 +93,6 @@ int main() {
     output_compound(fp, Z, A, energy_MeV, iterations);
    }
    
-
    for (int i=0; i<iterations; i++) {
       if (!FREYA_event(fp, Z, A, i, energy_MeV, fissiontype, *ZAs, *fistypes, niso)) {
          int errorlength=maxerrorlength;
@@ -102,6 +105,17 @@ int main() {
    }
    fprintf(fp, "    0    0    0\n");
    fclose(fp);
+
+//Get excitation energy
+double eps0 = FREYA_event_eps0(fp, Z, A, energy_MeV, fissiontype, *ZAs, *fistypes, niso);
+
+//Write to file
+
+std::ofstream ofs;
+ofs.open ("../build/file.dat", std::ofstream::out | std::ofstream::app);
+ofs << Z << "   " << A << "     " << fissiontype << "               " << energy_MeV << "                   " << eps0;
+ofs.close();
+
 }
 
 FILE* openfile(char* name) {
@@ -181,11 +195,14 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    // Compute nucleus excitation energy for this event
    double eps0;
    double En;
+
    switch (fissiontype) {
       case 0:
          // spontaneous fission
          eps0 = 0.;
          En=0.;
+
+
          break;
       case 1:
          // neutron-induced fission
@@ -197,6 +214,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
             // neutron-induced fission
             eps0 = sepni+ePart;
             En=ePart;
+            
          } else if (fissiontype==2) {
             // photon-induced fission
             eps0 = ePart;
@@ -226,6 +244,8 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
          fprintf(stderr, "ABORT: fission type %d not supported\n", fissiontype);
          exit(1);
          break;
+  
+
    }
 
    // ...generate fission event
@@ -264,6 +284,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    int ptypes0 [mMax];           // pre-fission ejectile types
    int ptypes1 [mMax];           // types of 1st fission fragment ejectiles
    int ptypes2 [mMax];           // types of 2nd fission fragment ejectiles
+
    
    msfreya_event_c_(iK,En,eps0,&(P0[0]),&Z1,&A1,&(P1[0]),&Z2,&A2,&(P2[0]),&mult,&(particles[0]),&(ptypes[0]),&(ndir[0]));
    if (msfreya_errorflagset_c_()==1) return false;
@@ -342,7 +363,7 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    output_secondaries(fp, ptypes2, particles, npart0+npart1);
 
    return true;
-}
+  }
 
 void output_compound(FILE* fp, int Z, int A, double energy_MeV, int niterations) {
    fprintf(fp, "%5d%5d%10.3f:%8d events\n", Z, A, energy_MeV, niterations);
@@ -400,6 +421,94 @@ void output_secondaries(FILE* fp, int ptypes [mMax], double particles [4*3*mMax]
    }
    if (count>0) fprintf(fp, "\n");
    return;
+}
+
+double FREYA_event_eps0(FILE* fp, int Z, int A, double ePart, 
+                 int fissiontype, int*& ZAs, int*& fistypes, int niso){
+   int isotope = 1000*Z+A;
+   // if the compound nucleus is ZA, the original nucleus was
+   //   ZA for photofission
+   //   Z(A-1) for neutron-induced fission
+   // treat photofission as if it were neutron-induced fission
+   if (fissiontype==2) isotope--;
+   
+   // Find the index of the fission/isotope
+   bool foundfission=false;
+   int iKm1=0;
+   for (iKm1=0; iKm1<niso; iKm1++)
+      if (isotope == ZAs[iKm1] && ((fissiontype==0) == (fistypes[iKm1]==0))) {
+         foundfission=true;
+         break;
+      }
+   if (!foundfission) {
+      fprintf(stderr, "ABORT: fission type %d not supported for isotope %d\n", fissiontype, isotope);
+      exit(1);
+   }
+
+   int iK=iKm1+1; // FORTRAN indexing
+   int freyaA=isotope-1000*Z;
+   // watch out! in freya, the A for induced fission is the A of the 
+   // compound nucleus (for induced fission, add 1 neutron to the nucleus)
+   freyaA+=(fissiontype==0)?0:1;
+   msfreya_reseterrorflag_c_();
+
+   // Compute nucleus excitation energy for this event
+   double eps0;
+   double En;
+
+   switch (fissiontype) {
+      case 0:
+         // spontaneous fission
+         eps0 = 0.;
+         En=0.;
+
+
+         break;
+      case 1:
+         // neutron-induced fission
+         double sepni;
+         sepni = msfreya_sepn_c_(iK,Z,freyaA);
+         //if (msfreya_errorflagset_c_()==1) return false;
+
+         if (fissiontype==1) {
+            // neutron-induced fission
+            eps0 = sepni+ePart;
+            En=ePart;
+            
+         } else if (fissiontype==2) {
+            // photon-induced fission
+            eps0 = ePart;
+            En=ePart-sepni;
+            if (En<0) En=0.;
+         }
+      case 2:
+         // photon-induced fission
+         //double sepni;
+         sepni = msfreya_sepn_c_(iK,Z,freyaA);
+         //if (msfreya_errorflagset_c_()==1) return false;
+
+         if (fissiontype==1) {
+            // neutron-induced fission
+            eps0 = sepni+ePart;
+            En=ePart;
+         } else if (fissiontype==2) {
+            // photon-induced fission
+            eps0 = ePart;
+            En = -eps0;
+            //En=ePart-sepni;
+            //if (En<0) En=0.;
+
+         }
+         break;
+      default:
+         fprintf(stderr, "ABORT: fission type %d not supported\n", fissiontype);
+         exit(1);
+         break;
+  
+
+   }
+   
+  return eps0;
 }
 
 void readinput(int& Z, int& A, double& E, int& fissiontype, int& iterations, char outputfilename [1024]) {

@@ -7,6 +7,7 @@
 #include "TFile.h"
 #include "TChain.h"
 #include <algorithm>
+#include <fstream>
 
 //////////////////////////////////////////////////////////////
 // To be used in Dorthea's master, to analyze FREYA output files
@@ -83,9 +84,11 @@ Double_t value;
 //Total photon multiplicity
 TCanvas *c4 = new TCanvas("c4", "Photon multiplicities",150,10,990,660);
 
+cout << "\n" << endl;
+cout << "MEAN GAMMMA MULTIPLICITY" << endl;
 mytree->Draw("m0>>hframe_p_mult_0");
 mean = hframe_p_mult_0->GetMean();
-cout << "\n" << endl;
+//cout << "\n" << endl;
 cout << "mean_number_of_photons_FF0: " << mean << endl;
 
 mytree->Draw("m1>>hframe_p_mult_1");
@@ -149,7 +152,7 @@ moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 
 Double_t p_multiplicity = moments[1];
 
-cout << "\nAverage photon multiplicity: " << p_multiplicity << endl;
+cout << "Average photon multiplicity: " << p_multiplicity << "\n" << endl;
 
 /*
 cout << "\n Photons Moments" << endl;
@@ -220,23 +223,6 @@ h_ph_E_total->Add(hframe_ph_E_0,1.0);
 h_ph_E_total->Add(hframe_ph_E_1,1.0);
 h_ph_E_total->Add(hframe_ph_E_2,1.0);
 
-//Average gamma ray energies
-Double_t mean_ph_E_0;
-Double_t mean_ph_E_1;
-Double_t mean_ph_E_2;
-
-cout << "\n" << endl;
-mean_ph_E_0 = hframe_ph_E_0->GetMean();
-cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << endl;
-
-mean_ph_E_1 = hframe_ph_E_1->GetMean();
-cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << endl;
-
-mean_ph_E_2 = hframe_ph_E_2->GetMean();
-cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << endl;
-
-cout << "\n" << endl;
-
 Double_t sum;
 Double_t total_ph_number_0 = 0;
 Double_t total_ph_number_1 = 0;
@@ -252,7 +238,7 @@ h_ph_E_total->Scale(1./norm);
 */
 
 // at the moment if no photon is emitted, this is tabulated in bin 0
-cout << "Workaround as long as underflow bin is /WRONG/" << endl;
+//cout << "Workaround as long as underflow bin is /WRONG/" << endl;
 h_ph_E_total->SetBinContent(1,0);
 
 c6->SetLogy();
@@ -272,13 +258,46 @@ for (int i=2; i<nbins_h_ph_E_total+2;i++){
   total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
 }
 
+//Average gamma ray energies, per fragment
+Double_t mean_ph_E_0;
+Double_t mean_ph_E_1;
+Double_t mean_ph_E_2;
+
+mean_ph_E_0 = hframe_ph_E_0->GetMean();
+mean_ph_E_1 = hframe_ph_E_1->GetMean();
+mean_ph_E_2 = hframe_ph_E_2->GetMean();
+
+
+//Total number of photons
+Double_t total_ph_number = total_ph_number_0+total_ph_number_1+total_ph_number_2;
+
+//total gamma ray energy
+Double_t total_ph_energy = total_ph_number_0*mean_ph_E_0 + total_ph_number_1*mean_ph_E_1 + total_ph_number_2*mean_ph_E_2;
+
+//Mean gamma ray energy, all fragments
+Double_t mean_ph_E = total_ph_energy/total_ph_number;
+
+
+cout << "AVERAGE GAMMA RAY ENENERGIES" << endl;
+cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << endl;
+cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << endl;
+cout << "Mean photon energy FF1: " << mean_ph_E_2 << " MeV" << endl;
+cout << "Mean photon energy: " << mean_ph_E << endl;
 cout << "\n" << endl;
+
+cout << "TOTAL GAMMA ENERGIES" << endl;
 cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" << endl;
 cout << "Total Photon Energy FF1: " << total_ph_number_1*mean_ph_E_1 << " MeV" << endl;
 cout << "Total Photon Energy FF2: " << total_ph_number_2*mean_ph_E_2 << " MeV" << endl;
-cout << "\n" << endl;
+cout << "Total Photon energy all fragments: " << total_ph_energy<< " MeV" << endl;
 
-cout << "Total Photon energy all fragments: " << total_ph_number_0*mean_ph_E_0 + total_ph_number_1*mean_ph_E_1 + total_ph_number_2*mean_ph_E_2 << " MeV" << endl;
+
+//Write to file
+std::ofstream ofs;
+ofs.open ("file.dat", std::ofstream::out | std::ofstream::app);
+ofs << "                    " << p_multiplicity << "                         "<< mean_ph_E <<"                      " << total_ph_energy << endl;
+ofs.close();
+
 }
 
 
