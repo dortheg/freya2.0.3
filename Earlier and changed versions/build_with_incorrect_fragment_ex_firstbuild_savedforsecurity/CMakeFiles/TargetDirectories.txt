@@ -1,0 +1,3 @@
+/Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/rebuild_cache.dir
+/Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/edit_cache.dir
+/Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/events.dir

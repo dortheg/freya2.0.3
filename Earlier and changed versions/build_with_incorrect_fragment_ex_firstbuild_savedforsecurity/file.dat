@@ -1,0 +1,7 @@
+File containing excitation energy of fissioning nucleus, the gamma multiplicity, and average and total gamma energies
+
+
+Z    A       fissiontype     E_input [MeV]       Exitation energy [MeV]     Average photon multiplicity     Average photon energy [MeV]   Total photon energy [MeV]
+94   240     1               1                   6.24152                    6.85429                         0.169629                      11629.1
+98   252     0               0                   0                    7.67951                         0.175594                      13504.4
+94   239     1               1                   7.5342

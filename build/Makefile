@@ -48,10 +48,10 @@ RM = /Applications/CMake.app/Contents/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/Applications/fission_v2.0.3 2/src"
+CMAKE_SOURCE_DIR = /Applications/freya_v2.0.3/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/Applications/fission_v2.0.3 2/build"
+CMAKE_BINARY_DIR = /Applications/freya_v2.0.3/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Applications/fission_v2.0.3 2/build/CMakeFiles" "/Applications/fission_v2.0.3 2/build/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start /Applications/freya_v2.0.3/build/CMakeFiles /Applications/freya_v2.0.3/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/Applications/fission_v2.0.3 2/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Applications/freya_v2.0.3/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target

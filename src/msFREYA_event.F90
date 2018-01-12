@@ -1,9 +1,10 @@
+! ORIGINAL VERSION, AS DOWNLOADED, NO CHANGES
 ! Copyright (c) 2016, Lawrence Livermore National Security, LLC.
 ! Produced at the Lawrence Livermore National Laboratory
 ! Written by Ramona Voga <vogt2@llnl.gov>, 
-!            Jørgen Randrup <jrandrup@lbl.gov>, 
+!            JÃ¸rgen Randrup <jrandrup@lbl.gov>, 
 !            Christian Hagmann <hagmann1@llnl.gov>, 
-!            Jérôme Verbeke <verbeke2@llnl.gov>.
+!            JÃ©rÃ´me Verbeke <verbeke2@llnl.gov>.
 ! LLNL-CODE-701993.
 ! Title: Fission Reaction Event Yield Algorithm (FREYA), Version: 2.0
 ! OCEC-16-151

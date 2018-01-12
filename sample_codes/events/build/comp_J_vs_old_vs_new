@@ -1,6 +1,7 @@
 10000k of Pu241 pf with Ex=5
 
-							Neutron mult		Photon mult
-mine,new events.cpp         2.8558              6.74177
-old events.cpp				2.2525				6.6054
-Jorgen						2.8312				6.7999 (something)
+													Neutron mult		Photon mult
+mine,new events, but does it treat pf right.cpp?    2.8558              6.74177
+old events.cpp										2.2525				6.6054
+Jorgen												2.8312				6.7999 (something)
+mine events.cpp with fistype=2, isotope -- del      2.7195				6.7618

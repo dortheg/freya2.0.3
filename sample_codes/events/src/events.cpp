@@ -10,8 +10,8 @@
 
 using namespace std;
 
-//changed version, 11.jan, MY PROGRAM,
-
+//changed version, 11.jan, MY PROGRAM, without fragment ex energy correct
+//runs photofission approx same as Jorgen's code, and better than original event.cpp
 
 extern "C" {
    extern int msfreya_setup_c_();
@@ -188,7 +188,8 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
    int iK=iKm1+1; // FORTRAN indexing
    int freyaA=isotope-1000*Z;
    // watch out! in freya, the A for induced fission is the A of the 
-   // compound nucleus (for induced fission, add 1 neutron to the nucleus)
+   // compound nucleus (for neutron induced fission, add 1 neutron to the nucleus)
+   //for photofission, add one to nucleus to counteract if (fissiontype==2) isotope--; -> get correct A
    freyaA+=(fissiontype==0)?0:1;
    msfreya_reseterrorflag_c_();
 
@@ -218,8 +219,8 @@ bool FREYA_event(FILE* fp, int Z, int A, int fissionindex, double ePart,
          } else if (fissiontype==2) {
             // photon-induced fission
             eps0 = ePart;
-            En=ePart-sepni;
-            if (En<0) En=0.;
+            En= -eps0;
+            //if (En<0) En=0.;
          }
       case 2:
          // photon-induced fission

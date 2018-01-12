@@ -1,7 +1,7 @@
-/Applications/fission_v2.0.3 2/build/CMakeFiles/install/local.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/install/strip.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/install.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/Fission.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/list_install_components.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/rebuild_cache.dir
-/Applications/fission_v2.0.3 2/build/CMakeFiles/edit_cache.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/install/local.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/install/strip.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/install.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/Fission.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/list_install_components.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/rebuild_cache.dir
+/Applications/freya_v2.0.3/build/CMakeFiles/edit_cache.dir

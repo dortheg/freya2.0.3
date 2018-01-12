@@ -1,0 +1,24 @@
+Pu240						Pu239
+
+nu_bar_PreFiss: 0				nu_bar_PreFiss: 0
+nu_bar_FF1: 1.6411				nu_bar_FF1: 1.647
+nu_bar_FF2: 1.2908				nu_bar_FF2: 1.2843
+
+ Neutron Moments
+Moment1 2.9319					Moment1 2.9313
+Moment2 6.955					Moment2 6.9526
+Moment3 12.8742					Moment3 12.8094
+Moment4 17.844					Moment4 17.2992
+Std. Dev (?)1.13616
+
+
+mean_number_of_photons_FF0: 0		mean_number_of_photons_FF0: 0
+mean_number_of_photons_FF1: 3.5059	mean_number_of_photons_FF1: 3.5088
+mean_number_of_photons_FF1: 3.327	mean_number_of_photons_FF1: 3.3073
+
+ Photons Moments
+Moment1 6.8329						Moment1 6.81478
+Moment2 45.552						Moment2 45.3659
+Moment3 299.936						Moment3 299.074
+Moment4 1972.15						Moment4 1976.51
+
