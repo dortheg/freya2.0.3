@@ -11,7 +11,7 @@
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Cf252_sf_10k.dat.root", "READ");
+TFile *vetsex = new TFile("Pu241_pf_5_J.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -498,11 +498,11 @@ hframe_p_multi3D->GetZaxis()->SetRange(k,k);
 TH2D* pxy_m = (TH2D*) hframe_p_multi3D->Project3D("xy");
 pxy_m->Draw("col");
   for (int i=0;i<lastbin1;i++){
-    n_m1 = i-1; // bin 1 contains evetns of multiplicity 0
+    n_m1 = i-1; // bin 1 contains events of multiplicity 0
     auto px = pxy_m->ProjectionX("px",i,i);
       for (int j=0;j<lastbin1;j++){
       weight_m = px->GetBinContent(j);
-      n_m2 = j-1; //bin 1 contains evetns of multiplicity 0
+      n_m2 = j-1; //bin 1 contains events of multiplicity 0
       if (n_m0<0){n_m0=0;} // bin 0 events (underflow) have to come in underflow
       if (n_m1<0){n_m1=0;} // bin 0 events (underflow) have to come in underflow
       if (n_m2<0){n_m2=0;} // bin 0 events (underflow) have to come in underflow
@@ -545,7 +545,6 @@ h_p_mult_total->SetTitle("Photon multiplicity, total");
 // h_n_mult_total->GetXaxis()->SetRangeUser(0.,nbins_h_n_mult_total);
 h_p_mult_total->Draw();
 c4->Update();
-
 
 
 

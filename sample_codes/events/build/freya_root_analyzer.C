@@ -20,7 +20,7 @@
 /////////////////////////////////////////////////////////////////
 
 
-TFile *vetsex = new TFile("Cf252_sf_10k.dat.root", "READ");
+TFile *vetsex = new TFile("Pu241_pf_5_1mill.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //

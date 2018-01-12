@@ -15,30 +15,30 @@ The CXX compiler identification is AppleClang, found in "/Applications/freya_v2.
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9e80a/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_9e80a.dir/build.make CMakeFiles/cmTC_9e80a.dir/build
-Building CXX object CMakeFiles/cmTC_9e80a.dir/testCXXCompiler.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_9e80a.dir/testCXXCompiler.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_9e80a
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9e80a.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_9e80a.dir/testCXXCompiler.cxx.o  -o cmTC_9e80a 
+Run Build Command:"/usr/bin/make" "cmTC_91e6f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_91e6f.dir/build.make CMakeFiles/cmTC_91e6f.dir/build
+Building CXX object CMakeFiles/cmTC_91e6f.dir/testCXXCompiler.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_91e6f.dir/testCXXCompiler.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_91e6f
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_91e6f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_91e6f.dir/testCXXCompiler.cxx.o  -o cmTC_91e6f 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_98d67/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_98d67.dir/build.make CMakeFiles/cmTC_98d67.dir/build
-Building CXX object CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o
-/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_98d67
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98d67.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_98d67 
+Run Build Command:"/usr/bin/make" "cmTC_c7411/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c7411.dir/build.make CMakeFiles/cmTC_c7411.dir/build
+Building CXX object CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_c7411
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7411.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c7411 
 Apple LLVM version 9.0.0 (clang-900.0.38)
 Target: x86_64-apple-darwin16.7.0
 Thread model: posix
 InstalledDir: /Library/Developer/CommandLineTools/usr/bin
- "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_98d67 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_c7411 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a
 @(#)PROGRAM:ld  PROJECT:ld64-302.3.1
 configured to support archs: armv6 armv7 armv7s arm64 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em (tvOS)
 Library search paths:
@@ -53,18 +53,18 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_98d67/fast"]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_98d67.dir/build.make CMakeFiles/cmTC_98d67.dir/build]
-  ignore line: [Building CXX object CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_98d67]
-  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_98d67.dir/link.txt --verbose=1]
-  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_98d67 ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_c7411/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c7411.dir/build.make CMakeFiles/cmTC_c7411.dir/build]
+  ignore line: [Building CXX object CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++     -o CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o -c /Applications/CMake.app/Contents/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_c7411]
+  ignore line: [/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c7411.dir/link.txt --verbose=1]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_c7411 ]
   ignore line: [Apple LLVM version 9.0.0 (clang-900.0.38)]
   ignore line: [Target: x86_64-apple-darwin16.7.0]
   ignore line: [Thread model: posix]
   ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
-  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_98d67 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.12.0 -o cmTC_c7411 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
     arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
     arg [-demangle] ==> ignore
     arg [-lto_library] ==> ignore, skip following value
@@ -75,11 +75,11 @@ Parsed CXX implicit link information from above output:
     arg [-macosx_version_min] ==> ignore
     arg [10.12.0] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_98d67] ==> ignore
+    arg [cmTC_c7411] ==> ignore
     arg [-search_paths_first] ==> ignore
     arg [-headerpad_max_install_names] ==> ignore
     arg [-v] ==> ignore
-    arg [CMakeFiles/cmTC_98d67.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_c7411.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lc++] ==> lib [c++]
     arg [-lSystem] ==> lib [System]
     arg [/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/9.0.0/lib/darwin/libclang_rt.osx.a]
@@ -101,13 +101,13 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++1z] compiler features compiled with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_7cafb/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_7cafb.dir/build.make CMakeFiles/cmTC_7cafb.dir/build
-Building CXX object CMakeFiles/cmTC_7cafb.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_7cafb.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_7cafb
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7cafb.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7cafb.dir/feature_tests.cxx.o  -o cmTC_7cafb 
+Run Build Command:"/usr/bin/make" "cmTC_08340/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_08340.dir/build.make CMakeFiles/cmTC_08340.dir/build
+Building CXX object CMakeFiles/cmTC_08340.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++1z -o CMakeFiles/cmTC_08340.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_08340
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_08340.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_08340.dir/feature_tests.cxx.o  -o cmTC_08340 
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -172,13 +172,13 @@ Linking CXX executable cmTC_7cafb
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9586d/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_9586d.dir/build.make CMakeFiles/cmTC_9586d.dir/build
-Building CXX object CMakeFiles/cmTC_9586d.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_9586d.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_9586d
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9586d.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_9586d.dir/feature_tests.cxx.o  -o cmTC_9586d 
+Run Build Command:"/usr/bin/make" "cmTC_45185/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_45185.dir/build.make CMakeFiles/cmTC_45185.dir/build
+Building CXX object CMakeFiles/cmTC_45185.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++14 -o CMakeFiles/cmTC_45185.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_45185
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_45185.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_45185.dir/feature_tests.cxx.o  -o cmTC_45185 
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -243,13 +243,13 @@ Linking CXX executable cmTC_9586d
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_84e65/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_84e65.dir/build.make CMakeFiles/cmTC_84e65.dir/build
-Building CXX object CMakeFiles/cmTC_84e65.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_84e65.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_84e65
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_84e65.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_84e65.dir/feature_tests.cxx.o  -o cmTC_84e65 
+Run Build Command:"/usr/bin/make" "cmTC_a290d/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_a290d.dir/build.make CMakeFiles/cmTC_a290d.dir/build
+Building CXX object CMakeFiles/cmTC_a290d.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++11 -o CMakeFiles/cmTC_a290d.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_a290d
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a290d.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_a290d.dir/feature_tests.cxx.o  -o cmTC_a290d 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -314,13 +314,13 @@ Linking CXX executable cmTC_84e65
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_c2171/fast"
-/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_c2171.dir/build.make CMakeFiles/cmTC_c2171.dir/build
-Building CXX object CMakeFiles/cmTC_c2171.dir/feature_tests.cxx.o
-/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_c2171.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_c2171
-/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c2171.dir/link.txt --verbose=1
-/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_c2171.dir/feature_tests.cxx.o  -o cmTC_c2171 
+Run Build Command:"/usr/bin/make" "cmTC_d2c1d/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d2c1d.dir/build.make CMakeFiles/cmTC_d2c1d.dir/build
+Building CXX object CMakeFiles/cmTC_d2c1d.dir/feature_tests.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++    -std=c++98 -o CMakeFiles/cmTC_d2c1d.dir/feature_tests.cxx.o -c /Applications/freya_v2.0.3/sample_codes/events/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_d2c1d
+/Applications/CMake.app/Contents/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d2c1d.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d2c1d.dir/feature_tests.cxx.o  -o cmTC_d2c1d 
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
