@@ -7,11 +7,12 @@
 #include "stdlib.h"
 #include "Fission.h"
 #include <fstream>
-
+#include <iomanip>
 using namespace std;
 
 //changed version, 11.jan, MY PROGRAM, without fragment ex energy correct
 //runs photofission approx same as Jorgen's code, and better than original event.cpp
+//12.jan gives a little deviation when running two cases that should be approx identical, but J says it doesn't matte for my application
 
 extern "C" {
    extern int msfreya_setup_c_();
