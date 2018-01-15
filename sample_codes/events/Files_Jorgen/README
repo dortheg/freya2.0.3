@@ -1,0 +1,5 @@
+Pu240nfE010.dat = neutron induced fission of Pu240 with 0.1 MeV neutron
+
+Pu241gfE534.dat = photofission of Pu241 with 5.34 in excitation energy, should correspond to Pu240nfE010.dat
+
+Pu241gf = Photofission of Pu241 with 5 MeV excitation energy

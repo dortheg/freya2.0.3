@@ -12,8 +12,8 @@ using namespace std;
 
 //changed version, 11.jan, MY PROGRAM, without fragment ex energy correct
 //runs photofission approx same as Jorgen's code, and better than original event.cpp
-//12.jan gives a little deviation when running two cases that should be approx identical, but J says it doesn't matte for my application
-
+//12.jan gives a little deviation when running two cases that should be approx identical, but J says it doesn't matter for my application
+//
 extern "C" {
    extern int msfreya_setup_c_();
    extern int msfreya_event_c_(int,double,double,double*,int*,int*,double*,int*,int*,double*,int*,double*,int*,double*);

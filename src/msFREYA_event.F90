@@ -288,6 +288,7 @@
         write (L6,*) 'initial angular momentum will be set to zero'
 #endif
         S0=0.0; SSx=0.0; SSy=0.0; SSz=0.0
+!       Here might be a good place to specify ang.mom
       else
 #ifdef WRITEL6
         write (L6,"('Rescaling TS by the factor',f7.3)") cTS
