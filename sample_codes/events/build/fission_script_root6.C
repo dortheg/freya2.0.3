@@ -11,7 +11,7 @@
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Pu239.dat.root", "READ");
+TFile *vetsex = new TFile("Pu239nfE1.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -94,25 +94,37 @@ create_frames();
 
 /*
 List of meanings:
-
-iAf1: fission fragment 1, mass number
-iAf2: fission fragment 2, mass number
-iAp1: product fission fragment 1, mass number (after initial fragment has decayed ?)
-iAp2: product fission fragment 2, mass number (after initial fragment has decayed ?)
-Ekin1: kinetic energy of 1 fragment
-Ekin2: kinetic energy of second fragment
+iZ0: compound nucleus, charge
+iZ1: fission fragment 1, charge
+iZ2: fission fragment 2, charge
 n0: neutrons from compound nuclei
 n1: neutrons from first fission fragment
 n2: neutrosn from second fission fragment
 m0: # pre-fission photons
 m1: # photons from fragment 1
 m2: # photons from fragment 2
-P0: energy of neutrons emmited pre-fission (?)
+iA0: compound nucleus mass number
+iAf1: fission fragment 1, mass number
+iAf2: fission fragment 2, mass number
+iAp1: product fission fragment 1, mass number (after initial fragment has decayed ?)
+iAp2: product fission fragment 2, mass number (after initial fragment has decayed ?)
+Ekin1: kinetic energy of 1 fragment
+Ekin2: kinetic energy of second fragment
+E0: exitation energy of compound nucleus
+E1: excitation energy of F1
+E2: excitation energy of F2 
+P0: energy of neutrons emmited pre-fission
 P1: energy of neutrons emmited by F1
 P2: energy of neutrons emitted by F2
+P0(x,y,z): direction of neutrons emmited by compound nucleus
+P1(x,y,z): directions of neutrons emmited by F1
+P2(x,y,z): directions of neutrons emmited by F2 
 Q0: energy of gammas emitted pre-fission
 Q1: energy of gammas emitted by F1
 Q2: energy of gamma emitted by F2
+Q0(x,y,z): directions of photons emmitted by compound nucleus
+Q1(x,y,z): directions of photons emmitted by F1
+Q2(x,y,z): directions of photons emmited by F2
 */
 
 ////////////////////////////////////////////////////////////
@@ -681,6 +693,11 @@ h_ph_E_total->GetYaxis()->SetTitle("Photons/(MeV mean_number_of_photons)");
 h_ph_E_total->SetTitle("Photon spectral shape: average number of gamma emitted per energy per mean_number_of_photons");
 h_ph_E_total->Draw("E");
 
+/////////////////////////////////
+// Neutron angular correlation
+/////////////////////////////////
+
+//write P1(x,y,z) to a file, then read in the angels
 
 
 }

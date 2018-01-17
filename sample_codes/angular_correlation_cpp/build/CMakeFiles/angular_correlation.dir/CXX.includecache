@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Applications/freya_v2.0.3/sample_codes/angular_correlation_cpp/src/../../../include/fissionEvent.h
+string
+-
+vector
+-
+stdlib.h
+-
+
+/Applications/freya_v2.0.3/sample_codes/angular_correlation_cpp/src/angular_correlation.cpp
+stdio.h
+-
+fissionEvent.h
+/Applications/freya_v2.0.3/sample_codes/angular_correlation_cpp/src/fissionEvent.h
+

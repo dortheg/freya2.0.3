@@ -12,6 +12,8 @@
 #include <fstream>
 #include <cstring>
 
+using namespace std;
+
 //#include <experimental/string_view>
 //template<class _CharT, class _Traits = std::char_traits<_CharT> >                                                    
 //using basic_string_view = ::std::experimental::basic_string_view<_CharT,_Traits>;
@@ -32,7 +34,7 @@ int main(){
     //typedef basic_string_view<char> string_view;  
     //The root tree is based on the event file name. Just adding .root onto it
     
-    char filename[128]="Pu240.dat";
+    char filename[128]="test.dat";
     char rootfile[128];
     char command[128];
     
@@ -157,7 +159,10 @@ int main(){
     eventfile >> Z >> A >> Elab >> nbevent;
     
     //std::cout << >> Z << " " << A <<  " " <<Elab <<  " " << nbevent  << std::endl;
-    
+
+    ofstream myfile;
+    myfile.open ("n_dir.txt");
+
     for (i=0;i<nbevent;i++){
         
         // zero everything
@@ -165,7 +170,6 @@ int main(){
         for(j=0;j<4;j++) for(k=0;k<Mg;k++)  {q0[j][k]=0.;q1[j][k]=0.;q2[j][k]=0.;}
         for(k=0;k<Mn;k++)  {P0[k]=0.;P1[k]=0;P2[k]=0.;P0x[k]=0.;P1x[k]=0;P2x[k]=0.;P0y[k]=0.;P1y[k]=0;P2y[k]=0.;P0z[k]=0.;P1z[k]=0;P2z[k]=0.;}
         for(k=0;k<Mg;k++)  {Q0[k]=0.;Q1[k]=0.;Q2[k]=0.;Q0x[k]=0.;Q1x[k]=0;Q2x[k]=0.;Q0y[k]=0.;Q1y[k]=0;Q2y[k]=0.;Q0z[k]=0.;Q1z[k]=0;Q2z[k]=0.;}
-        
         
         
         // #0:	Read pre-fission information:	-----------------
@@ -183,12 +187,16 @@ int main(){
         
         eventfile >> E0kin >> PP0[1] >> PP0[2] >> PP0[3] ;
         
-        
+        myfile << i << " ";
+
         // p0(i=0,n)  Kinetic energy of pre-fission neutron #n
         // p0(1:3,n)  Direction of pre-fission neutron #n
         
         //then ! read neutrons from #0:
-        if (n0 > 0) for(n=1;n<=n0;n++) eventfile >> p0[0][n] >> p0[1][n] >> p0[2][n]>> p0[3][n];
+        if (n0 > 0) for(n=1;n<=n0;n++){
+         eventfile >> p0[0][n] >> p0[1][n] >> p0[2][n]>> p0[3][n];
+         myfile << " " << p0[1][n] << " " << p0[2][n] << " " << p0[3][n] << "    ";
+        }
         
         // q0(i=0,m)  Kinetic energy of pre-fission photon #m
         // q0(1:3,m)  Direction of pre-fission photon #m
@@ -218,7 +226,10 @@ int main(){
         // p1(1:3,n)  Direction of neutron #n from source #1
         
         // then ! read neutrons from #1:
-        if (n1>0) for(n=1;n<=n1;n++) eventfile >> p1[0][n] >> p1[1][n] >> p1[2][n]>> p1[3][n];
+        if (n1>0) for(n=1;n<=n1;n++){
+        eventfile >> p1[0][n] >> p1[1][n] >> p1[2][n]>> p1[3][n];
+        myfile << " " << p1[1][n] << " " << p1[2][n] << " " << p1[3][n] << "     ";
+        }
         
         
         // q1(i=0,m)  Kinetic energy of photon #m from source #1
@@ -249,8 +260,12 @@ int main(){
         // p2(1:3,n)  Direction of neutron #n from source #2
         
         // then ! read neutrons from #2:
-        if (n2>0) for(n=1;n<=n2;n++) eventfile >> p2[0][n] >> p2[1][n] >> p2[2][n]>> p2[3][n];
-        
+        if (n2>0) for(n=1;n<=n2;n++){
+        eventfile >> p2[0][n] >> p2[1][n] >> p2[2][n]>> p2[3][n];
+        myfile << " " << p2[1][n] << " " << p2[2][n] << " " << p2[3][n] << "   ";
+        }
+
+        myfile << endl;
         
         // q2(i=0,m)  Kinetic energy of photon #m from source #2
         // q2(1:3,m)  Direction of photon #m from source #2
@@ -309,6 +324,6 @@ int main(){
     
     eventfile.close();
     
-    
+    myfile.close();
     return 0;
 }

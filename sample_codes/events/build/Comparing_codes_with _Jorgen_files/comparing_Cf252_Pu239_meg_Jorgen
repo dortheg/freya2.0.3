@@ -1,0 +1,51 @@
+Cf252, events_orginal.cpp, v2.0.3			Cf252, events.cpp, mine						Cf252, Jorgen
+
+nu_bar_PreFiss: 0							nu_bar_PreFiss: 0							nu_bar_PreFiss: 0
+nu_bar_FF1: 2.17103							nu_bar_FF1: 2.17103							nu_bar_FF1: 2.16425
+nu_bar_FF2: 1.57793							nu_bar_FF2: 1.57793							nu_bar_FF2: 1.56789
+
+ Neutron Moments							Neutron Moments								Neutron Moments
+Moment1 3.74896								Moment1 3.74896								Moment1 3.73214
+Moment2 12.0088								Moment2 12.0088								Moment2 11.7238
+Moment3 32.1299								Moment3 32.1299								Moment3 30.2116
+Moment4 69.7771								Moment4 69.7771								Moment4 61.8602
+Std. Dev (?)1.30501							Std. Dev (?)1.30501							Std. Dev (?)1.23576
+
+
+mean_number_of_photons_FF0: 0				mean_number_of_photons_FF0: 0				mean_number_of_photons_FF0: 0
+mean_number_of_photons_FF1: 3.97743			mean_number_of_photons_FF1: 3.97743			mean_number_of_photons_FF1: 4.01271
+mean_number_of_photons_FF1: 3.72062			mean_number_of_photons_FF1: 3.72062			mean_number_of_photons_FF1: 3.7437
+
+Photons Moments								Photon Moments								Photon Moments
+Moment1 7.68255								Moment1 7.68255								Moment1 7.74041
+Moment2 58.8615								Moment2 58.8615								Moment2 59.6907
+Moment3 455.693								Moment3 455.693								Moment3 465.009
+Moment4 3599.97								Moment4 3599.97								Moment4 3702.36
+
+
+
+
+
+
+Pu239 n, 1MeV, v2.0.3						Pu239 n, 1MeV, mine							Pu239 n, 1MeV, Jorgen
+
+nu_bar_PreFiss: 0.0001						nu_bar_PreFiss: 0.0001						nu_bar_PreFiss: 9e-05
+nu_bar_FF1: 1.67754							nu_bar_FF1: 1.67754							nu_bar_FF1: 1.68108
+nu_bar_FF2: 1.32311							nu_bar_FF2: 1.32311							nu_bar_FF2: 1.3109
+
+Neutron Moments								Neutron Moments								Neutron Moments
+Moment1 3.0007								Moment1 3.0007								Moment1 2.99203
+Moment2 7.34938								Moment2 7.34938								Moment2 7.29747
+Moment3 14.1585								Moment3 14.1585								Moment3 13.984
+Moment4 20.4767								Moment4 20.4767								Moment4 20.121
+Std. Dev (?)1.16012							Std. Dev (?)1.16012							Std. Dev (?)1.15641
+
+mean_number_of_photons_FF0: 0				mean_number_of_photons_FF0: 0				mean_number_of_photons_FF0: 0
+mean_number_of_photons_FF1: 3.49789			mean_number_of_photons_FF1: 3.49789			mean_number_of_photons_FF1: 3.57015
+mean_number_of_photons_FF1: 3.33257			mean_number_of_photons_FF1: 3.33257			mean_number_of_photons_FF1: 3.35536
+
+Photons Moments								Photon Moments								Photon Moments
+Moment1 6.82936								Moment1 6.82936								Moment1 6.9243
+Moment2 45.6808								Moment2 45.6808								Moment2 46.8572
+Moment3 303.601								Moment3 303.601								Moment3 314.309
+Moment4 2032.4								Moment4 2032.4								Moment4 2118.07
