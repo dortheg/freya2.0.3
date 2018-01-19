@@ -25,15 +25,26 @@
 
 \maketitle
 
-\section{Spontaneous fission of Cf252 }
+\section{Introduction}
 
-\subsection{Factorial moments of Cf252}
+\section{Theory: FREYA}
+
+\section{Method}
+
+\section{Results}
+
+\subsection{Spontaneous fission of Cf252 }
+
+The four first neutron factorial moments is shown in table \ref{tab:Cf252_n_moments}, and the dependence of the mean neutron multiplicity $\nu$ and the photon multiplicity $N_{\gamma}$ on the parameters dTKE and x  can be seen in Table \ref{tab:dependence_on_dTKE} and \ref{tab:dependence_on_x} respectively. The dependence of $N_{\gamma}$ on $c_s$ is shown in Table \ref{tab:dependence_on_c}.
+
+The fragment and product mass distribution is shown in Figure \ref{fig:Cf252_sf_fragment_product_yield}, and the mean kinetic energy of the fragments as a function of mass is shown in Figure \ref{fig:Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number}. The multiplicity distribution and spectral shape of the emmited neutrons and photons respectively is shown in Figure \ref{fig:Cf252_sf_total_n_mult}, \ref{fig:Cf252_sf_neutron_spectral_shape}, \ref{fig:Cf252_sf_total_ph_mult} and \ref{fig:Cf252_sf_photons_spectral_shape}. The angular correlation between pairs of emmited neutrons are shown in Figure \ref{fig:Cf252_sf_n_n_ang_corr}.
+
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments, from spontaneous fission of Cf252}
+	\caption{The four first neutron factorial moments from the spontaneous fission of Cf252}
 	\begin{tabularx}{\textwidth}{XX} \hline
-		\label{Cf252_n_moments}
+		\label{tab:Cf252_n_moments}
 		Moment & Value \\ \hline
 		1 & 3.74896 \\
 		2 & 12.0088\\
@@ -42,11 +53,9 @@
 	\end{tabularx}
 \end{table}
 
-\subsection{Examine the dependence of $\overline{\nu}$, $\overline{\nu_1}$, $\overline{\nu_2}$ and $\overline{N}_{\gamma}$ on dTKE, x and cs}
-
 \begin{table} [H]
 	\centering
-	\caption{The dependence of $\overline{\nu}$, $\overline{\nu_1}$, $\overline{\nu_2}$ and $\overline{N}_{\gamma}$ on dTKE, when x=1.27 is held constant}
+	\caption{The dependence of $\overline{\nu}$  and $\overline{\nu_1}$, $\overline{\nu_2}$ and $\overline{N}_{\gamma}$ on dTKE, when x=1.27 is held constant}
 	\begin{tabularx}{\textwidth}{XXXXXX} \hline
 		\label{tab:dependence_on_dTKE}
 		Variable & dTKE = 0.01&dTKE = 0.32 &dTKE=0.52 (default) & dTKE= 1.00 & dTKE= 1.52\\ \hline
@@ -83,7 +92,56 @@
 	\end{tabularx}
 \end{table}
 
-\section{Thermal neutron induced fission of U235}
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.37]{Cf252_sf_fragment_product_yield.png}
+	\caption{The fragment and product yield from the spontaneous fission of Cf252}
+	\label{fig:Cf252_sf_fragment_product_yield}
+\end{figure}
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.37]{Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number.png}
+	\caption{The mean fragment energy as a function of fragment mass, from the spontaneous fission of Cf252}
+	\label{fig:Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number}
+\end{figure}
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.36]{Cf252_sf_total_n_mult.png}
+	\caption{The multiplicity distribution of neutrons from the spontaneous fission of Cf252}
+	\label{fig:Cf252_sf_total_n_mult}
+\end{figure}
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.36]{Cf252_sf_neutron_spectral_shape.png}
+	\caption{The spectral shape of neutrons from the spontaneous fission of Cf252, compared to a fitted Boltzmann distribution}
+	\label{fig:Cf252_sf_neutron_spectral_shape}
+\end{figure}
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.36]{Cf252_sf_total_ph_mult.png}
+	\caption{The multiplicity distribution of photons from the spontaneous fission of Cf252}
+	\label{fig:Cf252_sf_total_ph_mult}
+\end{figure}
+
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.36]{Cf252_sf_photons_spectral_shape.png}
+	\caption{The spectral shape of photons from the spontaneous fission of Cf252, compared to a fitted Boltzmann distribution}
+	\label{fig:Cf252_sf_photons_spectral_shape}
+\end{figure}
+	
+\begin{figure} [H]
+	\centering
+	\includegraphics[scale=0.7]{Cf252_sf_n_n_ang_corr.png}
+	\caption{The angulare correlation between pairs of emmited neutrons from the spontaneous fission of Cf252}
+	\label{fig:Cf252_sf_n_n_ang_corr}
+\end{figure}
+	
+\subsection{Thermal neutron induced fission of U235}
 
 \begin{table} [H]
 	\centering
@@ -98,7 +156,7 @@
 	\end{tabularx}
 \end{table}
 
-\section{Neutron induced fission of Pu239}
+\subsection{Neutron induced fission of Pu239}
 
 \begin{table} [H]
 	\centering
@@ -164,6 +222,10 @@
 		4 & 377.024 & 0 & 15.2033 & Moment4 2.58768\\ 
 	\end{tabularx}
 \end{table}
+
+\section{Discussion}
+
+\section{Conclusion}
 
 \vspace{3mm}
 
