@@ -40,7 +40,7 @@ After pre-fission radiation, FREYA moves on to the fission process. Using a ener
 
 Now the energy of the fission fragments are to be determined. FREYA relies on experimental data to input the total kinetic energy TKE of the fission fragments for a given compound nuclei excitation energy \cite{FREYAusemanual}. By calculating the Q-value of the fission reaction and subtracting the average TKE, the energy available as excitation energy for the two fragments are found. This energy is first split between rotational and statistical excitation energy, and then split between the two fragments. The energy of the system is conserved. 
 
-The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. At low energies, the statistical cascade stops, and the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. FREYA has now simulated a complete fission event.
+The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. This is colllective, discrete transitions between theoretical rotational bands in the nucleus. At low energies the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. FREYA has now simulated a complete fission event.
 
 \subsubsection{Parameters in FREYA}
 There are several adjustable parameters in FREYA, that enables the user to fit the calculations to experimental results. I will focus on a few of these that are important for this report. 
@@ -62,6 +62,10 @@ The parameter c$_s$, called the spin temperature, adjusts the ratio between the 
 Observations show that statistical excitation energy is not shared evenly between the light and the heavy fission fragment, but rather that the lighter fragment is favoured \cite{FREYAusemanual}. The parameter x $>1.0$ shifts the statistical excitation energy to the light fragment by a fraction of x. A higher x will thus give the light frament a larger portion of the available statistical excitation energy.
 
 \section{Method}
+
+This report is based on work done with FREYA v2.0.3. Each case was run with 100000 iteratations, and with default parameters provided by FREYA, unless otherwise specified. 
+
+The first case analysed was the spontaneous fission of Cf252. The dependence of the mean neutron multiplicity $\nu$, the mean neutron multiplicity from the light  and heavy fissions fragment $\nu_1$ and $\nu_2$, and the mean gamma multiplicity $N_{gamma}$
 
 \section{Results}
 
@@ -453,9 +457,11 @@ The angular correlation between pair of emmited neutrons for the incoming neutro
 
 \section{Discussion}
 
+From Table \ref{tab:dependence_on_dTKE}, 
+
 - The higher incoming neutron energy, the more symmetric fragment mass distr -> more energy available, so shell effects less prominent
 
-- higher energy, less prominent angular corr -> why?
+- higher energy, less prominent angular corr -> boost from kinetic energy of fragment less important
 
 - higher x, more shifted ex-energy to one side
 
