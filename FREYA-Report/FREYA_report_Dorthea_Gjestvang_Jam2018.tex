@@ -43,6 +43,23 @@ Now the energy of the fission fragments are to be determined. FREYA relies on ex
 The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. At low energies, the statistical cascade stops, and the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. FREYA has now simulated a complete fission event.
 
 \subsubsection{Parameters in FREYA}
+There are several adjustable parameters in FREYA, that enables the user to fit the calculations to experimental results. I will focus on a few of these that are important for this report. 
+
+As mentioned earlier, the total kinetic energy of the fragment $TKE_{data}$ is needed as input in FREYA. FREYA further assumes that the avergage total kinetic energy takes the following form \cite{FREYAusemanual}:
+
+\begin{equation}
+	\label{eq:total_kinetiv_energy}
+	TKE(A_H, E_n) = TKE_{data}(A_H) + dTKE(E_n)
+\end{equation}
+
+dTKE is an adjustable parameter, used to reproduce the measured average neutron multiplicity $\nu$. As the excitation energy E is TKE subtracted from Q, the dTKE-parameter adjusts the ratio of kinetic enery and excitation energy in the nucleus. \par 
+\vspace{3mm}
+
+The parameter c$_s$, called the spin temperature, adjusts the ratio between the fragment's rotational and statistical exitation energy. The angular momentum of the nucleus is drawn from a Boltzmann distribution, where c$_s$ is the factor that determines the temperature of the Boltzmann distribution. For c$_s = 1$ the angular momentum is drawn from a thermal distribution, and the higher the c$_s$, the higher probability of nuclei with high angular momentum. Thus, the higher c$_s$, the less statistical excitation energy will the fragments get. /par 
+
+\vspace{3mm}
+
+Observations show that statistical excitation energy is not shared evenly between the light and the heavy fission fragment, but rather that the lighter fragment is favoured \cite{FREYAusemanual}. The parameter x $>1.0$ shifts the statistical excitation energy to the light fragment by a fraction of x. A higher x will thus give the light frament a larger portion of the available statistical excitation energy.
 
 \section{Method}
 
