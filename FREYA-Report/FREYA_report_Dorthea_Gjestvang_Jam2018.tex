@@ -43,6 +43,7 @@ Now the energy of the fission fragments are to be determined. FREYA relies on ex
 The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. This is colllective, discrete transitions between theoretical rotational bands in the nucleus. At low energies the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. FREYA has now simulated a complete fission event.
 
 \subsubsection{Parameters in FREYA}
+\label{Parameters_FREYA}
 There are several adjustable parameters in FREYA, that enables the user to fit the calculations to experimental results. I will focus on a few of these that are important for this report. 
 
 As mentioned earlier, the total kinetic energy of the fragment $TKE_{data}$ is needed as input in FREYA. FREYA further assumes that the avergage total kinetic energy takes the following form \cite{FREYAusemanual}:
@@ -65,7 +66,7 @@ Observations show that statistical excitation energy is not shared evenly betwee
 
 This report is based on work done with FREYA v2.0.3. Each case was run with 100000 iteratations, and with default parameters provided by FREYA, unless otherwise specified. 
 
-The first case analysed was the spontaneous fission of Cf252. The dependence of the mean neutron multiplicity $\nu$, the mean neutron multiplicity from the light  and heavy fissions fragment $\nu_1$ and $\nu_2$, and the mean gamma multiplicity $N_{gamma}$
+The first case analysed was the spontaneous fission of Cf252. The dependence of the mean neutron multiplicity $\nu$, the mean neutron multiplicity from the light  and heavy fissions fragment $\nu_1$ and $\nu_2$, and the mean gamma multiplicity $N_{\gamma}$
 
 \section{Results}
 
@@ -457,17 +458,22 @@ The angular correlation between pair of emmited neutrons for the incoming neutro
 
 \section{Discussion}
 
-From Table \ref{tab:dependence_on_dTKE}, 
+From Table \ref{tab:dependence_on_dTKE}, I see that both the mean neutron multiplicity $\nu$ and the mean gamma multiplicity $N_{\gamma}$ decreases as dTKE increases. As explained in section \ref{Parameters_FREYA}, dTKE decides how the available energy is partitioned between the kinetic energy and the excitation energy of the nucelus. As dTKE increases, less of the energy is put as excitation energy. As both neutron emission and gamma emission requires excitation energy from the nucleus, these average multiplicity of these decreases.\par 
+\vspace{3mm}
 
-- The higher incoming neutron energy, the more symmetric fragment mass distr -> more energy available, so shell effects less prominent
+Furthermore, Table \ref{tab:dependence_on_x} shows that for higher x, the average neutron mutiplicity from the light fission fragment $\nu_1$ increases, while the neutron muntiplicity from the heavy fission fragment $\nu_2$ decreases. This is as expected. The parameter x shifts the distribution of excitation energy between the two fission fragments in the light fission fragment's favour. The more excitation energy available, the more neutrons can the nucelus emit, as the nuceus must have more excitation energy than the neutron separation energy $S_n$ to emit a neutron. Therefore, $\nu_1$ increases while $\nu_2$ decreases. \par 
+\vspace{3mm}
 
-- higher energy, less prominent angular corr -> boost from kinetic energy of fragment less important
+From Table \ref{tab:dependence_on_c}, I see that the average gamma multiplicity $N_{\gamma}$ increases as c infreases. As explained in section \ref{Parameters_FREYA}, c is the so-called spin temperature, that effectively desides how much of the excitation energy should be rotational energy, compared to statistical excitation energy. As neutron emission more or less conserves its own angular momentum during neutron emission, the total angular momentum of the nucleus remains unchanged, and thus neutron emission only strips the nucleus of statistical excitation energy. After neutron emission is no longer possible, the nucleus rids itself of rotational excitation energy through the emission of photons. Therefore, the more energy available as rotational excitation energy in the nucleus, the higher the average gamma multiplicity $N_{\gamma}$ will be, and this is in accordance with Table \ref{tab:dependence_on_c}.
+\par 
+\vspace{3mm}
 
-- higher x, more shifted ex-energy to one side
+As can be seen from Figure \ref{fig:Pu239_0_1_fragment_product}, \ref{fig:Pu239_8_fragment_product} and \ref{fig:Pu239_20_fragment_product}, in neutron induced fission, the fragment mass distribution changes with the energy of the incoming energy. For low incoming neutron energies, the fission fragment distribution has two separate humps for low and high frament mass respectively, while for larger incomning neutron energies the two humps becomes more and more like a one hump distribution. The reason why, is that for low compound nucleus energies, shell effects play a large role in determining the fission fragments. When one of the fission fragments have neutron or proton numbers which correspond to magic numbers, where the nuckeus is especially bound, more energy is released. For higher incoming neutron energies, however, the compound nucleus have a higher excitation energy, and therefore shell effects are less prominent. This can be seen when the two fission fragment distribution humps merge into one hump for large incoming neutron energies.\par 
+\vspace{3mm}
 
-- higher dTKE, less ex-energy, fewer n and ph
+In Figure \ref{fig:Pu239_0_1_n_n_ang_corr}, \ref{fig:Pu239_8_n_n_ang_corr} and \ref{fig:Pu239_20_n_n_ang_corr}, I observe that the angular correlation between pairs of emmited neutrons after neutron induced fission become less prominent for high incoming neutron energies. The neutrons are emmited in the fission fragment's rest system, and in this system, the neutrons are emitted isotropically. However, due to the kinetic energy of the fission fragment, the neutrons get a boost in the direction of the velocity of the fission fragments, when observed from the lab system. For lower energy neutrons, this boost is prominent, and as all the neutrons get this boost, there is a strong angular correlation between the emitted neutrons in the lab system. For higher incoming neutron energies, more excitation energy is availible when the neutrons are emmited, and they have a higher velocity. This velocity is not negligle comparet to the kinetic energy of the fission fragment, and thus the angular correlation between the emmited neutrons are less prominent.
 
-- higher $c_s$, more rotational energy, more gammas \cite{Wagemans1991}
+
 \section{Conclusion}
 
 \vspace{3mm}
