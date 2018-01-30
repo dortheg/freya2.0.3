@@ -28,23 +28,23 @@
 \section{Introduction}
 Computational simulations are a vital part in the studies of physis today. Simulating physical experiments before conducting them can not only tells us what we might expect from a certain experiment, but it also acts as a quality check of physical models. Implementing theory and comparing computational yields to experimental results gives insight on wheter we have understood the process or not.\par 
 \vspace{3mm}
-This is no different in the study of fission in nuclear physics. There are several computational codes trying to simulate the fission process. One of these codes is FREYA, developed at the Lawrence Livermore Laboratory in California \cite{FREYAusemanual}. In this report, I will in section \ref{Fission_FREYA} give an overview on how FREYA simulates fission events as a step-by-step process. Thereafter, I will in section \ref{Parameters_FREYA} discuss some key parameters in FREYA that can be subject to user manipulation. Thereafter, I will study three different fission cases, the spontaneous fission of Cf252, the thermal neuton induced fission of U235, and lastly the neutron induced fission of Pu239 for a range of incoming neutron energies. The results are presented in section \ref{Results}, and discussed in section \ref{Discussion}. I will focus on why FREYA gives certain results, and discuss the physical explanation behind the results.
+This is no different in the study of fission in nuclear physics. There are several computational codes trying to simulate the fission process. One of these codes is FREYA, developed at the Lawrence Livermore Laboratory in California \cite{FREYAusemanual}. In this report, I will in section \ref{Fission_FREYA} give an overview on how FREYA simulates fission events as a step-by-step process. Thereafter, I will in section \ref{Parameters_FREYA} discuss some key parameters in FREYA that can be subject to user manipulation. Thereafter, I will study three different fission cases, the spontaneous fission of $\ce{^{252}Cf}$, the thermal neuton induced fission of $\ce{^{235}U}$ and lastly the neutron induced fission of $\ce{^{239}Pu}$for a range of incoming neutron energies. The results are presented in section \ref{Results}, and discussed in section \ref{Discussion}. I will focus on why FREYA gives certain results, and discuss the physical explanation behind the results.
 
 \section{Theory: FREYA}
-FREYA is short for Fission Reaction Yield Algorithm, and it is a computer code that models fission of some nuclei \cite{FREYAusemanual}. In a fission event in FREYA, the energy, angular momentum and of the fragments and the emmited photons and neutrons are calculated, and thus it is possible to look at different aspects of the fission process using the same model. The calculations in FREYA are based on experimental data \cite{FREYAusemanual}, and today it can model spontaneous fission, photofission and neutron-induced fission of some given nuclei.
+FREYA is short for Fission Reaction Yield Algorithm, and it is a computer code that models fission of nuclei \cite{FREYAusemanual}. In a fission event in FREYA, the energy, angular momentum and of the fragments and the emmited photons and neutrons are calculated, and thus it is possible to look at different aspects of the fission process using the same model. The calculations in FREYA are based on experimental data \cite{FREYAusemanual}, and today it can model spontaneous fission, photofission and neutron-induced fission of some given nuclei.
 
 \subsection{Fission event in FREYA}
 \label{Fission_FREYA}
 
 The simulation of a fission event in FREYA proceeds in several steps: pre-fission, during fission and post-fission, and I will focus on those aspects of the process that are of the most importance for this report. FREYA only concider the fission event, and the neutron and gamma emission from the pre-equilibrium nucleus, the compound nucleus and the fission fragments, and it does not take into account further decay of the fission products.
 
-First, FREYA conciders the pre-equilibrium nucleus, and the chance for pre-equilibrium neutron emission. This is only significant for high energies \cite{FREYAusemanual}. Furthermore, the code conciders pre-fission neutron evaporation, where a neutron is emmited before fission occurs. The resulting $A-1$-nuclei has then a chance to fission, or emit another neutron. As each resulting nuclei can either emit a pre-fission neutron or fission, this process is called multichance fission.
+First, FREYA conciders the pre-equilibrium nucleus, and the chance for pre-equilibrium neutron emission. This is only significant for high energies \cite{FREYAusemanual}. Next, after the compound nucleus is equilibriated, the code conciders pre-fission neutron evaporation, where a neutron is emmited before fission occurs. The resulting $A-1$-nuclei can either fission, or emit another neutron. As each resulting nuclei can either emit a pre-fission neutron or fission, this process is called multichance fission.
 
-After pre-fission radiation, FREYA moves on to the fission process. Using a energy-dependent fission fragment distribution, the mass numbers of the two fragments are decided, and the charge is split in accordance to a probability distribution \cite{FREYAusemanual}. The total mass number A and the charge Z is conserved in the fission process.
+After pre-fission radiation, FREYA moves on to the fission process. Using a energy-dependent fission fragment distribution, the mass numbers of the two fragments are decided, and the charge is split in accordance to a gaussian probability distribution, where the peak corresponds to the fragments having the same fraction of charge to mass as the nucleus that fissions \cite{FREYAusemanual}. The total mass number A and the charge Z is conserved in the fission process.
 
 Now the energies of the fission fragments are to be determined. FREYA relies on experimental data to input the total kinetic energy TKE of the fission fragments for a given compound nuclei excitation energy \cite{FREYAusemanual}. By calculating the Q-value of the fission reaction and subtracting the average TKE, the energy available as excitation energy for the two fragments is found. This energy is split between rotational and statistical excitation energy, and split between the two fragments. The total energy of the system is conserved. 
 
-The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. This is colllective, discrete transitions between theoretical rotational bands in the nucleus. At low energies the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. FREYA has now simulated a complete fission event.
+The last part of the FREYA fission event is the post-fission radiation, which consist of neutron and photon emission. First, the fission fragments emit neutrons until their statistical excitation energy is below the neutron separation energy, and neutron emission is no longer possible. Then the photon emission starts, beginning as a statistical cascade of photons. First the statistical excitation energy of the fission fragment is disposed of, then when the statistical excitation energy drops below a givel limit $g_{min}$, the emission of photons conntinues, now exhausting the rotational energy of the nucleus. This is colllective, discrete transitions between theoretical rotational bands in the nucleus. At low energies the photon emission continues as discrete transitions, using data from the RIPL-3 library \cite{FREYAusemanual}. When the remaining excitation energy is belov the limit $g_{min}$, or the nucleus has an half-life longer than the limit $t_{max}$, the process stops. 
 
 \subsubsection{Parameters in FREYA}
 \label{Parameters_FREYA}
@@ -57,43 +57,55 @@ As mentioned earlier, the total kinetic energy of the fragment $TKE_{data}$ is n
 	\overline{TKE}(A_H, E_n) = \overline{TKE_{data}}(A_H) + dTKE(E_n)
 \end{equation}
 
-dTKE is an adjustable parameter, used to reproduce the measured average neutron multiplicity $\nu$ \cite{FREYAusemanual}. As the excitation energy E is TKE subtracted from Q, the dTKE-parameter adjusts the ratio of kinetic enery and excitation energy in the nucleus. \par 
+dTKE is an adjustable parameter, used to reproduce the measured average neutron multiplicity $\nu$ \cite{FREYAusemanual}. As the excitation energy E is given by
+
+\begin{equation}
+	E = Q - dTKE
+\end{equation}
+
+ where Q is the energy released in the fission process, the dTKE-parameter adjusts the ratio of kinetic enery and excitation energy in the nucleus. \par 
 \vspace{3mm}
 
 The parameter c$_s$, called the spin temperature \cite{FREYAusemanual}, adjusts the ratio between the fragment's rotational and statistical exitation energy. The angular momentum of the nucleus is drawn from a Boltzmann distribution, where c$_s$ is the factor that determines the temperature of the Boltzmann distribution. For c$_s = 1$ the angular momentum is drawn from a thermal distribution, and the higher the c$_s$, the higher probability of nuclei with high angular momentum. Thus, the higher c$_s$, the less statistical excitation energy will the fragments get. \par 
 
 \vspace{3mm}
 
-Observations show that statistical excitation energy is not shared evenly between the light and the heavy fission fragment, but rather that the lighter fragment is favoured \cite{FREYAusemanual}. The parameter x $>1.0$ shifts the statistical excitation energy to the light fragment by a factor of x. A higher x will thus give the light frament a larger portion of the available statistical excitation energy.
+Observations show that statistical excitation energy is not shared evenly between the light and the heavy fission fragment, but rather that the lighter fragment is favoured \cite{FREYAusemanual}. After an initial energy division, where the statistical excitation energy is split between the two fragments in accordance to their heat capacities and the light fragment gets a statistical excitation energy E$_L$, the energy is shifted in favour of the light fragment by factor $x > 1$ in the following way:
+
+\begin{equation}
+	E_L \rightarrow xE_L
+\end{equation}
+
+ A higher x will thus give the light frament a larger portion of the available statistical excitation energy.
 
 \section{Method}
 
 This report is based on simulations run with FREYA v2.0.3. Each case was run with 100000 iteratations, and with the default parameters provided by FREYA, unless otherwise specified. 
 
-The first case analysed was the spontaneous fission of Cf252. The dependence of the mean neutron multiplicity $\nu$, the mean neutron multiplicity from the light  and heavy fissions fragment $\nu_1$ and $\nu_2$, and the mean gamma multiplicity $N_{\gamma}$ was studied under the change of the parameters dTKE, x and c$_s$. The fission fragment and product distribution was plotted. The neutron and photon multiplicity distribution, spectral shape and the angular correlation between pairs of emmited neutrons were also calculated.
+The first case analysed was the spontaneous fission of $\ce{^{252}Cf}$. The dependence of the mean neutron multiplicity $\nu$, the mean neutron multiplicity from the light  and heavy fissions fragment $\nu_1$ and $\nu_2$, and the mean gamma multiplicity $N_{\gamma}$ was studied under the change of the parameters dTKE, x and c$_s$. The fission fragment and product distribution was plotted. The neutron and photon multiplicity distribution, spectral shape and the angular correlation between pairs of emmited neutrons were also calculated.
 
 \par 
 \vspace{3mm}
 
-Thereafter, the neutron induced fission of U235 was studied, where the incoming neutron had an energy of $E_n = 0.1 $ MeV. Again, the fission fragment and products were plotted, the neutron and photon multcity distributions and spectral shapes calculated, and the angular correlation between pairs of emitted neutrons extracted. 
+Thereafter, the neutron induced fission of $\ce{^{235}U}$ was studied, where the incoming neutron had an energy of $E_n = 0.1 $ MeV. Again, the fission fragment and products were plotted, the neutron and photon multcity distributions and spectral shapes calculated, and the angular correlation between pairs of emitted neutrons extracted. 
 
 \par 
 \vspace{3mm}
-The last case studied in this report, was the neutron-induced fission of Pu239 for a range of different neutron energies. The effect of different neutron energies was studied when comparing the neutron and photon multiplicity distributions, the angular correlation between pair of emmited neutrons, and the fission fragment yields. 
+The last case studied in this report, was the neutron-induced fission of $\ce{^{239}Pu}$ for a range of different neutron energies. The effect of different neutron energies was studied when comparing the neutron and photon multiplicity distributions, the angular correlation between pair of emmited neutrons, and the fission fragment yields. 
 
 \section{Results}
 \label{Results}
 
-\subsection{Spontaneous fission of Cf252 }
+\subsection{Spontaneous fission of $\ce{^{252}Cf}$}
 
-The four first neutron factorial moments is shown in table \ref{tab:Cf252_n_moments}, and the dependence of the mean neutron multiplicity $\nu$ and the photon multiplicity $N_{\gamma}$ on the parameters dTKE and x  can be seen in Table \ref{tab:dependence_on_dTKE} and \ref{tab:dependence_on_x} respectively. The dependence of $N_{\gamma}$ on $c_s$ is shown in Table \ref{tab:dependence_on_c}.
+The four first neutron factorial moments is shown in Table \ref{tab:Cf252_n_moments}, and the dependence of the mean neutron multiplicity $\nu$ and the photon multiplicity $N_{\gamma}$ on the parameters dTKE and x  can be seen in Table \ref{tab:dependence_on_dTKE} and \ref{tab:dependence_on_x} respectively. The dependence of $N_{\gamma}$ on $c_s$ is shown in Table \ref{tab:dependence_on_c}.
 
 The fragment and product mass distribution is shown in Figure \ref{fig:Cf252_sf_fragment_product_yield}, and the mean kinetic energy of the fragments as a function of mass is shown in Figure \ref{fig:Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number}. The multiplicity distribution and spectral shape of the emmited neutrons and photons respectively is shown in Figure \ref{fig:Cf252_sf_total_n_mult}, \ref{fig:Cf252_sf_neutron_spectral_shape}, \ref{fig:Cf252_sf_total_ph_mult} and \ref{fig:Cf252_sf_photons_spectral_shape}. The angular correlation between pairs of emmited neutrons are shown in Figure \ref{fig:Cf252_sf_n_n_ang_corr}.
 
 
 \begin{table} [H]
 	\centering
-	\caption{The four first neutron factorial moments from the spontaneous fission of Cf252}
+	\caption{The four first neutron factorial moments from the spontaneous fission of $\ce{^{252}Cf}$}
 	\begin{tabularx}{\textwidth}{XX} \hline
 		\label{tab:Cf252_n_moments}
 		Moment & Value \\ \hline
@@ -146,63 +158,63 @@ The fragment and product mass distribution is shown in Figure \ref{fig:Cf252_sf_
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.37]{Cf252_sf_fragment_product_yield.png}
-	\caption{The fragment and product yield from the spontaneous fission of Cf252}
+	\caption{The fragment and product yield from the spontaneous fission of $\ce{^{252}Cf}$}
 	\label{fig:Cf252_sf_fragment_product_yield}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.37]{Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number.png}
-	\caption{The mean fragment energy as a function of fragment mass, from the spontaneous fission of Cf252}
+	\caption{The mean fragment energy as a function of fragment mass, from the spontaneous fission of $\ce{^{252}Cf}$}
 	\label{fig:Cf252_sf_mean_fragment_kinetic_enery_function_of_fragment_mass_number}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Cf252_sf_total_n_mult.png}
-	\caption{The multiplicity distribution of neutrons from the spontaneous fission of Cf252}
+	\caption{The multiplicity distribution of neutrons from the spontaneous fission of $\ce{^{252}Cf}$}
 	\label{fig:Cf252_sf_total_n_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Cf252_sf_neutron_spectral_shape.png}
-	\caption{The spectral shape of neutrons from the spontaneous fission of Cf252, compared to a fitted Boltzmann distribution}
+	\caption{The spectral shape of neutrons from the spontaneous fission of $\ce{^{252}Cf}$, compared to a fitted Boltzmann distribution}
 	\label{fig:Cf252_sf_neutron_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Cf252_sf_total_ph_mult.png}
-	\caption{The multiplicity distribution of photons from the spontaneous fission of Cf252}
+	\caption{The multiplicity distribution of photons from the spontaneous fission of $\ce{^{252}Cf}$}
 	\label{fig:Cf252_sf_total_ph_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Cf252_sf_photons_spectral_shape.png}
-	\caption{The spectral shape of photons from the spontaneous fission of Cf252, compared to a fitted Boltzmann distribution}
+	\caption{The spectral shape of photons from the spontaneous fission of $\ce{^{252}Cf}$, compared to a fitted Boltzmann distribution}
 	\label{fig:Cf252_sf_photons_spectral_shape}
 \end{figure}
 	
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.7]{Cf252_sf_n_n_ang_corr.png}
-	\caption{The angulare correlation between pairs of emmited neutrons from the spontaneous fission of Cf252}
+	\caption{The angulare correlation between pairs of emmited neutrons from the spontaneous fission of $\ce{^{252}Cf}$}
 	\label{fig:Cf252_sf_n_n_ang_corr}
 \end{figure}
 	
-\subsection{Thermal neutron induced fission of U235}
+\subsection{Thermal neutron induced fission of $\ce{^{235}U}$}
 
-The four first neutron factorial moments is shown in table \ref{tab:U235_n_moments}. The fragment and product distribution is shown in Figure \ref{fig:U235_fragment_product_distribution}. 
+The four first neutron factorial moments is shown in Table \ref{tab:U235_n_moments}. The fragment and product distribution is shown in Figure \ref{fig:U235_fragment_product_distribution}. 
 
 The multiplicity distribution and spectral shape of the emmited neutrons and photons respectively is shown in Figure \ref{fig:U235_n_mult}, \ref{fig:U235_n_spectral_shape}, \ref{fig:U235_ph_mult} and \ref{fig:U235_ph_spectral_shape}. The angular correlation between pairs of emmited neutrons are shown in Figure \ref{fig:U235_n_n_ang_corr}.
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments, from thermal neutron-induced fission of U235 }
+	\caption{Neutrons, first four factorial moments, from thermal neutron-induced fission of $\ce{^{235}U}$ }
 	\begin{tabularx}{\textwidth}{XX} \hline
-		\label{U235_n_moments}
+		\label{tab:U235_n_moments}
 		Moment & Value \\ \hline
 		1 & 2.42969 \\
 		2 & 4.66928\\
@@ -214,55 +226,55 @@ The multiplicity distribution and spectral shape of the emmited neutrons and pho
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{U235_fragment_product_distribution.png}
-	\caption{The fragment and product mass distribution from the thermal neutron induced fission of U235}
+	\caption{The fragment and product mass distribution from the thermal neutron induced fission of $\ce{^{235}U}$}
 	\label{fig:U235_fragment_product_distribution}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{U235_n_mult.png}
-	\caption{The multiplicity distribution of neutrons from the thermal neutron-induced fission of U235}
+	\caption{The multiplicity distribution of neutrons from the thermal neutron-induced fission of $\ce{^{235}U}$}
 	\label{fig:U235_n_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{U235_n_spectral_shape.png}
-	\caption{The spectral shape of neutrons from the thermal neutron induced fission of U235, compared to a fitted Boltzmann distribution}
+	\caption{The spectral shape of neutrons from the thermal neutron induced fission of $\ce{^{235}U}$, compared to a fitted Boltzmann distribution}
 	\label{fig:U235_n_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{U235_ph_mult.png}
-	\caption{The multiplicity distribution of photons from the thermal neutron-induced fission of U235}
+	\caption{The multiplicity distribution of photons from the thermal neutron-induced fission of $\ce{^{235}U}$}
 	\label{fig:U235_ph_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.34]{U235_ph_spectral_shape.png}
-	\caption{The spectral shape of photons from the thermal neutron induced fission of U235, compared to a fitted Boltzmann distribution}
+	\caption{The spectral shape of photons from the thermal neutron induced fission of $\ce{^{235}U}$, compared to a fitted Boltzmann distribution}
 	\label{fig:U235_ph_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.65]{U235_n_n_ang_corr.png}
-	\caption{The angulare correlation between pairs of emmited neutrons from the thermal neutron-induced fission of U235}
+	\caption{The angulare correlation between pairs of emmited neutrons from the thermal neutron-induced fission of $\ce{^{235}U}$}
 	\label{fig:U235_n_n_ang_corr}
 \end{figure}
 
 
-\subsection{Neutron induced fission of Pu239}
+\subsection{Neutron induced fission of $\ce{^{239}Pu}$}
 
-\subsubsection{Neutron factorial moments for Pu239}
+\subsubsection{Neutron factorial moments for $\ce{^{239}Pu}$}
 
-The first four neutron factorial moments for the neutron induced fission of Pu239 for incoming neutron energies $0.1, 2, 8, 14$ and $20$ MeV can be seen in Table \ref{tab:Pu239_n_moments_0_1} - \ref{tab:Pu239_n_moments_20}.
+The first four neutron factorial moments for the neutron induced fission of $\ce{^{239}Pu}$ for incoming neutron energies $0.1, 2, 8, 14$ and $20$ MeV can be seen in Table \ref{tab:Pu239_n_moments_0_1} - \ref{tab:Pu239_n_moments_20}.
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments. From neutron-induced fission of Pu239, with E$_n$ = 0.1 MeV }
+	\caption{Neutrons, first four factorial moments. From neutron-induced fission of $\ce{^{239}Pu}$, with E$_n$ = 0.1 MeV }
 	\begin{tabularx}{\textwidth}{XXXXX} \hline
 		\label{tab:Pu239_n_moments_0_1}
 		Moment & $\nu$ & $\nu_0$ & $\nu_1$ & $\nu_2$ \\ \hline
@@ -275,7 +287,7 @@ The first four neutron factorial moments for the neutron induced fission of Pu23
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments. From neutron-induced fission of Pu239, with E$_n$ = 2.0 MeV }
+	\caption{Neutrons, first four factorial moments. From neutron-induced fission of $\ce{^{239}Pu}$, with E$_n$ = 2.0 MeV }
 	\begin{tabularx}{\textwidth}{XXXXX} \hline
 		\label{tab:Pu239_n_moments_2}
 		Moment & $\nu$ & $\nu_0$ & $\nu_1$ & $\nu_2$ \\ \hline
@@ -288,7 +300,7 @@ The first four neutron factorial moments for the neutron induced fission of Pu23
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments. From neutron-induced fission of Pu239, with E$_n$ = 8.0 MeV }
+	\caption{Neutrons, first four factorial moments. From neutron-induced fission of $\ce{^{239}Pu}$, with E$_n$ = 8.0 MeV }
 	\begin{tabularx}{\textwidth}{XXXXX} \hline
 		\label{tab:Pu239_n_moments_8}
 		Moment & $\nu$ & $\nu_0$ & $\nu_1$ & $\nu_2$ \\ \hline
@@ -301,7 +313,7 @@ The first four neutron factorial moments for the neutron induced fission of Pu23
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments. From neutron-induced fission of Pu239, with E$_n$ = 14.0 MeV }
+	\caption{Neutrons, first four factorial moments. From neutron-induced fission of $\ce{^{239}Pu}$, with E$_n$ = 14.0 MeV }
 	\begin{tabularx}{\textwidth}{XXXXX} \hline
 		\label{tab:Pu239_n_moments_14}
 		Moment & $\nu$ & $\nu_0$ & $\nu_1$ & $\nu_2$ \\ \hline
@@ -314,7 +326,7 @@ The first four neutron factorial moments for the neutron induced fission of Pu23
 
 \begin{table} [H]
 	\centering
-	\caption{Neutrons, first four factorial moments. From neutron-induced fission of Pu239, with E$_n$ = 20.0 MeV }
+	\caption{Neutrons, first four factorial moments. From neutron-induced fission of $\ce{^{239}Pu}$, with E$_n$ = 20.0 MeV }
 	\begin{tabularx}{\textwidth}{XXXXX} \hline
 		\label{tab:Pu239_n_moments_20}
 		Moment & $\nu$ & $\nu_0$ & $\nu_1$ & $\nu_2$ \\ \hline
@@ -327,122 +339,122 @@ The first four neutron factorial moments for the neutron induced fission of Pu23
 
 \subsubsection{Fragment and product mass distributions}
 
-The fragment and product distribution from the neutron-induced fission of Pu239 for incoming neutron energies $E_n=$ 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_fragment_product}, \ref{fig:Pu239_8_fragment_product}, \ref{fig:Pu239_20_fragment_product}.
+The fragment and product distribution from the neutron-induced fission of $\ce{^{239}Pu}$ for incoming neutron energies $E_n=$ 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_fragment_product}, \ref{fig:Pu239_8_fragment_product}, \ref{fig:Pu239_20_fragment_product}.
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_0_1_fragment_product.png}
-	\caption{The fragment and product distribution from the neutron-induced fission of Pu239 with $E_n = 0.1$ MeV}
+	\caption{The fragment and product distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 0.1$ MeV}
 	\label{fig:Pu239_0_1_fragment_product}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_8_fragment_product.png}
-	\caption{The fragment and product distribution from the neutron-induced fission of Pu239 with $E_n = 8$ MeV}
+	\caption{The fragment and product distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 8$ MeV}
 	\label{fig:Pu239_8_fragment_product}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_20_fragment_products.png}
-	\caption{The fragment and product distribution from the neutron-induced fission of Pu239 with $E_n = 20$ MeV}
+	\caption{The fragment and product distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 20$ MeV}
 	\label{fig:Pu239_20_fragment_product}
 \end{figure}
 
 \subsubsection{Neutron multiplicity distribution and spectral shape}
 
-The neutron multiplicity distribution for the neutron-induced fission of Pu239 for the incoming neutron energies $E_n$ = 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_n_mult}, \ref{fig:Pu239_8_n_mult} and \ref{fig:Pu239_20_n_mult}.
+The neutron multiplicity distribution for the neutron-induced fission of $\ce{^{239}Pu}$ for the incoming neutron energies $E_n$ = 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_n_mult}, \ref{fig:Pu239_8_n_mult} and \ref{fig:Pu239_20_n_mult}.
 
 The spectral shapes of the same incoming neutron energies are shown in Figure \ref{fig:Pu239_0_1_n_spectral_shape}, \ref{fig:Pu239_8_n_spectral_shape} and \ref{fig:Pu239_20_n_spectral_shape}.
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_0_1_n_mult.png}
-	\caption{The neutron multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 0.1$ MeV}
+	\caption{The neutron multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 0.1$ MeV}
 	\label{fig:Pu239_0_1_n_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_8_n_mult.png}
-	\caption{The neutron multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 8$ MeV}
+	\caption{The neutron multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 8$ MeV}
 	\label{fig:Pu239_8_n_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_20_n_mult.png}
-	\caption{The neutron multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 20$ MeV}
+	\caption{The neutron multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 20$ MeV}
 	\label{fig:Pu239_20_n_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_0_1_n_spectral_shape.png}
-	\caption{The neutron spectral shape from the neutron-induced fission of Pu239 with $E_n = 0.1$ MeV, compared to a Boltzmnn distribution}
+	\caption{The neutron spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 0.1$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_0_1_n_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_8_n_spectral_shape.png}
-	\caption{The neutron spectral shape from the neutron-induced fission of Pu239 with $E_n = 8$ MeV, compared to a Boltzmnn distribution}
+	\caption{The neutron spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 8$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_8_n_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_20_n_spectral_shape.png}
-	\caption{The neutron spectral shape from the neutron-induced fission of Pu239 with $E_n = 20$ MeV, compared to a Boltzmnn distribution}
+	\caption{The neutron spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 20$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_20_n_spectral_shape}
 \end{figure}
 
 \subsubsection{Photon multiplicity distribution and spectral shape}
 
-The photon multiplicity distribution for the neutron-induced fission of Pu239 for the incoming neutron energies $E_n$ = 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_ph_mult}, \ref{fig:Pu239_8_ph_mult} and \ref{fig:Pu239_20_ph_mult}.
+The photon multiplicity distribution for the neutron-induced fission of $\ce{^{239}Pu}$ for the incoming neutron energies $E_n$ = 0.1, 8 and 20 MeV is shown in Figure \ref{fig:Pu239_0_1_ph_mult}, \ref{fig:Pu239_8_ph_mult} and \ref{fig:Pu239_20_ph_mult}.
 
 The spectral shapes of the same incoming neutron energies are shown in Figure \ref{fig:Pu239_0_1_ph_spectral_shape}, \ref{fig:Pu239_8_ph_spectral_shape} and \ref{fig:Pu239_20_ph_spectral_shape}.
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_0_1_ph_mult.png}
-	\caption{The photon multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 0.1$ MeV}
+	\caption{The photon multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 0.1$ MeV}
 	\label{fig:Pu239_0_1_ph_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_8_ph_mult.png}
-	\caption{The photon multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 8$ MeV}
+	\caption{The photon multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 8$ MeV}
 	\label{fig:Pu239_8_ph_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_20_ph_mult.png}
-	\caption{The photon multiplicity distribution from the neutron-induced fission of Pu239 with $E_n = 20$ MeV}
+	\caption{The photon multiplicity distribution from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 20$ MeV}
 	\label{fig:Pu239_20_ph_mult}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_0_1_ph_spectral_shape.png}
-	\caption{The photon spectral shape from the neutron-induced fission of Pu239 with $E_n = 0.1$ MeV, compared to a Boltzmnn distribution}
+	\caption{The photon spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 0.1$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_0_1_ph_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_8_ph_spectral_shape.png}
-	\caption{The photon spectral shape from the neutron-induced fission of Pu239 with $E_n = 8$ MeV, compared to a Boltzmnn distribution}
+	\caption{The photon spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 8$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_8_ph_spectral_shape}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.36]{Pu239_20_ph_spectral_shape.png}
-	\caption{The photon spectral shape from the neutron-induced fission of Pu239 with $E_n = 20$ MeV, compared to a Boltzmnn distribution}
+	\caption{The photon spectral shape from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n = 20$ MeV, compared to a Boltzmnn distribution}
 	\label{fig:Pu239_20_ph_spectral_shape}
 \end{figure}
 
@@ -452,21 +464,21 @@ The angular correlation between pair of emmited neutrons for the incoming neutro
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.65]{Pu239_0_1_n_n_ang_corr.png}
-	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of Pu239 with $E_n= 0.1$ MeV}
+	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n= 0.1$ MeV}
 	\label{fig:Pu239_0_1_n_n_ang_corr}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.65]{Pu239_8_n_n_ang_corr.png}
-	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of Pu239 with $E_n= 8$ MeV}
+	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of $\ce{^{239}Pu}$ with $E_n= 8$ MeV}
 	\label{fig:Pu239_8_n_n_ang_corr}
 \end{figure}
 
 \begin{figure} [H]
 	\centering
 	\includegraphics[scale=0.65]{Pu239_20_n_n_ang_corr.png}
-	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of Pu239 with $E_n= 20$ MeV}
+	\caption{The angulare correlation between pairs of emmited neutrons from the neutron-induced fission of $\ce{^{239}Pu}$with $E_n= 20$ MeV}
 	\label{fig:Pu239_20_n_n_ang_corr}
 \end{figure}
 
