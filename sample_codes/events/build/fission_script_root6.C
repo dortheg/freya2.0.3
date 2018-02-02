@@ -11,7 +11,7 @@
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Pu239nfE1.dat.root", "READ");
+TFile *vetsex = new TFile("Cf252.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -90,6 +90,8 @@ void create_frames();
 
 void fission_script_root6() {
 
+int F = 100000;
+
 create_frames();
 
 /*
@@ -161,6 +163,7 @@ htotal_fragyield->SetTitle("Fission fragment yield");
 //Neutron yields
 ///////////////////////////////////////////////////
  
+
 //Total neutron yield
 TCanvas *c01 = new TCanvas("c01", "Neutron Yield", 150, 10, 990, 660);
 mytree->Draw("n1>>hframe_n_yield");
@@ -173,16 +176,18 @@ htotal_n_yield->Sumw2();
 Double_t norm_n = 1;
 Double_t scale_n = norm_n/(htotal_n_yield->Integral());
 htotal_n_yield->Scale(scale_n);
-
 htotal_n_yield->SetLineColor(23);
 htotal_n_yield->SetMarkerColor(23);
 htotal_n_yield->SetMarkerStyle(4);
 htotal_n_yield->SetMarkerSize(0.2);
-htotal_n_yield->Draw("ep");
+htotal_n_yield->Draw();
 htotal_n_yield->GetXaxis()->SetTitle("Neutrons");
 htotal_n_yield->GetYaxis()->SetTitle("Yield of neutrons");
 htotal_n_yield->SetTitle("Total neutron yield");
 
+//Gets rid of error bars in x dir
+//TH1::SetDefaultSumw2();
+//gStyle->SetErrorX(0.0001);
 
 
 //Neutron yield for each fragment
@@ -224,11 +229,15 @@ htotal_prodyield->Scale(scale);
 
 htotal_prodyield->SetMarkerStyle(4);
 htotal_prodyield->SetMarkerSize(0.2);
+htotal_prodyield->SetMarkerColor(kRed);
+htotal_prodyield->SetLineColor(kRed);
 htotal_prodyield->Draw("ep");
 htotal_fragyield->Draw("same,ep");
-htotal_prodyield->GetXaxis()->SetTitle("A");
-htotal_prodyield->GetYaxis()->SetTitle("Yield/Fission");
-htotal_prodyield->SetTitle("Fission yield, fragments vs products ");
+htotal_prodyield->GetXaxis()->SetTitle("Mass number");
+htotal_prodyield->GetYaxis()->SetTitle("Yield per fission");
+htotal_prodyield->GetYaxis()->SetDecimals(2);
+htotal_prodyield->GetXaxis()->SetRange(60,180);
+htotal_prodyield->SetTitle("Fission yield, fragments and products ");
 
    auto legend = new TLegend(0.1,0.8,0.3,0.9);
    legend->SetTextSize(0.02);
@@ -289,15 +298,15 @@ for(int i=minMass; i<maxMass; i++)
 //Error bars
 // TGraphErrors* gr = new TGraphErrors(noMasses+noMasses2,mass_arr,mean,0,rms_stuff);
 TGraphErrors* gr = new TGraphErrors(nPoints,Af_arr,mean_arr,0,rms_arr);
-gr->GetXaxis()->SetTitle("mass");
-gr->GetYaxis()->SetTitle("mean energy (MeV)");
+gr->GetXaxis()->SetTitle("Mass number");
+gr->GetYaxis()->SetTitle("Mean fragment energy [MeV]");
 gr->SetTitle("");
 gr -> GetXaxis() -> SetRangeUser(70,180);
 gr -> GetXaxis() -> CenterTitle();
 gr -> GetXaxis()->SetTitleOffset(1.3);
 gr -> GetYaxis() -> CenterTitle();
 gr -> GetYaxis()->SetTitleOffset(1.3);
-gr -> SetTitle("Fragment energy as a function of fragment mass");
+gr -> SetTitle("Mean fragment kinetic energy as a function of fragment mass number");
 // gr->SetMarkerSize(2);
 gr->SetMarkerStyle(22);
 gr->Draw("AeP");
@@ -318,21 +327,28 @@ mytree->Draw("n0>>hframe_n0");
 mean = hframe_n0->GetMean();
 cout << "\n" << endl;
 cout << "nu_bar_PreFiss: " << mean << endl;
-
+Double_t uncertainty_n0 = sqrt(mean*F)/F;
+cout << "Uncertainty n0: " << uncertainty_n0 << "\n" << endl;
 
 mytree->Draw("n1>>hframe_n1");
 // hframe_n1->SaveAs("../plot/n_mult1.pdf");
+//cout << "Total n1: " << total_n1 << endl; 
 mean = hframe_n1->GetMean();
 cout << "nu_bar_FF1: " << mean << endl;
+Double_t uncertainty_n1 = sqrt(mean*F)/F;
+cout << "Uncertainty n1: " << uncertainty_n1 << "\n" << endl;
 
 mytree->Draw("n2>>hframe_n2");
 // hframe_n2->SaveAs("../plot/n_mult2.pdf");
 mean = hframe_n2->GetMean();
 cout << "nu_bar_FF2: " << mean << endl;
+Double_t uncertainty_n2 = sqrt(mean*F)/F;
+cout << "Uncertainty n2: " << uncertainty_n2 << "\n" << endl;
 
 mytree->Draw("n1:n2>>hframe_n_multi","","col");
 mytree->Draw("n0:n2:n1>>hframe_n_multi3D","","lego");
 
+//number of neutrons
 
 //To compensate for that 0 can be emitted by the first, and 1 by the second, and then multiplicity is 1
 Int_t lastbin = h_n_mult_total->GetNbinsX();
@@ -371,7 +387,7 @@ pxy->Draw("col");
 //   auto px = hframe_n_multi->ProjectionX("px",i,i);
 //     for (int j=0;j<lastbin;j++){
 //     weight = px->GetBinContent(j);
-//     n_n2 = j-1; //bin 1 contains evetns of multiplicity 0
+//     n_n2 = j-1; //bin 1 contains events of multiplicity 0
 //     n_tot = n_n1+n_n2;
 //     if (n_tot<0){n_tot=0;} // bin 0 events (underflow) have to come in underflow
 //     h_n_mult_total->Fill(n_tot,weight);
@@ -379,11 +395,18 @@ pxy->Draw("col");
 // }
 
 
+
+
 // normalize the multiplicites
 norm = h_n_mult_total->Integral();
+Double_t n_tot_2 = 0;
+for(int i=2;i<nbins_h_n_mult_total+1;i++){
+  n_tot_2 += h_n_mult_total->GetBinContent(i);
+} 
+
 h_n_mult_total->Scale(1/norm);
 
-// factorial moments
+// factorial moments for nu_total
 Double_t value;
 Double_t moments[5];
 std::fill_n(moments, 5, 0.);
@@ -393,6 +416,9 @@ std::fill_n(moments, 5, 0.);
 // bin zero is underflow bin!
 int nu;
 //h_n_mult_total is P(nu), as it is already scaled!
+Double_t unc_n_moments[5];
+std::fill_n(unc_n_moments, 5, 0);
+
 for(int i=1;i<nbins_h_n_mult_total+1;i++){
   nu = i-1; // bin 1 is 0 neutrons ...
   //value is P(given nu), for example P(nu=1), as it is the first bin in h_n_mult_total
@@ -403,16 +429,137 @@ for(int i=1;i<nbins_h_n_mult_total+1;i++){
   moments[2] += nu * (nu-1) * value;
   moments[3] += nu * (nu-1) * (nu-2) * value;
   moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
+
+  unc_n_moments[1] += value*F*nu;
+  unc_n_moments[2] += value*F*nu*(nu-1);
+  unc_n_moments[3] += value*F*nu*(nu-1)*(nu-2);
+  unc_n_moments[4] += value*F*nu*(nu-1)*(nu-2)*(nu-3);
+
   // value = h_n_mult_total->GetBinContent(i);
 
 }
+//assume number of neutrons = moments[1]*number of fissions, because I don't find the correct value elsewhere
+Double_t total_nr_neutrons = moments[1]*F;
+Double_t uncertanity_n_avg = sqrt(total_nr_neutrons)/F;
+cout << "Uncertainty in nu_avg: " << uncertanity_n_avg << endl;
+
 
 Double_t n_multiplicity = moments[1];
 
-cout << "\n Neutron Moments" << endl;
+cout << "\n Neutron Moments for nu" << endl;
 // write to terminal
 for(int i=1;i<5;i++){
-  cout << "Moment" << i << " " << moments[i] << endl;
+  cout << "Moment" << i << " " << moments[i] << " Uncertainty: " << sqrt(unc_n_moments[i])/F << endl;
+}
+
+
+//factorial moments for nu_0
+Double_t value_0;
+Double_t moments_0[5];
+
+std::fill_n(moments_0, 5, 0.);
+
+Double_t unc_n0_moments[5];
+std::fill_n(unc_n0_moments, 5, 0);
+
+Double_t norm_0 = hframe_n0->Integral();
+hframe_n0->Scale(1/norm_0);
+
+int nu_0;
+for(int i=1; i<nbins_h_n_mult_total+1;i++){
+  nu_0 = i-1;
+
+  value_0 = hframe_n0->GetBinContent(i);
+
+  moments_0[1] += nu_0 * value_0;
+  moments_0[2] += nu_0 * (nu_0-1) * value_0;
+  moments_0[3] += nu_0 * (nu_0-1) * (nu_0-2) * value_0;
+  moments_0[4] += nu_0 * (nu_0-1) * (nu_0-2) * (nu_0-3) * value_0;
+
+  unc_n0_moments[1] += value_0*F*nu_0;
+  unc_n0_moments[2] += value_0*F*nu_0*(nu_0-1);
+  unc_n0_moments[3] += value_0*F*nu_0*(nu_0-1)*(nu_0-2);
+  unc_n0_moments[4] += value_0*F*nu_0*(nu_0-1)*(nu_0-2)*(nu_0-3);
+}
+
+
+cout << "\n Neutron Moments for nu_0" << endl;
+// write to terminal
+for(int i=1;i<5;i++){
+  cout << "Moment" << i << " " << moments_0[i] << " Uncertainty: " << sqrt(unc_n0_moments[i])/F << endl;
+}
+
+
+//factorial moments for nu_1
+Double_t value_1;
+Double_t moments_1[5];
+
+Double_t norm_1 = hframe_n1->Integral();
+hframe_n1->Scale(1/norm_1);
+
+std::fill_n(moments_1, 5, 0.);
+
+Double_t unc_n1_moments[5];
+std::fill_n(unc_n1_moments, 5, 0);
+
+int nu_1;
+for(int i=1; i<nbins_h_n_mult_total+1;i++){
+  nu_1 = i-1;
+
+  value_1 = hframe_n1->GetBinContent(i);
+
+  moments_1[1] += nu_1 * value_1;
+  moments_1[2] += nu_1 * (nu_1-1) * value_1;
+  moments_1[3] += nu_1 * (nu_1-1) * (nu_1-2) * value_1;
+  moments_1[4] += nu_1 * (nu_1-1) * (nu_1-2) * (nu_1-3) * value_1;
+
+  unc_n1_moments[1] += value_1*F*nu_1;
+  unc_n1_moments[2] += value_1*F*nu_1*(nu_1-1);
+  unc_n1_moments[3] += value_1*F*nu_1*(nu_1-1)*(nu_1-2);
+  unc_n1_moments[4] += value_1*F*nu_1*(nu_1-1)*(nu_1-2)*(nu_1-3);
+}
+
+
+cout << "\n Neutron Moments for nu_1" << endl;
+// write to terminal
+for(int i=1;i<5;i++){
+  cout << "Moment" << i << " " << moments_1[i] << " Uncertainty: " << sqrt(unc_n1_moments[i])/F << endl;
+}
+
+//factorial moments for nu_2
+Double_t value_2;
+Double_t moments_2[5];
+
+std::fill_n(moments_2, 5, 0.);
+
+Double_t unc_n2_moments[5];
+std::fill_n(unc_n2_moments, 5, 0);
+
+Double_t norm_2 = hframe_n2->Integral();
+hframe_n2->Scale(1/norm_2);
+
+int nu_2;
+for(int i=1; i<nbins_h_n_mult_total+1;i++){
+  nu_2 = i-1;
+
+  value_2 = hframe_n2->GetBinContent(i);
+
+  moments_2[1] += nu_2 * value_2;
+  moments_2[2] += nu_2 * (nu_2-1) * value_2;
+  moments_2[3] += nu_2 * (nu_2-1) * (nu_2-2) * value_2;
+  moments_2[4] += nu_2 * (nu_2-1) * (nu_2-2) * (nu_2-3) * value_2;
+
+  unc_n2_moments[1] += value_2*F*nu_2;
+  unc_n2_moments[2] += value_2*F*nu_2*(nu_2-1);
+  unc_n2_moments[3] += value_2*F*nu_2*(nu_2-1)*(nu_2-2);
+  unc_n2_moments[4] += value_2*F*nu_2*(nu_2-1)*(nu_2-2)*(nu_2-3);
+}
+
+
+cout << "\n Neutron Moments for nu_2" << endl;
+// write to terminal
+for(int i=1;i<5;i++){
+  cout << "Moment" << i << " " << moments_2[i] << " Uncertainty: " << sqrt(unc_n2_moments[i])/F << endl;
 }
 
 Double_t n_mult_variance;
@@ -423,11 +570,15 @@ n_mult_error = sqrt(n_mult_variance);
 cout << "Std. Dev (?)" << n_mult_error << endl;
 
 // x axis is such that [0,1] is multiplicity 0, ...
-h_n_mult_total->GetXaxis()->SetTitle("Multiplicity nu");
+h_n_mult_total->GetXaxis()->SetTitle("Neutron multiplicity nu");
 h_n_mult_total->GetYaxis()->SetTitle("P(nu)");
-h_n_mult_total->SetTitle("Neutron multiplicity, total");
+h_n_mult_total->SetTitle("Total neutron multiplicity");
+h_n_mult_total->GetYaxis()->SetDecimals(3);
+h_n_mult_total->GetXaxis()->SetRange(1,10);
+h_n_mult_total->SetMarkerColor(4);
+h_n_mult_total->SetMarkerStyle(8);
 // h_n_mult_total->GetXaxis()->SetRangeUser(0.,nbins_h_n_mult_total);
-h_n_mult_total->Draw();
+h_n_mult_total->Draw("hist p");
 c3->Update();
 //c3->Print("../plot/n_mult.pdf");
 
@@ -437,38 +588,45 @@ c3->Update();
 TCanvas *cMults = new TCanvas("cMults","Neutron Multiplicities(2)",150,10,990,660);
 
 norm = hframe_n2->Integral();
-hframe_n2->SetLineStyle(6);
-hframe_n2->SetLineColor(6);
-hframe_n2->SetTitle("");
+hframe_n2->SetMarkerStyle(8);
+hframe_n2->SetMarkerColor(8);
+hframe_n2->SetLineColor(8);
 hframe_n2->Scale(1/norm);
 hframe_n2->GetXaxis()->SetTitle("multiplicity nu");
 hframe_n2->GetYaxis()->SetTitle("P(nu)");
 hframe_n2->SetTitle("Neutron multiplicity, per fragment");
 hframe_n2->GetXaxis()->SetRangeUser(0,10);
-hframe_n2->Draw();
+hframe_n2->GetYaxis()->SetRangeUser(0,0.6);
+hframe_n2->Draw("hist pl");
 
 norm = hframe_n1->Integral();
 hframe_n1->Scale(1/norm);
+hframe_n1->SetMarkerColor(2);
 hframe_n1->SetLineColor(2);
-hframe_n1->SetLineStyle(10);
-hframe_n1->Draw("same");
+hframe_n1->SetMarkerStyle(8);
+//hframe_n1->SetTitle("Neutron multiplicity, per fragment");
+hframe_n1->Draw("same, hist pl");
 
 norm = hframe_n0->Integral();
 hframe_n0->Scale(1/norm);
-hframe_n0->SetLineColor(1);
-hframe_n0->SetLineStyle(10);
-hframe_n0->Draw("same");
+hframe_n0->SetMarkerColor(7);
+hframe_n0->SetLineColor(7);
+hframe_n0->SetMarkerStyle(8);
+
+//hframe_n0->SetLineColor(3);
+//hframe_n0->SetTitle("Neutron multiplicity, per fragment");
+hframe_n0->Draw("same, hist pl");
 
 //Plot total n multiplicity in same plot as above
-h_n_mult_total->Draw("same");
+h_n_mult_total->Draw("same, hist pl");
 
 legend = new TLegend(0.7,0.75,0.9,0.9);
 legend->SetTextSize(0.03);
 // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
-legend->AddEntry(hframe_n0,     "Prefission","l");
-legend->AddEntry(hframe_n1,     "Fragment 1","l");
-legend->AddEntry(hframe_n2,     "Fragment 2","l");
-legend->AddEntry(h_n_mult_total,"Total","l");
+legend->AddEntry(hframe_n0,     "Prefission");
+legend->AddEntry(hframe_n1,     "Fragment 1");
+legend->AddEntry(hframe_n2,     "Fragment 2");
+legend->AddEntry(h_n_mult_total,"Total");
 legend->Draw();
 
 //cMults->SaveAs("../plot/n_mult_together.pdf");
@@ -544,6 +702,9 @@ moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 }
 Double_t p_multiplicity = moments[1];
 
+Double_t uncertainty_ph_avg = sqrt(p_multiplicity*F)/F;
+cout << "Uncertainty photon mult: " << uncertainty_ph_avg << endl;
+
 cout << "\n Photons Moments" << endl;
 // write to terminal
 for(int i=1;i<5;i++){
@@ -553,9 +714,13 @@ cout << "Moment" << i << " " << moments[i] << endl;
 // x axis is such that [0,1] is multiplicity 0, ...
 h_p_mult_total->GetXaxis()->SetTitle("Photon multiplicity PM");
 h_p_mult_total->GetYaxis()->SetTitle("P(PM)");
-h_p_mult_total->SetTitle("Photon multiplicity, total");
+h_p_mult_total->SetTitle("Total photon multiplicity");
+h_p_mult_total->GetYaxis()->SetDecimals(3);
+h_p_mult_total->GetXaxis()->SetRange(0,21);
+h_p_mult_total->SetMarkerColor(4);
+h_p_mult_total->SetMarkerStyle(8);
 // h_n_mult_total->GetXaxis()->SetRangeUser(0.,nbins_h_n_mult_total);
-h_p_mult_total->Draw();
+h_p_mult_total->Draw("hist p");
 c4->Update();
 
 
@@ -643,9 +808,20 @@ h_n_E_total->Fit("f_n_Boltz");
 
 c5->SetLogy();
 h_n_E_total->GetXaxis()->SetTitle("Neutron Energy En [MeV]");
-h_n_E_total->GetYaxis()->SetTitle("Neutrons/(MeV nubar)");
-h_n_E_total->SetTitle("Neutron spectral shape: average number of n emitted per energy per nubar");
-h_n_E_total->Draw("E");
+h_n_E_total->GetYaxis()->SetTitle("Neutrons per unit energy and nubar [MeV^(-1)]");
+h_n_E_total->SetTitle("Neutron spectral shape");
+h_n_E_total->GetYaxis()->SetDecimals(2);
+h_n_E_total->GetYaxis()->SetRange(0,1);
+//h_n_E_total->Draw("E");
+//h_n_E_total->GetYaxis()->SetRange(0,1000);
+
+   auto legend3 = new TLegend(0.7,0.8,0.3,0.9);
+   legend3->SetTextSize(0.03);
+   // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+   legend3->AddEntry(f_n_Boltz,"Boltzmann distribution");
+   legend3->AddEntry(h_n_E_total,"Neutron spectral shape");
+   legend3->Draw();
+
 //c5->Print("../plot/n_spectrum.pdf");
 
 
@@ -689,15 +865,23 @@ h_ph_E_total->Fit("f_ph_Boltz");
 
 c6->SetLogy();
 h_ph_E_total->GetXaxis()->SetTitle("Photon Energy En [MeV]");
-h_ph_E_total->GetYaxis()->SetTitle("Photons/(MeV mean_number_of_photons)");
-h_ph_E_total->SetTitle("Photon spectral shape: average number of gamma emitted per energy per mean_number_of_photons");
+h_ph_E_total->GetYaxis()->SetTitle("Photons per unit energy and mean_nr_of_photons [MeV^(-1)]");
+h_ph_E_total->SetTitle("Photon spectral shape");
+h_ph_E_total->GetYaxis()->SetDecimals(2);
 h_ph_E_total->Draw("E");
+
+
+   auto legend4 = new TLegend(0.7,0.8,0.3,0.9);
+   legend4->SetTextSize(0.03);
+   // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+   legend4->AddEntry(f_n_Boltz,"Boltzmann distribution");
+   legend4->AddEntry(h_ph_E_total,"Photon spectral shape");
+   legend4->Draw();
 
 /////////////////////////////////
 // Neutron angular correlation
 /////////////////////////////////
 
-//write P1(x,y,z) to a file, then read in the angels
 
 
 }
