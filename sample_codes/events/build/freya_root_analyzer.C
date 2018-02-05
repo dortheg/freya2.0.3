@@ -16,11 +16,11 @@
 // - mean number of photons emitted
 // - mean photon energy
 // - total photon energy, per fragment and for all three fragments
-// - writes these quantties to a file file.dat
+// - writes these quantties to a file data_as_func_of_excitation_energy.dat
 /////////////////////////////////////////////////////////////////
 
 
-TFile *vetsex = new TFile("Pu241_pf_5_1mill.dat.root", "READ");
+TFile *vetsex = new TFile("Pu240.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -73,6 +73,8 @@ void freya_root_analyzer() {
 
 create_frames();
 
+int F = 100000; //Number of fissions -> Implement this automatically?
+
 Double_t mean;
 Double_t norm = 2;
 Double_t nu;
@@ -90,15 +92,15 @@ cout << "MEAN GAMMMA MULTIPLICITY" << endl;
 mytree->Draw("m0>>hframe_p_mult_0");
 mean = hframe_p_mult_0->GetMean();
 //cout << "\n" << endl;
-cout << "mean_number_of_photons_FF0: " << mean << endl;
+cout << "mean_number_of_photons_FF0: " << mean << " Uncertainty: " << sqrt(mean*F)/F << endl;
 
 mytree->Draw("m1>>hframe_p_mult_1");
 mean = hframe_p_mult_1->GetMean();
-cout << "mean_number_of_photons_FF1: " << mean << endl;
+cout << "mean_number_of_photons_FF1: " << mean << " Uncertainty: " << sqrt(mean*F)/F << endl;
 
 mytree->Draw("m2>>hframe_p_mult_2");
 mean = hframe_p_mult_2->GetMean();
-cout << "mean_number_of_photons_FF2: " << mean << endl;
+cout << "mean_number_of_photons_FF2: " << mean << " Uncertainty: " << sqrt(mean*F)/F << endl;
 
 mytree->Draw("m1:m2>>hframe_p_multi","","col");
 mytree->Draw("m0:m2:m1>>hframe_p_multi3D","","lego");
@@ -154,7 +156,7 @@ moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 Double_t p_multiplicity = moments[1];
 
 //Average photon multiplicity is the first moment
-cout << "Average photon multiplicity: " << p_multiplicity << "\n" << endl;
+cout << "Average photon multiplicity: " << p_multiplicity << " Uncertainty: " << sqrt(p_multiplicity*F)/F << "\n" <<endl;
 
 /*
 cout << "\n Photons Moments" << endl;
@@ -254,11 +256,23 @@ h_ph_E_total->Draw("E");
 
 //Find total number of gamma rays emitted
 //FABIO; here, if I change to int i=1, then the underflow bin is included...
+Double_t un_mean_E_0 = 0;
+Double_t un_mean_E_1 = 0;
+Double_t un_mean_E_2 = 0;
+Double_t un_mean = 0;
+
+
 for (int i=2; i<nbins_h_ph_E_total+2;i++){
   total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);
   total_ph_number_1 += hframe_ph_E_1->GetBinContent(i);
   total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
+
+  un_mean_E_0 += hframe_ph_E_0->GetBinContent(i)*hframe_ph_E_0->GetBinCenter(i)*hframe_ph_E_0->GetBinCenter(i);
+  un_mean_E_1 += hframe_ph_E_1->GetBinContent(i)*hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinCenter(i);
+  un_mean_E_2 += hframe_ph_E_2->GetBinContent(i)*hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinCenter(i);
+  un_mean += h_ph_E_total->GetBinContent(i)*h_ph_E_total->GetBinCenter(i)*h_ph_E_total->GetBinCenter(i);
 }
+
 
 //Average gamma ray energies, per fragment
 Double_t mean_ph_E_0;
@@ -281,23 +295,23 @@ Double_t mean_ph_E = total_ph_energy/total_ph_number;
 
 
 cout << "AVERAGE GAMMA RAY ENENERGIES" << endl;
-cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << endl;
-cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << endl;
-cout << "Mean photon energy FF1: " << mean_ph_E_2 << " MeV" << endl;
-cout << "Mean photon energy: " << mean_ph_E << endl;
+cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_0)/total_ph_number_0 << endl;
+cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_1)/total_ph_number_1 << endl;
+cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_2)/total_ph_number_2 << endl;
+cout << "Mean photon energy: " << mean_ph_E  << " MeV" << " Uncertainty: " << sqrt(un_mean)/total_ph_number << endl;
 cout << "\n" << endl;
 
 cout << "TOTAL GAMMA ENERGIES" << endl;
-cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" << endl;
-cout << "Total Photon Energy FF1: " << total_ph_number_1*mean_ph_E_1 << " MeV" << endl;
-cout << "Total Photon Energy FF2: " << total_ph_number_2*mean_ph_E_2 << " MeV" << endl;
-cout << "Total Photon energy all fragments: " << total_ph_energy<< " MeV" << endl;
+cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_0) << endl;
+cout << "Total Photon Energy FF1: " << total_ph_number_1*mean_ph_E_1 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_1) << endl;
+cout << "Total Photon Energy FF2: " << total_ph_number_2*mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_2)<< endl;
+cout << "Total Photon energy all fragments: " << total_ph_energy<< " MeV" << " Uncertainty: " << sqrt(un_mean) << endl;
 
 
 //Write to file
 std::ofstream ofs;
-ofs.open ("file.dat", std::ofstream::out | std::ofstream::app);
-ofs << "                    " << p_multiplicity << "                         "<< mean_ph_E <<"                      " << total_ph_energy << endl;
+ofs.open ("data_as_func_of_excitation_energy.dat", std::ofstream::out | std::ofstream::app);
+ofs << "                    " << p_multiplicity << "                        " << sqrt(p_multiplicity*F)/F << "       " << mean_ph_E <<"                       "<< sqrt(un_mean)/total_ph_number << "       " << total_ph_energy << "                       " << sqrt(un_mean) <<  endl;
 ofs.close();
 
 }
