@@ -31,7 +31,8 @@ for line in infile:
 			
 
 
-plt.hist(cos_angles, bins=100)
-plt.ylabel('Number of events')
-plt.xlabel('cosine of angle')
+plt.hist(cos_angles, bins=60)
+plt.ylabel('Number of events in bin', fontsize=14)
+plt.xlabel('Cosine of angle', fontsize=14)
+plt.title('n-n angular correlation', fontsize=15)
 plt.show()

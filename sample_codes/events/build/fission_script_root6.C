@@ -11,7 +11,7 @@
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Cf252.dat.root", "READ");
+TFile *vetsex = new TFile("Pu240.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -141,6 +141,14 @@ mytree->Draw("iAf2>>hframe_fragyield2");
 //Add fragmentyield to histogram, x1 scale
 htotal_fragyield->Add(hframe_fragyield,1.0);
 htotal_fragyield->Add(hframe_fragyield2,1.0);
+
+int sum = 0;
+
+for(int i=0;i<300;i++){
+  sum += htotal_fragyield->GetBinContent(i);
+}
+
+cout << "Sum: " << sum << endl;
 
 // 
 htotal_fragyield->Sumw2(); //sum of squared weights, adds uncertanity, square root of number of counts
@@ -430,7 +438,7 @@ for(int i=1;i<nbins_h_n_mult_total+1;i++){
   moments[3] += nu * (nu-1) * (nu-2) * value;
   moments[4] += nu * (nu-1) * (nu-2) * (nu-3) * value;
 
-  unc_n_moments[1] += value*F*nu;
+  unc_n_moments[1] += value*nu*F;
   unc_n_moments[2] += value*F*nu*(nu-1);
   unc_n_moments[3] += value*F*nu*(nu-1)*(nu-2);
   unc_n_moments[4] += value*F*nu*(nu-1)*(nu-2)*(nu-3);

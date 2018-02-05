@@ -8,6 +8,8 @@
 #include "TChain.h"
 #include <algorithm>
 #include <fstream>
+#include <sstream>
+#include <string>
 
 //////////////////////////////////////////////////////////////
 // To be used in Dorthea's master, to analyze FREYA output files
@@ -25,6 +27,11 @@ TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
 Double_t pi = 3.14159265359;
+
+//need number of fissions
+TH1D *hframe_fragyield;
+TH1D *hframe_fragyield2;
+TH1D *htotal_fragyield;
 
 //Photon emission multiplicities
 TH1D *hframe_p_mult_0;
@@ -73,7 +80,20 @@ void freya_root_analyzer() {
 
 create_frames();
 
-int F = 100000; //Number of fissions -> Implement this automatically?
+TCanvas *c1 = new TCanvas("c1","Fragment Yield",150,10,990,660);
+mytree->Draw("iAf1>>hframe_fragyield");
+mytree->Draw("iAf2>>hframe_fragyield2");
+
+
+int sum_F = 0;
+
+for(int i=0;i<300;i++){
+  sum_F += hframe_fragyield->GetBinContent(i);
+}
+
+cout << "Sum: " << sum_F << endl;
+
+int F = sum_F; //Number of fissions -> Implement this automatically?
 
 Double_t mean;
 Double_t norm = 2;
@@ -260,6 +280,7 @@ Double_t un_mean_E_0 = 0;
 Double_t un_mean_E_1 = 0;
 Double_t un_mean_E_2 = 0;
 Double_t un_mean = 0;
+Double_t un_mean_test = 0;
 
 
 for (int i=2; i<nbins_h_ph_E_total+2;i++){
@@ -321,6 +342,11 @@ void create_frames() {
 gStyle->SetOptStat(0);
 int nbins;
 int maxbin;
+
+hframe_fragyield = new TH1D("hframe_fragyield","",250,0,249);
+hframe_fragyield2 = new TH1D("hframe_fragyield2","",250,0,249);
+htotal_fragyield = new TH1D("htotal_fragyield","",250,0,249);
+
 
 nbins = nbins_h_p_mult_total;
 maxbin = nbins;

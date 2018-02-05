@@ -114,7 +114,7 @@ double eps0 = FREYA_event_eps0(fp, Z, A, energy_MeV, fissiontype, *ZAs, *fistype
 //Write to file
 
 std::ofstream ofs;
-ofs.open ("../build/file.dat", std::ofstream::out | std::ofstream::app);
+ofs.open ("../build/data_as_func_of_excitation_energy.dat", std::ofstream::out | std::ofstream::app);
 ofs << Z << "   " << A << "     " << fissiontype << "               " << energy_MeV << "                   " << eps0;
 ofs.close();
 
