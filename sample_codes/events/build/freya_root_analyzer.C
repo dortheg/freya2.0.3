@@ -256,11 +256,6 @@ h_ph_E_total->Add(hframe_ph_E_0,1.0);
 h_ph_E_total->Add(hframe_ph_E_1,1.0);
 h_ph_E_total->Add(hframe_ph_E_2,1.0);
 
-Double_t sum;
-Double_t total_ph_number_0 = 0;
-Double_t total_ph_number_1 = 0;
-Double_t total_ph_number_2 = 0;
-
 /*
 // normalize the multiplicites
 h_ph_E_total->Sumw2();
@@ -285,23 +280,29 @@ h_ph_E_total->Draw("E");
 
 //Find total number of gamma rays emitted
 //FABIO; here, if I change to int i=1, then the underflow bin is included...
+Double_t sum;
+Double_t total_ph_number_0 = 0;
+Double_t total_ph_number_1 = 0;
+Double_t total_ph_number_2 = 0;
+
+
 Double_t un_mean_E_0 = 0;
 Double_t un_mean_E_1 = 0;
 Double_t un_mean_E_2 = 0;
 Double_t un_mean = 0;
-Double_t un_mean_test = 0;
 
 //Find energy emmited by all gammas per fragment, then divide on gammas per fragment to find mean gamma energy
-Double_t mean_ph_E_0;
-Double_t mean_ph_E_1;
-Double_t mean_ph_E_2;
+Double_t mean_ph_E_0 = 0;
+Double_t mean_ph_E_1 = 0;
+Double_t mean_ph_E_2 = 0;
 
 
-for (int i=2; i<nbins_h_ph_E_total+2-100;i++){
+for (int i=2; i<nbins_h_ph_E_total+2;i++){
   total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);	
   total_ph_number_1 += hframe_ph_E_1->GetBinContent(i);
   total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
 
+  //The unaccurate way of calculating uncertainty for average gamma energy, uncertainty in number of gammas not included. Works for total gamma energy, where no division on number of gammas
   un_mean_E_0 += hframe_ph_E_0->GetBinContent(i)*hframe_ph_E_0->GetBinCenter(i)*hframe_ph_E_0->GetBinCenter(i);
   un_mean_E_1 += hframe_ph_E_1->GetBinContent(i)*hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinCenter(i);
   un_mean_E_2 += hframe_ph_E_2->GetBinContent(i)*hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinCenter(i);
@@ -314,8 +315,6 @@ for (int i=2; i<nbins_h_ph_E_total+2-100;i++){
 
 //cout << "Total ph numbers: " << total_ph_number_0 << " " << total_ph_number_1 << " " << total_ph_number_2 << endl;
 
-
-
 //Average gamma ray energies, per fragment
 if(total_ph_number_0==0){
 	mean_ph_E_0 = 0;
@@ -327,22 +326,33 @@ mean_ph_E_1 = mean_ph_E_1/total_ph_number_1;
 mean_ph_E_2 = mean_ph_E_2/total_ph_number_2;
 
 
-
 //Total number of photons
 Double_t total_ph_number = total_ph_number_0+total_ph_number_1+total_ph_number_2;
-
-//total gamma ray energy
+//Total gamma ray energy
 Double_t total_ph_energy = total_ph_number_0*mean_ph_E_0 + total_ph_number_1*mean_ph_E_1 + total_ph_number_2*mean_ph_E_2;
-
 //Mean gamma ray energy, all fragments
 Double_t mean_ph_E = total_ph_energy/total_ph_number;
 
 
-cout << "AVERAGE GAMMA RAY ENENERGIES" << endl;
-cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_0)/total_ph_number_0 << endl;
-cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_1)/total_ph_number_1 << endl;
-cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_2)/total_ph_number_2 << endl;
-cout << "Mean photon energy: " << mean_ph_E  << " MeV" << " Uncertainty: " << sqrt(un_mean)/total_ph_number << endl;
+//More accurate way of calculating uncertainty in average and total gamma energies
+Double_t un_mean_ph_E_0_accurate = 0;
+Double_t un_mean_ph_E_1_accurate = 0;
+Double_t un_mean_ph_E_2_accurate = 0;
+Double_t un_mean_ph_accurate = 0;
+
+for(int i=2;i<nbins_h_ph_E_total+2;i++){
+	un_mean_ph_E_0_accurate += hframe_ph_E_0->GetBinCenter(i)*hframe_ph_E_0->GetBinCenter(i)*hframe_ph_E_0->GetBinContent(i)/(total_ph_number_0*total_ph_number_0) + hframe_ph_E_0->GetBinCenter(i)*hframe_ph_E_0->GetBinContent(i)/total_ph_number_0;
+	un_mean_ph_E_1_accurate += hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinContent(i)/(total_ph_number_1*total_ph_number_1) + hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinContent(i)/total_ph_number_1;
+	un_mean_ph_E_2_accurate += hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinContent(i)/(total_ph_number_2*total_ph_number_2) + hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinContent(i)/total_ph_number_2;
+	un_mean_ph_accurate += h_ph_E_total->GetBinCenter(i)*h_ph_E_total->GetBinCenter(i)*h_ph_E_total->GetBinContent(i)/(total_ph_number*total_ph_number) + h_ph_E_total->GetBinContent(i)*h_ph_E_total->GetBinCenter(i)/total_ph_number;
+}
+
+
+cout << "AVERAGE GAMMA RAY ENERGIES" << endl;
+cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_E_0_accurate) << endl;
+cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << " Uncertainty: "  << sqrt(un_mean_ph_E_1_accurate) << endl;
+cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_E_2_accurate) << endl;
+cout << "Mean photon energy: " << mean_ph_E  << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_accurate) <<endl;
 cout << "\n" << endl;
 
 cout << "TOTAL GAMMA ENERGIES" << endl;
