@@ -19,10 +19,19 @@
 // - mean photon energy
 // - total photon energy, per fragment and for all three fragments
 // - writes these quantties to a file data_as_func_of_excitation_energy.dat
+
+
+// OBS: the error calculations for average and total gamma energies is not _entirely_ correct. 
+// As the total number of gammas and the gamma multiplicities for certain gamma energies is correlated,
+// the error term should include both error in total number of gammas AND the covariance
+// See Master Journal pages 16-18 for more info
+
+
+//OBS: Root places energies in bins. Therefore, the exact energies are lost, how much depends on the size of the bin
 /////////////////////////////////////////////////////////////////
 
 
-TFile *vetsex = new TFile("Pu240.dat.root", "READ");
+TFile *vetsex = new TFile("testcase_avg_xs.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -282,9 +291,14 @@ Double_t un_mean_E_2 = 0;
 Double_t un_mean = 0;
 Double_t un_mean_test = 0;
 
+//Find energy emmited by all gammas per fragment, then divide on gammas per fragment to find mean gamma energy
+Double_t mean_ph_E_0;
+Double_t mean_ph_E_1;
+Double_t mean_ph_E_2;
 
-for (int i=2; i<nbins_h_ph_E_total+2;i++){
-  total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);
+
+for (int i=2; i<nbins_h_ph_E_total+2-100;i++){
+  total_ph_number_0 += hframe_ph_E_0->GetBinContent(i);	
   total_ph_number_1 += hframe_ph_E_1->GetBinContent(i);
   total_ph_number_2 += hframe_ph_E_2->GetBinContent(i);
 
@@ -292,17 +306,26 @@ for (int i=2; i<nbins_h_ph_E_total+2;i++){
   un_mean_E_1 += hframe_ph_E_1->GetBinContent(i)*hframe_ph_E_1->GetBinCenter(i)*hframe_ph_E_1->GetBinCenter(i);
   un_mean_E_2 += hframe_ph_E_2->GetBinContent(i)*hframe_ph_E_2->GetBinCenter(i)*hframe_ph_E_2->GetBinCenter(i);
   un_mean += h_ph_E_total->GetBinContent(i)*h_ph_E_total->GetBinCenter(i)*h_ph_E_total->GetBinCenter(i);
+  
+  mean_ph_E_0 += hframe_ph_E_0->GetBinContent(i)*hframe_ph_E_0->GetBinCenter(i);
+  mean_ph_E_1 += hframe_ph_E_1->GetBinContent(i)*hframe_ph_E_1->GetBinCenter(i);
+  mean_ph_E_2 += hframe_ph_E_2->GetBinContent(i)*hframe_ph_E_2->GetBinCenter(i);
 }
+
+//cout << "Total ph numbers: " << total_ph_number_0 << " " << total_ph_number_1 << " " << total_ph_number_2 << endl;
+
 
 
 //Average gamma ray energies, per fragment
-Double_t mean_ph_E_0;
-Double_t mean_ph_E_1;
-Double_t mean_ph_E_2;
+if(total_ph_number_0==0){
+	mean_ph_E_0 = 0;
+}
+else{
+	mean_ph_E_0 = mean_ph_E_0/total_ph_number_0;
+}
+mean_ph_E_1 = mean_ph_E_1/total_ph_number_1;
+mean_ph_E_2 = mean_ph_E_2/total_ph_number_2;
 
-mean_ph_E_0 = hframe_ph_E_0->GetMean();
-mean_ph_E_1 = hframe_ph_E_1->GetMean();
-mean_ph_E_2 = hframe_ph_E_2->GetMean();
 
 
 //Total number of photons
