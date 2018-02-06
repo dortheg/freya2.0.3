@@ -31,7 +31,7 @@
 /////////////////////////////////////////////////////////////////
 
 
-TFile *vetsex = new TFile("testcase_avg_xs.dat.root", "READ");
+TFile *vetsex = new TFile("Pu240.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
 //
@@ -313,7 +313,7 @@ for (int i=2; i<nbins_h_ph_E_total+2;i++){
   mean_ph_E_2 += hframe_ph_E_2->GetBinContent(i)*hframe_ph_E_2->GetBinCenter(i);
 }
 
-//cout << "Total ph numbers: " << total_ph_number_0 << " " << total_ph_number_1 << " " << total_ph_number_2 << endl;
+cout << "Total ph numbers: " << total_ph_number_0 << " " << total_ph_number_1 << " " << total_ph_number_2 << endl;
 
 //Average gamma ray energies, per fragment
 if(total_ph_number_0==0){
@@ -349,10 +349,10 @@ for(int i=2;i<nbins_h_ph_E_total+2;i++){
 
 
 cout << "AVERAGE GAMMA RAY ENERGIES" << endl;
-cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_E_0_accurate) << endl;
-cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << " Uncertainty: "  << sqrt(un_mean_ph_E_1_accurate) << endl;
-cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_E_2_accurate) << endl;
-cout << "Mean photon energy: " << mean_ph_E  << " MeV" << " Uncertainty: " << sqrt(un_mean_ph_accurate) <<endl;
+cout << "Mean photon energy FF0: " << mean_ph_E_0 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_0)/total_ph_number_0<< endl;
+cout << "Mean photon energy FF1: " << mean_ph_E_1 << " MeV" << " Uncertainty: "  << sqrt(un_mean_E_1)/total_ph_number_1 << endl;
+cout << "Mean photon energy FF2: " << mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_2)/total_ph_number_2 << endl;
+cout << "Mean photon energy: " << mean_ph_E  << " MeV" << " Uncertainty: " << sqrt(un_mean)/total_ph_number <<endl;
 cout << "\n" << endl;
 
 cout << "TOTAL GAMMA ENERGIES" << endl;
