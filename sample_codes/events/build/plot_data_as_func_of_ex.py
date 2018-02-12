@@ -1,7 +1,7 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
 
-data = np.loadtxt('data_as_func_of_excitation_energy.dat', skiprows=6, usecols=(0,1,2,3,4,5,6,7,8,9,10))
+data = np.loadtxt('data_as_func_of_excitation_energy.dat', skiprows=1, usecols=(0,1,2,3,4,5,6,7,8,9,10))
 
 Ex = data[:,4]
 avg_ph_mult = data[:,5]
