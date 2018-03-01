@@ -367,7 +367,7 @@ cout << "Total Photon energy all fragments: " << total_ph_energy<< " MeV" << " U
 //Write to file
 std::ofstream ofs;
 ofs.open ("data_as_func_of_excitation_energy.dat", std::ofstream::out | std::ofstream::app);
-ofs << "                    " << p_multiplicity << "                        " << sqrt(p_multiplicity*F)/F << "       " << mean_ph_E <<"                       "<< sqrt(un_mean)/total_ph_number << "       " << total_ph_energy << "                       " << sqrt(un_mean) <<  endl;
+ofs << "         " << p_multiplicity << "            " << sqrt(p_multiplicity*F)/F << "       " << mean_ph_E <<"             "<< sqrt(un_mean)/total_ph_number << "        " << total_ph_energy << "             " << sqrt(un_mean) <<  endl;
 ofs.close();
 
 }

@@ -16,11 +16,11 @@ from subprocess import Popen, PIPE
 
 import numpy as np 
 
-Ex = np.linspace(0,6,10)
+Ex = np.linspace(0,3,5)
 
 for i in range(len(Ex)):
 	p = Popen('./events', stdin=PIPE)
-	p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "10000", "Pu240.dat"]))
+	p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "1000", "Pu240.dat"]))
 
 	o = Popen("./EventToRoot_compilable", stdin=PIPE)
 	o.communicate(os.linesep.join([" "])) #makes sure the program stops?
