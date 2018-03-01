@@ -423,7 +423,7 @@ void freya_root_uncertainty(){
 
     //Write to file
   std::ofstream ofs;
-  ofs.open ("uncertainties.dat", std::ofstream::out | std::ofstream::app);
+  ofs.open ("avg_values_for_unc_calc.dat", std::ofstream::out | std::ofstream::app);
   ofs << p_multiplicity << " " << mean_ph_E <<" " << total_ph_energy << endl;
   ofs.close();
   }

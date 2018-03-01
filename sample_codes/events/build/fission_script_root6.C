@@ -7,12 +7,20 @@
 #include "TFile.h"
 #include "TChain.h"
 #include <algorithm>
+//include "TStyle.h"
 
 //CHANGED VERSION, THAT I AM GOING TO WORK OUT
 
 
-TFile *vetsex = new TFile("Cf252_new.dat.root", "READ");
+TFile *vetsex = new TFile("Pu239.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
+
+
+//TTree* mytree = mytree_all->CopyTree("Entry$<1000");
+
+//TStyle* m_gStyle;
+//m_gStyle = new TStyle();
+//m_gStyle->SetOptStat(111111);
 
 //
 Double_t pi = 3.14159265359;
@@ -135,6 +143,9 @@ Q2(x,y,z): directions of photons emmited by F2
 
 //Fragment yield, A, at moment of fission
 TCanvas *c1 = new TCanvas("c1","Fragment Yield",150,10,990,660);
+//mytree->Draw("iAf1>>hframe_fragyield","Entry$<1000 && "); FOR SPLITTING FILES
+//mytree->Draw("iAf2>>hframe_fragyield2","Entry$<1000");
+
 mytree->Draw("iAf1>>hframe_fragyield");
 mytree->Draw("iAf2>>hframe_fragyield2");
 

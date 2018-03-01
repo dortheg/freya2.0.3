@@ -34,6 +34,8 @@
 TFile *vetsex = new TFile("Pu240.dat.root", "READ");
 TTree *mytree = (TTree *) gROOT->FindObject("FreyaTree");
 
+//TTree* mytree_cut = mytree->CopyTree("Entry$<1000");
+
 //
 Double_t pi = 3.14159265359;
 
