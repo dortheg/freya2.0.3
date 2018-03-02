@@ -36,7 +36,7 @@
 
 void freya_root_uncertainty(){
 
-  TFile *vetsex = new TFile("Cf252.dat.root", "READ");
+  TFile *vetsex = new TFile("Pu240.dat.root", "READ");
   TTree *mytree_all = (TTree *) gROOT->FindObject("FreyaTree");
 
   for(int i=0;i<10;i++){
