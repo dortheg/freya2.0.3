@@ -13,23 +13,55 @@ OBS:: Must remember to change number of fissions in freya_root_analyzer.C, if el
 """
 
 from subprocess import Popen, PIPE
-
 import numpy as np 
 
-Ex = np.linspace(0,3,5)
+run_or_err = 1 #parameter deciding if running FREYA for values(0) or error calculation(1)
 
-for i in range(len(Ex)):
-	p = Popen('./events', stdin=PIPE)
-	p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "1000", "Pu240.dat"]))
+Ex = np.linspace(0,3,3) #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
 
-	o = Popen("./EventToRoot_compilable", stdin=PIPE)
-	o.communicate(os.linesep.join([" "])) #makes sure the program stops?
+if run_or_err==0:
+	for i in range(len(Ex)):
+		p = Popen('./events', stdin=PIPE)
+		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "10000", "Pu240.dat"]))
 
-	#m = Popen('root', stdin=PIPE)
-	#m.communicate(os.linesep.join(['.x freya_root_analyzer.C']))
+		o = Popen("./EventToRoot_compilable", stdin=PIPE)
+		o.communicate(os.linesep.join([" "])) #makes sure the program stops?
 
-	from subprocess import call
-	call(["root","-q", "-l","freya_root_analyzer.C"])
-	#call(["root","-q", "-l","fission_script_root6.C"])
+		#m = Popen('root', stdin=PIPE)
+		#m.communicate(os.linesep.join(['.x freya_root_analyzer.C']))
+
+		from subprocess import call
+		call(["root","-q", "-l","freya_root_analyzer.C"])
+		#call(["root","-q", "-l","fission_script_root6.C"])
+
+elif run_or_err ==1:
+	for i in range(len(Ex)):
+
+		from subprocess import call
+		call(["mv", "data_as_func_of_excitation_energy.dat", "data_as_func_of_excitation_energy.dat.unchanged"])
+
+		p = Popen('./events', stdin=PIPE)
+		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "10000", "Pu240.dat"]))
+
+		o = Popen("./EventToRoot_compilable", stdin=PIPE)
+		o.communicate(os.linesep.join([" "])) #makes sure the program stops?
+
+		call(["root","-q", "-l","freya_root_uncertainty.C"])
+		
+		call(["python", "unc_calc.py"])
+
+		#call(["rm", "avg_values_for_unc_calc.dat"])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
