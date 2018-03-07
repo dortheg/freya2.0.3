@@ -41,8 +41,8 @@ void freya_root_uncertainty(){
 
   for(int i=0;i<10;i++){
     
-    int k1 = i * 1000;
-    int k2 = (i+1) * 1000;
+    int k1 = i * 1000000;
+    int k2 = (i+1) * 1000000;
     string nEntry1 = to_string(int(k1));
     string nEntry2 = to_string(int(k2));
     auto my_cutStr = "Entry$>"  + nEntry1 + "&&" +  "Entry$<"  + nEntry2;
@@ -51,8 +51,8 @@ void freya_root_uncertainty(){
 
     TTree* mytree = mytree_all->CopyTree(my_cut);
 
-
-  //TTree* mytree = mytree_all->CopyTree("Entry$<1000");
+    //for debugging
+    //TTree* mytree = mytree_all->CopyTree("Entry$>0");
   
 
     Double_t pi = 3.14159265359;

@@ -10,14 +10,14 @@ avg_ph_energy = data[:,7]
 
 #plt.plot(Ex, avg_ph_mult, 'o')
 plt.figure(0)
-plt.errorbar(Ex, avg_ph_mult, yerr=unc[:,0], fmt="o")
+plt.errorbar(Ex, avg_ph_mult, yerr=unc[:,0], fmt="x")
 plt.title("Average photon multiplicity as function of Pu241 Ex-energy")
 plt.xlabel("Excitation energy of Pu241*")
 plt.ylabel("Average photon multiplicity")
 #plt.show()
 
 plt.figure(1)
-plt.errorbar(Ex, avg_ph_mult, yerr=unc[:,1], fmt="o")
+plt.errorbar(Ex, avg_ph_mult, yerr=unc[:,1], fmt="x")
 plt.title("Average photon energy as function of Pu241 Ex-energy")
 plt.xlabel("Excitation energy of Pu241*")
 plt.ylabel("Average photon energy")
