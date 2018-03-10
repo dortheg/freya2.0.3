@@ -49,7 +49,9 @@ void freya_root_uncertainty(){
     cout << "Cut: " << my_cutStr << endl;
     const char *my_cut = my_cutStr.c_str();
 
+    TFile *f = new TFile("output", "RECREATE");   
     TTree* mytree = mytree_all->CopyTree(my_cut);
+    mytree->Write();
 
     //for debugging
     //TTree* mytree = mytree_all->CopyTree("Entry$>0");

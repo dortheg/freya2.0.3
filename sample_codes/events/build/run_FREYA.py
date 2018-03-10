@@ -17,7 +17,7 @@ import numpy as np
 
 run_or_err = 1 #parameter deciding if running FREYA for values(0) or error calculation(1)
 
-Ex = np.linspace(0,6,5) #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
+Ex = np.linspace(0,7,10) #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
 
 
 if run_or_err==0:
@@ -42,11 +42,12 @@ if run_or_err==0:
 	call(["mv", "data_as_func_of_excitation_energy.dat", "data_as_func_of_excitation_energy.dat.unchanged"])
 
 elif run_or_err ==1:
-	call(["rm", "uncertainties.dat"])
-	call(["subl", "uncertainties.dat"])
+	#call(["rm", "uncertainties.dat"])
+	#call(["subl", "uncertainties.dat"])
 
-	call(["rm", "avg_values_for_unc_calc.dat"])
-	call(["subl", "avg_values_for_unc_calc.dat"])
+	#call(["rm", "avg_values_for_unc_calc.dat"])
+	#call(["subl", "avg_values_for_unc_calc.dat"])
+
 	for i in range(len(Ex)):
 
 		print "Now on iteration", i
