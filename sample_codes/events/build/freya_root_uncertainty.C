@@ -426,7 +426,8 @@ void freya_root_uncertainty(){
     //Write to file
   std::ofstream ofs;
   ofs.open ("avg_values_for_unc_calc.dat", std::ofstream::out | std::ofstream::app);
-  ofs << p_multiplicity << " " << mean_ph_E <<" " << total_ph_energy << endl;
+  //mean photon mult     mean photon energy          mean total photon energy per fission
+  ofs << p_multiplicity << " " << mean_ph_E <<" " << total_ph_energy/F << endl;
   ofs.close();
   }
 }

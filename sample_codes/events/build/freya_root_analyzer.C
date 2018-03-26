@@ -362,12 +362,13 @@ cout << "Total Photon Energy FF0: " << total_ph_number_0*mean_ph_E_0 << " MeV" <
 cout << "Total Photon Energy FF1: " << total_ph_number_1*mean_ph_E_1 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_1) << endl;
 cout << "Total Photon Energy FF2: " << total_ph_number_2*mean_ph_E_2 << " MeV" << " Uncertainty: " << sqrt(un_mean_E_2)<< endl;
 cout << "Total Photon energy all fragments: " << total_ph_energy<< " MeV" << " Uncertainty: " << sqrt(un_mean) << endl;
+cout << "Total Photon energy per fragment: " << total_ph_energy/F << " MeV" << endl;
 
 
 //Write to file
 std::ofstream ofs;
 ofs.open ("data_as_func_of_excitation_energy.dat", std::ofstream::out | std::ofstream::app);
-ofs << "         " << p_multiplicity << "            " << sqrt(p_multiplicity*F)/F << "       " << mean_ph_E <<"             "<< sqrt(un_mean)/total_ph_number << "        " << total_ph_energy << "             " << sqrt(un_mean) <<  endl;
+ofs << "         " << p_multiplicity << "            " << sqrt(p_multiplicity*F)/F << "       " << mean_ph_E <<"             "<< sqrt(un_mean)/total_ph_number << "        " << total_ph_energy/F << "             " << sqrt(un_mean) <<  endl;
 ofs.close();
 
 }
