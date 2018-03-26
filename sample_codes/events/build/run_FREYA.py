@@ -17,7 +17,7 @@ import numpy as np
 
 run_or_err = 1 #parameter deciding if running FREYA for values(0) or error calculation(1)
 
-Ex = np.linspace(0,7,10) #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
+Ex = [0,1,2,3,4,5,5.25,5.5,5.75,6,6.25,6.5,6.75,7,7.25] #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
 
 
 if run_or_err==0:
@@ -53,7 +53,7 @@ elif run_or_err ==1:
 		print "Now on iteration", i
 
 		p = Popen('./events', stdin=PIPE)
-		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "10000000", "Pu240.dat"]))
+		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "1000000", "Pu240.dat"]))
 
 		o = Popen("./EventToRoot_compilable", stdin=PIPE)
 		o.communicate(os.linesep.join([" "])) #makes sure the program stops?
