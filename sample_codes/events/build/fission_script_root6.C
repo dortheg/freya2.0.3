@@ -346,6 +346,12 @@ mytree->Draw("n0>>hframe_n0");
 mean = hframe_n0->GetMean();
 cout << "\n" << endl;
 cout << "nu_bar_PreFiss: " << mean << endl;
+
+std::ofstream ofs;
+ofs.open("pre-fission-neutrons.dat", std::ofstream::out | std::ofstream::app);
+ofs << mean << " ";
+
+
 Double_t uncertainty_n0 = sqrt(mean*F)/F;
 cout << "Uncertainty n0: " << uncertainty_n0 << "\n" << endl;
 
@@ -354,6 +360,7 @@ mytree->Draw("n1>>hframe_n1");
 //cout << "Total n1: " << total_n1 << endl; 
 mean = hframe_n1->GetMean();
 cout << "nu_bar_FF1: " << mean << endl;
+ofs << mean << " ";
 Double_t uncertainty_n1 = sqrt(mean*F)/F;
 cout << "Uncertainty n1: " << uncertainty_n1 << "\n" << endl;
 
@@ -361,11 +368,11 @@ mytree->Draw("n2>>hframe_n2");
 // hframe_n2->SaveAs("../plot/n_mult2.pdf");
 mean = hframe_n2->GetMean();
 cout << "nu_bar_FF2: " << mean << endl;
+ofs << mean << endl;
 Double_t uncertainty_n2 = sqrt(mean*F)/F;
 cout << "Uncertainty n2: " << uncertainty_n2 << "\n" << endl;
 
-mytree->Draw("n1:n2>>hframe_n_multi","","col");
-mytree->Draw("n0:n2:n1>>hframe_n_multi3D","","lego");
+ofs.close();
 
 //number of neutrons
 
