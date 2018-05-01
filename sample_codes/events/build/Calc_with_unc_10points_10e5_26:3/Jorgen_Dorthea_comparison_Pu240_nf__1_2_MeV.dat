@@ -1,0 +1,18 @@
+Created 18.april 2018
+
+analysis: Dorthea FREYA output files with either Jorgen's or Dorthea's analysing script
+
+
+En = 1 MeV
+							E_g				N_g				E_g/N_g
+Dorthea's analysis:			6.79925			6.83575			0.994515
+Jorgen's analysis: 			6.8012 			6.8367		    0.9948 
+Jorgen's calc (1M):			6.7872 			6.9039  		0.9831
+Jorgen's calc (200k):		6.7791 			6.8989 			 0.9826
+
+En = 2 MeV
+							E_g				N_g				E_g/N_g
+Dorthea's analysis:			6.86797			6.88738			0.996983
+Jorgen's analysis: 			6.8702  		6.8888  		0.9973
+Jorgen's calc(1M): 			6.8365 			6.9373 		    0.9855
+Jorgen's calc(200k):		6.8249    	    6.9387  	    0.9836
