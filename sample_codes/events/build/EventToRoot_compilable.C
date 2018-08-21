@@ -24,7 +24,7 @@ using namespace std;
 
 
 
-//Dorthea's notes Sorts the FREYA output file into a root file:
+//Dorthea's notes: This file sorts the FREYA output file into a root file:
 
 // g++ EventToRoot_compilable.C -o EventToRoot_compilable `root-config --cflags --libs` -std=c++14 
 // ./EventToRoot_compilable
