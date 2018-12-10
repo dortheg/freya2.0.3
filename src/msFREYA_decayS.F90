@@ -159,7 +159,7 @@
        character(len=1) :: blank = ' '
 
 ! NEW: -------------------------
-       data tmax/10.0E-9/      ! Slowest half-life allowed (sec) [Talou]
+       data tmax/3.0E-9/      ! Slowest half-life allowed (sec) [Talou]
        double precision E,A,S,x,aA,Af,ax,ay,az,bx,by,bz,b
        character(len=70) char70     ! headlines
 !!	dimension El(1),lf(1),F(1)	!! temporary!!
