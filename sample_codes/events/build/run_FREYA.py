@@ -9,7 +9,7 @@ All interesting quantities are printed in the file data_as_func_of_excitation_en
 OBS:: must run: g++ EventToRoot_compilable.C -o EventToRoot_compilable `root-config --cflags --libs` -std=c++14 when 
 changing the filename in EventToRoot_compilable.C, as this program is unable to do that by itself
 
-OBS:: Must remember to change number of fissions in freya_root_analyzer.C, if else that 100k! Else uncertainties are wrong
+OBS:: Must remember to change number of fissions in freya_root_uncertainty.C, if else that 100k! Else uncertainties are wrong
 """
 
 from subprocess import Popen, PIPE, call
@@ -26,7 +26,7 @@ if run_or_err==0:
 
 	for i in range(len(Ex)):
 		p = Popen('./events', stdin=PIPE)
-		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "1000000", "Pu240.dat"]))
+		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "100000", "Pu240.dat"]))
 
 		o = Popen("./EventToRoot_compilable", stdin=PIPE)
 		o.communicate(os.linesep.join([" "])) #makes sure the program stops?

@@ -18,7 +18,7 @@
 // - mean number of photons emitted
 // - mean photon energy
 // - total photon energy, per fragment and for all three fragments
-// - writes these quantties to a file data_as_func_of_excitation_energy.dat
+// - writes these quanties to a file data_as_func_of_excitation_energy.dat
 
 
 // OBS: the error calculations for average and total gamma energies is not _entirely_ correct. 
