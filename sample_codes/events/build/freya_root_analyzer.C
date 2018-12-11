@@ -276,7 +276,14 @@ h_ph_E_total->GetXaxis()->SetTitle("Photon Energy En [MeV]");
 h_ph_E_total->GetYaxis()->SetTitle("Number of Photons");
 h_ph_E_total->SetTitle("Photon spectrum");
 h_ph_E_total->Draw("E");
+int nbins_h_ph_E_total= h_ph_E_total->GetNbinsX();
 
+std::ofstream ofs1;
+ofs1.open ("photon_spectrum.dat", std::ofstream::out | std::ofstream::app);
+ofs1 << "Photon Energy [MeV]" << "    " << "Counts per fission" << endl;
+for(int i=0; i<nbins_h_ph_E_total;i++)
+  ofs1 << h_ph_E_total->GetBinCenter(i) << "    " << (h_ph_E_total->GetBinContent(i))/F << endl;
+ofs1.close();
 
 //Total gamma ray energy
 
