@@ -287,19 +287,38 @@ for(int i=0;i<nbins_h_ph_E_total;i++){
   if(h_ph_E_total_scaled->GetBinCenter(i) > 0.130 && h_ph_E_total_scaled->GetBinCenter(i) < 0.200)
     h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.18);
   if(h_ph_E_total_scaled->GetBinCenter(i) > 0.200 && h_ph_E_total_scaled->GetBinCenter(i) < 0.300)
-    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.19);
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.3);
   if(h_ph_E_total_scaled->GetBinCenter(i) > 0.300 && h_ph_E_total_scaled->GetBinCenter(i) < 0.370)
-    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.48);
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.5);
 }
 
 h_ph_E_total_scaled->SetLineColor(2);
 h_ph_E_total_scaled->Draw("same");
 
+Double_t p_multiplicity_pspec = 0;
+Double_t p_total_energy_pspec = 0;
+
+for(int i=0;i<nbins_h_ph_E_total+1;i++){
+  p_multiplicity_pspec += h_ph_E_total_scaled->GetBinContent(i);
+  p_total_energy_pspec += h_ph_E_total_scaled->GetBinContent(i)*h_ph_E_total_scaled->GetBinCenter(i);
+}
+
+p_multiplicity_pspec = p_multiplicity_pspec/F;
+p_total_energy_pspec = p_total_energy_pspec/F;
+
+cout << "p_multiplicity_pspec: " << p_multiplicity_pspec << " " << "p_total_energy_pspec" << p_total_energy_pspec << "  " << "p_avg_energy_pspec" << p_total_energy_pspec/p_multiplicity_pspec << endl;; 
+
+std::ofstream ofs2;
+ofs2.open ("data_as_func_of_excitation_energy_scaled.dat", std::ofstream::out | std::ofstream::app);
+ofs2 << "         " << p_multiplicity_pspec << "       " << p_total_energy_pspec/p_multiplicity_pspec <<"             " << p_total_energy_pspec << endl;
+ofs2.close();
+
+
 std::ofstream ofs1;
 ofs1.open ("photon_spectrum.dat", std::ofstream::out | std::ofstream::app);
 ofs1 << "Photon Energy [MeV]" << "    " << "Counts per fission" << endl;
 for(int i=0; i<nbins_h_ph_E_total;i++)
-  ofs1 << h_ph_E_total->GetBinCenter(i) << "        " << (h_ph_E_total->GetBinContent(i))/F << endl;
+  ofs1 << h_ph_E_total_scaled->GetBinCenter(i) << "        " << (h_ph_E_total_scaled->GetBinContent(i))/F << endl;
 ofs1.close();
 
 //Total gamma ray energy
@@ -321,6 +340,8 @@ Double_t un_mean = 0;
 Double_t mean_ph_E_0 = 0;
 Double_t mean_ph_E_1 = 0;
 Double_t mean_ph_E_2 = 0;
+
+
 
 
 for (int i=2; i<nbins_h_ph_E_total+2;i++){
