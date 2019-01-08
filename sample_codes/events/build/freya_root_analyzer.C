@@ -278,11 +278,28 @@ h_ph_E_total->SetTitle("Photon spectrum");
 h_ph_E_total->Draw("E");
 int nbins_h_ph_E_total= h_ph_E_total->GetNbinsX();
 
+
+TH1F *h_ph_E_total_scaled = (TH1F*) h_ph_E_total->Clone();
+//Must scale the low-energy gammas in order to reproduce experiment
+for(int i=0;i<nbins_h_ph_E_total;i++){
+  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130)
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.11);
+  if(h_ph_E_total_scaled->GetBinCenter(i) > 0.130 && h_ph_E_total_scaled->GetBinCenter(i) < 0.200)
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.18);
+  if(h_ph_E_total_scaled->GetBinCenter(i) > 0.200 && h_ph_E_total_scaled->GetBinCenter(i) < 0.300)
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.19);
+  if(h_ph_E_total_scaled->GetBinCenter(i) > 0.300 && h_ph_E_total_scaled->GetBinCenter(i) < 0.370)
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.48);
+}
+
+h_ph_E_total_scaled->SetLineColor(2);
+h_ph_E_total_scaled->Draw("same");
+
 std::ofstream ofs1;
 ofs1.open ("photon_spectrum.dat", std::ofstream::out | std::ofstream::app);
 ofs1 << "Photon Energy [MeV]" << "    " << "Counts per fission" << endl;
 for(int i=0; i<nbins_h_ph_E_total;i++)
-  ofs1 << h_ph_E_total->GetBinCenter(i) << "    " << (h_ph_E_total->GetBinContent(i))/F << endl;
+  ofs1 << h_ph_E_total->GetBinCenter(i) << "        " << (h_ph_E_total->GetBinContent(i))/F << endl;
 ofs1.close();
 
 //Total gamma ray energy
