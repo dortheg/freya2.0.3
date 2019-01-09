@@ -317,6 +317,36 @@ void freya_root_uncertainty(){
     h_ph_E_total->SetTitle("Photon spectrum");
     h_ph_E_total->Draw("E");
 
+    //int nbins_h_ph_E_total= h_ph_E_total->GetNbinsX();
+
+
+    TH1F *h_ph_E_total_scaled = (TH1F*) h_ph_E_total->Clone();
+    //Must scale the low-energy gammas in order to reproduce experiment
+    for(int i=0;i<nbins_h_ph_E_total;i++){
+        if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130)
+            h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.11);
+        if(h_ph_E_total_scaled->GetBinCenter(i) > 0.130 && h_ph_E_total_scaled->GetBinCenter(i) < 0.200)
+            h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.18);
+        if(h_ph_E_total_scaled->GetBinCenter(i) > 0.200 && h_ph_E_total_scaled->GetBinCenter(i) < 0.300)
+            h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.3);
+        if(h_ph_E_total_scaled->GetBinCenter(i) > 0.300 && h_ph_E_total_scaled->GetBinCenter(i) < 0.370)
+            h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*0.5);
+    }
+
+    h_ph_E_total_scaled->SetLineColor(2);
+    h_ph_E_total_scaled->Draw("same");
+
+    Double_t p_multiplicity_pspec = 0;
+    Double_t p_total_energy_pspec = 0;
+
+    for(int i=0;i<nbins_h_ph_E_total+1;i++){
+        p_multiplicity_pspec += h_ph_E_total_scaled->GetBinContent(i);
+        p_total_energy_pspec += h_ph_E_total_scaled->GetBinContent(i)*h_ph_E_total_scaled->GetBinCenter(i);
+    }
+    
+    p_multiplicity_pspec = p_multiplicity_pspec/F;
+    p_total_energy_pspec = p_total_energy_pspec/F;
+
 
     //Total gamma ray energy
 
@@ -427,7 +457,7 @@ void freya_root_uncertainty(){
   std::ofstream ofs;
   ofs.open ("avg_values_for_unc_calc.dat", std::ofstream::out | std::ofstream::app);
   //mean photon mult     mean photon energy          mean total photon energy per fission
-  ofs << p_multiplicity << " " << mean_ph_E <<" " << total_ph_energy/F << endl;
+  ofs << p_multiplicity_pspec << " " << p_total_energy_pspec/p_multiplicity_pspec << " " << p_total_energy_pspec <<  endl;
   ofs.close();
   }
 }
