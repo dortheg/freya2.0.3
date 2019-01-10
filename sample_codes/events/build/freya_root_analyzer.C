@@ -283,8 +283,13 @@ TH1F *h_ph_E_total_scaled = (TH1F*) h_ph_E_total->Clone();
 //Must scale the low-energy gammas in order to reproduce experiment
 Double_t FREYA_scale = 3.7272612980187914*log(800)-18.139593352492675;
 for(int i=1;i<nbins_h_ph_E_total;i++){
-  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450)
+  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130){
+    h_ph_E_total_scaled->SetBinContent(i,0);
+  }
+
+  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450 && h_ph_E_total_scaled->GetBinCenter(i) > 0.130){
     h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*(3.7272612980187914*log(h_ph_E_total_scaled->GetBinCenter(i)*1000)-18.139593352492675)/FREYA_scale);
+  }
 }
 
 h_ph_E_total_scaled->SetLineColor(2);
