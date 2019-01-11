@@ -51,6 +51,8 @@ TH1D *hframe_p_mult_2;
 TH2D *hframe_p_multi;
 TH3F *hframe_p_multi3D;
 TH1D *h_p_mult_total;
+TH1D *hframe_p_mult_first;
+TH1D *hframe_p_mult_second;
 int nbins_h_p_mult_total  = 20;
 
 TH1D *hframe_ph_E_0;
@@ -68,8 +70,8 @@ List of meanings:
 
 iAf1: fission fragment 1, mass number
 iAf2: fission fragment 2, mass number
-iAp1: product fission fragment 1, mass number (after initial fragment has decayed ?)
-iAp2: product fission fragment 2, mass number (after initial fragment has decayed ?)
+iAp1: product fission fragment 1, mass number (after initial fragment has decayed)
+iAp2: product fission fragment 2, mass number (after initial fragment has decayed)
 Ekin1: kinetic energy of 1 fragment
 Ekin2: kinetic energy of second fragment
 n0: neutrons from compound nuclei
@@ -84,6 +86,9 @@ P2: energy of neutrons emitted by F2
 Q0: energy of gammas emitted pre-fission
 Q1: energy of gammas emitted by F1
 Q2: energy of gamma emitted by F2
+
+m_first: # photons from first chance fission
+m_second: # photons from second chance fission
 */
 
 
@@ -114,6 +119,25 @@ Double_t value;
 //////////////////////////////////////////////////////
 //Photon multiplicities
 //////////////////////////////////////////////////////
+
+//First vs second chance fission
+TCanvas *c20 = new TCanvas("c20", "Photon multiplicities",150,10,990,660);
+mytree->Draw("m_first>>hframe_p_mult_first");
+hframe_p_mult_first->Draw();
+mytree->Draw("m_second>>hframe_p_mult_second");
+hframe_p_mult_second->Draw("same");
+
+hframe_p_mult_first->SetLineColor(2);
+hframe_p_mult_first->Draw();
+hframe_p_mult_second->SetLineColor(1);
+hframe_p_mult_second->Draw("same");
+
+auto legend_20 = new TLegend(0.7,0.75,0.9,0.9);
+legend_20->SetTextSize(0.03);
+// legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+legend_20->AddEntry(hframe_p_mult_first,     "First","l");
+legend_20->AddEntry(hframe_p_mult_second,     "Second","l");
+legend_20->Draw();
 
 //Total photon multiplicity
 TCanvas *c4 = new TCanvas("c4", "Photon multiplicities",150,10,990,660);
@@ -216,7 +240,7 @@ hframe_p_mult_2->SetTitle("");
 hframe_p_mult_2->Scale(1/norm);
 hframe_p_mult_2->GetXaxis()->SetTitle("Photon multiplicity PM");
 hframe_p_mult_2->GetYaxis()->SetTitle("P(PM)");
-hframe_p_mult_2->SetTitle("Photonmultiplicity, per fragment");
+hframe_p_mult_2->SetTitle("Photon multiplicity, per fragment");
 hframe_p_mult_2->GetXaxis()->SetRangeUser(0,10);
 hframe_p_mult_2->Draw();
 
@@ -441,6 +465,8 @@ hframe_p_mult_2 = new TH1D("hframe_p_mult_2","",nbins,-0.5,maxbin-0.5);
 hframe_p_multi  = new TH2D("hframe_p_multi","",nbins,-0.5,maxbin-0.5,nbins,-0.5,maxbin-0.5);
 hframe_p_multi3D  = new TH3F("hframe_p_multi3D","",nbins,-0.5,maxbin-0.5,nbins,-0.5,maxbin-0.5,nbins,-0.5,maxbin-0.5);
 h_p_mult_total = new TH1D("h_p_mult_total","",nbins,-0.5,maxbin-.5);
+hframe_p_mult_first = new TH1D("hframe_p_mult_first","",nbins,-0.5,maxbin-.5);
+hframe_p_mult_second = new TH1D("hframe_p_mult_second","",nbins,-0.5,maxbin-.5);
 
 nbins = nbins_h_ph_E_total;
 maxbin = max_h_ph_E;

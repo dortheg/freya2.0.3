@@ -63,6 +63,11 @@ int main(){
     double p2[4][10],q2[4][20];
     double P2[10],Q2[20],P2x[10],P2y[10],P2z[10],Q2x[20],Q2y[20],Q2z[20];
     double th2,ph2;// azimuthal and polar angles calculated for the fission products
+
+    int m_first, m_second, m_third;
+    int first = 0;
+    int second = 0;
+    int third = 0;
     
     
     int Mn=10;
@@ -85,7 +90,11 @@ int main(){
     t1->Branch("m0", &m0, "m0/I" );
     t1->Branch("m1", &m1, "m1/I" );
     t1->Branch("m2", &m2, "m2/I" );
-    
+
+    t1->Branch("m_first", &m_first, "m_first/I" );
+    t1->Branch("m_second", &m_second, "m_second/I" );
+    t1->Branch("m_third", &m_third, "m_third/I" );
+
     t1->Branch("iA0", &iA0, "iA0/I" );
     t1->Branch("iAf1", &iAf1, "iAf1/I" );
     t1->Branch("iAf2", &iAf2, "iAf2/I" );
@@ -201,7 +210,7 @@ int main(){
         // q0(i=0,m)  Kinetic energy of pre-fission photon #m
         // q0(1:3,m)  Direction of pre-fission photon #m
         
-        // then ! read photons from #1:
+        // then ! read photons from #0:
         if (m0>0) for(m=1;m<=m0;m++) eventfile >> q0[0][m] >> q0[1][m] >> q0[2][m]>> q0[3][m];
         
         
@@ -272,7 +281,27 @@ int main(){
         
         // then ! read photons from #2:
         if (m2>0) for(m=1;m<=m2;m++) eventfile >> q2[0][m] >> q2[1][m] >> q2[2][m]>> q2[3][m];
-        
+
+        //Handle multi-chance fission, n0 determines which chance
+        if(n0==0){
+            //First chance fission, count photons
+            //cout << "First " << n0 << endl; 
+            m_first = m1 + m2;
+            first += 1;
+        }
+        if(n0==1){
+            //Second chance fission
+            //cout << "Second " << n0 << endl;
+            m_second = m1 + m2;
+            second += 1;
+        }
+
+        if(n0==2){
+            //Third chance fission
+            //cout << "Second " << n0 << endl;
+            m_third = m1 + m2;
+            third += 1;
+        }
         
         // Convert vector components into azimuthal/polar angles
         
@@ -316,7 +345,13 @@ int main(){
     eventfile >> k0>>k1>>k2;
     if(k0+k1+k2 != 0) std::cout << " Something went wrong with the event file " << k0 << " " << k1 << " " << k2 << std::endl;
     else std::cout << nbevent << " events written in " << rootfile << std::endl;
-    
+
+    std::ofstream multichance_file;
+    multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
+    multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    multichance_file.close();
+
+    //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;
     
     f1=t1->GetCurrentFile();
     f1->Write();
