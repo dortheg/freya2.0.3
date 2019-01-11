@@ -69,6 +69,7 @@ int main(){
     int second = 0;
     int third = 0;
     
+    double Q_first[20], Q_second[20], Q_third[20];
     
     int Mn=10;
     int Mg=20;
@@ -143,6 +144,10 @@ int main(){
     t1->Branch("Q0",Q0,"Q0[Mg]/D");
     t1->Branch("Q1",Q1,"Q1[Mg]/D");
     t1->Branch("Q2",Q2,"Q2[Mg]/D");
+
+    t1->Branch("Q_first",Q_first,"Q_first[Mg]/D");
+    t1->Branch("Q_second",Q_second,"Q_second[Mg]/D");
+    t1->Branch("Q_third",Q_third,"Q_third[Mg]/D");
     
     t1->Branch("Q0x",Q0x,"Q0x[Mg]/D");
     t1->Branch("Q1x",Q1x,"Q1x[Mg]/D");
@@ -178,7 +183,7 @@ int main(){
         for(j=0;j<4;j++) for(k=0;k<Mn;k++)  {p0[j][k]=0.;p1[j][k]=0.;p2[j][k]=0.;}
         for(j=0;j<4;j++) for(k=0;k<Mg;k++)  {q0[j][k]=0.;q1[j][k]=0.;q2[j][k]=0.;}
         for(k=0;k<Mn;k++)  {P0[k]=0.;P1[k]=0;P2[k]=0.;P0x[k]=0.;P1x[k]=0;P2x[k]=0.;P0y[k]=0.;P1y[k]=0;P2y[k]=0.;P0z[k]=0.;P1z[k]=0;P2z[k]=0.;}
-        for(k=0;k<Mg;k++)  {Q0[k]=0.;Q1[k]=0.;Q2[k]=0.;Q0x[k]=0.;Q1x[k]=0;Q2x[k]=0.;Q0y[k]=0.;Q1y[k]=0;Q2y[k]=0.;Q0z[k]=0.;Q1z[k]=0;Q2z[k]=0.;}
+        for(k=0;k<Mg;k++)  {Q0[k]=0.;Q1[k]=0.;Q2[k]=0.;Q0x[k]=0.;Q1x[k]=0;Q2x[k]=0.;Q0y[k]=0.;Q1y[k]=0;Q2y[k]=0.;Q0z[k]=0.;Q1z[k]=0;Q2z[k]=0.;Q_first[k]=0.;Q_second[k]=0.;Q_third[k]=0.;}
         
         
         // #0:	Read pre-fission information:	-----------------
@@ -288,12 +293,17 @@ int main(){
             //cout << "First " << n0 << endl; 
             m_first = m1 + m2;
             first += 1;
+            //Loop over number of gammas, add energies?
+            for(n=1;n<=m_first;n++){
+                Q_first[n]=q1[0][n] + q2[0][n];
+            }
         }
         if(n0==1){
             //Second chance fission
             //cout << "Second " << n0 << endl;
             m_second = m1 + m2;
             second += 1;
+            for(n=1;n<=m_second;n++) {Q_second[n]=q1[0][n] + q2[0][n];}
         }
 
         if(n0==2){
@@ -301,6 +311,7 @@ int main(){
             //cout << "Second " << n0 << endl;
             m_third = m1 + m2;
             third += 1;
+            for(n=1;n<=m_third;n++) {Q_third[n]=q1[0][n] + q2[0][n];}
         }
         
         // Convert vector components into azimuthal/polar angles

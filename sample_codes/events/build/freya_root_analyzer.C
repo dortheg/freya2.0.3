@@ -53,12 +53,16 @@ TH3F *hframe_p_multi3D;
 TH1D *h_p_mult_total;
 TH1D *hframe_p_mult_first;
 TH1D *hframe_p_mult_second;
+TH1D *hframe_p_mult_third;
 int nbins_h_p_mult_total  = 20;
 
 TH1D *hframe_ph_E_0;
 TH1D *hframe_ph_E_1;
 TH1D *hframe_ph_E_2;
 TH1D *h_ph_E_total;
+TH1D *hframe_ph_E_first;
+TH1D *hframe_ph_E_second;
+TH1D *hframe_ph_E_third;
 // TH1D *h_n_E_Boltzmann;
 int nbins_h_ph_E_total  = 500;
 int max_h_ph_E  = 7; // in MeV
@@ -89,6 +93,11 @@ Q2: energy of gamma emitted by F2
 
 m_first: # photons from first chance fission
 m_second: # photons from second chance fission
+m_second: # photons from third chance fission
+
+Q_first: energy from PFG's from first chance
+Q_second: energy from PFG's from second chance
+Q_third: energy from PFG's from third chance
 */
 
 
@@ -109,7 +118,7 @@ for(int i=0;i<300;i++){
 
 cout << "Sum: " << sum_F << endl;
 
-int F = sum_F; //Number of fissions -> Implement this automatically?
+int F = sum_F; //Number of fissions 
 
 Double_t mean;
 Double_t norm = 2;
@@ -126,17 +135,22 @@ mytree->Draw("m_first>>hframe_p_mult_first");
 hframe_p_mult_first->Draw();
 mytree->Draw("m_second>>hframe_p_mult_second");
 hframe_p_mult_second->Draw("same");
+mytree->Draw("m_third>>hframe_p_mult_third");
+hframe_p_mult_third->Draw("same");
 
 hframe_p_mult_first->SetLineColor(2);
 hframe_p_mult_first->Draw();
 hframe_p_mult_second->SetLineColor(1);
 hframe_p_mult_second->Draw("same");
+hframe_p_mult_third->SetLineColor(3);
+hframe_p_mult_third->Draw("same");
 
 auto legend_20 = new TLegend(0.7,0.75,0.9,0.9);
 legend_20->SetTextSize(0.03);
 // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
 legend_20->AddEntry(hframe_p_mult_first,     "First","l");
 legend_20->AddEntry(hframe_p_mult_second,     "Second","l");
+legend_20->AddEntry(hframe_p_mult_third,     "Third","l");
 legend_20->Draw();
 
 //Total photon multiplicity
@@ -272,6 +286,35 @@ legend->Draw();
 /////////////////////////////////////////////////////////////////
 // Photon energies
 /////////////////////////////////////////////////////////////////
+//Plot photon energy spectrum for first, second and third chance fission
+TCanvas *c19 = new TCanvas("c19","Photon Energy Spectrum, Multichance fission ",150,10,990,660);
+mytree->Draw("Q_first>>hframe_ph_E_first");
+mytree->Draw("Q_second>>hframe_ph_E_second");
+mytree->Draw("Q_third>>hframe_ph_E_third");
+
+hframe_ph_E_first->GetXaxis()->SetTitle("Photon Energy En [MeV]");
+hframe_ph_E_first->GetYaxis()->SetTitle("Number of Photons");
+hframe_ph_E_first->SetTitle("Photon spectrum from multichance fission");
+hframe_ph_E_first->SetLineColor(2);
+hframe_ph_E_first->Draw();
+hframe_ph_E_first->SetBinContent(1,0);
+hframe_ph_E_second->SetLineColor(1);
+hframe_ph_E_second->SetBinContent(1,0);
+hframe_ph_E_second->Draw("same");
+hframe_ph_E_third->SetLineColor(3);
+c19->SetLogy();
+hframe_ph_E_third->SetBinContent(1,0);
+hframe_ph_E_third->Draw("same");
+
+auto legend_19 = new TLegend(0.7,0.75,0.9,0.9);
+legend_19->SetTextSize(0.03);
+// legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+legend_19->AddEntry(hframe_p_mult_first,     "First","l");
+legend_19->AddEntry(hframe_p_mult_second,     "Second","l");
+legend_19->AddEntry(hframe_p_mult_third,     "Third","l");
+legend_19->Draw();
+
+
 
 //Plot of photon energy spectrum
 TCanvas *c6 = new TCanvas("c6","Photon Energy Spectrum ",150,10,990,660);
@@ -467,6 +510,7 @@ hframe_p_multi3D  = new TH3F("hframe_p_multi3D","",nbins,-0.5,maxbin-0.5,nbins,-
 h_p_mult_total = new TH1D("h_p_mult_total","",nbins,-0.5,maxbin-.5);
 hframe_p_mult_first = new TH1D("hframe_p_mult_first","",nbins,-0.5,maxbin-.5);
 hframe_p_mult_second = new TH1D("hframe_p_mult_second","",nbins,-0.5,maxbin-.5);
+hframe_p_mult_third = new TH1D("hframe_p_mult_third","",nbins,-0.5,maxbin-.5);
 
 nbins = nbins_h_ph_E_total;
 maxbin = max_h_ph_E;
@@ -474,6 +518,10 @@ hframe_ph_E_0 = new TH1D("hframe_ph_E_0","",nbins,0,maxbin);
 hframe_ph_E_1 = new TH1D("hframe_ph_E_1","",nbins,0,maxbin);
 hframe_ph_E_2 = new TH1D("hframe_ph_E_2","",nbins,0,maxbin);
 h_ph_E_total = new TH1D("h_ph_E_total","",nbins,0,maxbin);
+
+hframe_ph_E_first = new TH1D("hframe_ph_E_first","",nbins,0,maxbin);
+hframe_ph_E_second = new TH1D("hframe_ph_E_second","",nbins,0,maxbin);
+hframe_ph_E_third = new TH1D("hframe_ph_E_third","",nbins,0,maxbin);
 
 }
 
