@@ -314,14 +314,21 @@ legend_19->AddEntry(hframe_p_mult_second,     "Second","l");
 legend_19->AddEntry(hframe_p_mult_third,     "Third","l");
 legend_19->Draw();
 
+double En;
+int F_first, F_second, F_third, F_tot;
+
+ifstream infile;
+infile.open ("multichance_file_disp.dat");
+infile >> En >> F_first >> F_second >> F_third >> F_tot;
+
 Double_t p_multiplicity_pspec_first = 0;
 Double_t p_total_energy_pspec_first = 0;
 for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_first += hframe_ph_E_first->GetBinContent(i);
   p_total_energy_pspec_first += hframe_ph_E_first->GetBinContent(i)*hframe_ph_E_first->GetBinCenter(i);
 }
-p_multiplicity_pspec_first = p_multiplicity_pspec_first/F;
-p_total_energy_pspec_first = p_total_energy_pspec_first/F;
+p_multiplicity_pspec_first = p_multiplicity_pspec_first;///F_first;
+p_total_energy_pspec_first = p_total_energy_pspec_first;///F_first;
 
 
 Double_t p_multiplicity_pspec_second = 0;
@@ -330,8 +337,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_second += hframe_ph_E_second->GetBinContent(i);
   p_total_energy_pspec_second += hframe_ph_E_second->GetBinContent(i)*hframe_ph_E_second->GetBinCenter(i);
 }
-p_multiplicity_pspec_second = p_multiplicity_pspec_second/F;
-p_total_energy_pspec_second = p_total_energy_pspec_second/F;
+p_multiplicity_pspec_second = p_multiplicity_pspec_second;///F_second;
+p_total_energy_pspec_second = p_total_energy_pspec_second;///F_second;
 
 Double_t p_multiplicity_pspec_third = 0;
 Double_t p_total_energy_pspec_third = 0;
@@ -339,8 +346,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_third += hframe_ph_E_third->GetBinContent(i);
   p_total_energy_pspec_third += hframe_ph_E_third->GetBinContent(i)*hframe_ph_E_third->GetBinCenter(i);
 }
-p_multiplicity_pspec_third = p_multiplicity_pspec_third/F;
-p_total_energy_pspec_third = p_total_energy_pspec_third/F;
+p_multiplicity_pspec_third = p_multiplicity_pspec_third;///F_third;
+p_total_energy_pspec_third = p_total_energy_pspec_third;///F_third;
 
 
 //Plot of photon energy spectrum
@@ -397,8 +404,10 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_total_energy_pspec += h_ph_E_total_scaled->GetBinContent(i)*h_ph_E_total_scaled->GetBinCenter(i);
 }
 
-p_multiplicity_pspec = p_multiplicity_pspec/F;
-p_total_energy_pspec = p_total_energy_pspec/F;
+cout << "Mg: " << p_multiplicity_pspec << " Etot: " << p_total_energy_pspec << endl;
+
+p_multiplicity_pspec = p_multiplicity_pspec;//F;
+p_total_energy_pspec = p_total_energy_pspec;//F;
 
 cout << "p_multiplicity_pspec: " << p_multiplicity_pspec << " " << "p_total_energy_pspec" << p_total_energy_pspec << "  " << "p_avg_energy_pspec" << p_total_energy_pspec/p_multiplicity_pspec << endl;; 
 
