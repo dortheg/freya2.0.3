@@ -140,7 +140,7 @@ mytree->Draw("m_third>>hframe_p_mult_third");
 hframe_p_mult_third->Draw("same");
 
 int sum_m_first = 0;
-for(int n=0;n<15;n++){
+for(int n=0;n<20;n++){
   sum_m_first += hframe_p_mult_first->GetBinCenter(n)*hframe_p_mult_first->GetBinContent(n);
 }
 
