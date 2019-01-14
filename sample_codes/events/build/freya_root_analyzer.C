@@ -130,6 +130,7 @@ Double_t value;
 //////////////////////////////////////////////////////
 
 //First vs second chance fission
+//Debugged this, yields the correct multiplicity
 TCanvas *c20 = new TCanvas("c20", "Photon multiplicities",150,10,990,660);
 mytree->Draw("m_first>>hframe_p_mult_first");
 hframe_p_mult_first->Draw();
@@ -138,12 +139,20 @@ hframe_p_mult_second->Draw("same");
 mytree->Draw("m_third>>hframe_p_mult_third");
 hframe_p_mult_third->Draw("same");
 
+int sum_m_first = 0;
+for(int n=0;n<15;n++){
+  sum_m_first += hframe_p_mult_first->GetBinCenter(n)*hframe_p_mult_first->GetBinContent(n);
+}
+
+cout << "Integral m_first: " << sum_m_first << endl;
+
 hframe_p_mult_first->SetLineColor(2);
 hframe_p_mult_first->Draw();
 hframe_p_mult_second->SetLineColor(1);
 hframe_p_mult_second->Draw("same");
-hframe_p_mult_third->SetLineColor(3);
-hframe_p_mult_third->Draw("same");
+//hframe_p_mult_third->SetLineColor(3);
+//hframe_p_mult_third->SetBinContent(1,0);
+//hframe_p_mult_third->Draw("same");
 
 auto legend_20 = new TLegend(0.7,0.75,0.9,0.9);
 legend_20->SetTextSize(0.03);
@@ -152,6 +161,8 @@ legend_20->AddEntry(hframe_p_mult_first,     "First","l");
 legend_20->AddEntry(hframe_p_mult_second,     "Second","l");
 legend_20->AddEntry(hframe_p_mult_third,     "Third","l");
 legend_20->Draw();
+
+/////////////////////////////////////////////////////////////////////////
 
 //Total photon multiplicity
 TCanvas *c4 = new TCanvas("c4", "Photon multiplicities",150,10,990,660);
@@ -330,6 +341,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
 p_multiplicity_pspec_first = p_multiplicity_pspec_first;///F_first;
 p_total_energy_pspec_first = p_total_energy_pspec_first;///F_first;
 
+cout << "Mg_first: " << p_multiplicity_pspec_first << " Etot_first: " << p_total_energy_pspec_first << endl;
+
 
 Double_t p_multiplicity_pspec_second = 0;
 Double_t p_total_energy_pspec_second = 0;
@@ -340,6 +353,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
 p_multiplicity_pspec_second = p_multiplicity_pspec_second;///F_second;
 p_total_energy_pspec_second = p_total_energy_pspec_second;///F_second;
 
+cout << "Mg_second: " << p_multiplicity_pspec_second << " Etot_second: " << p_total_energy_pspec_second << endl;
+
 Double_t p_multiplicity_pspec_third = 0;
 Double_t p_total_energy_pspec_third = 0;
 for(int i=0;i<nbins_h_ph_E_total+1;i++){
@@ -349,15 +364,19 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
 p_multiplicity_pspec_third = p_multiplicity_pspec_third;///F_third;
 p_total_energy_pspec_third = p_total_energy_pspec_third;///F_third;
 
+cout << "Mg_third: " << p_multiplicity_pspec_third << " Etot_third: " << p_total_energy_pspec_third << endl;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //Plot of photon energy spectrum
 TCanvas *c6 = new TCanvas("c6","Photon Energy Spectrum ",150,10,990,660);
-mytree->Draw("Q0>>hframe_ph_E_0");
+//mytree->Draw("Q0>>hframe_ph_E_0");
 mytree->Draw("Q1>>hframe_ph_E_1");
 mytree->Draw("Q2>>hframe_ph_E_2");
-h_ph_E_total->Add(hframe_ph_E_0,1.0);
+//h_ph_E_total->Add(hframe_ph_E_0,1.0);
 h_ph_E_total->Add(hframe_ph_E_1,1.0);
 h_ph_E_total->Add(hframe_ph_E_2,1.0);
+
 
 /*
 // normalize the multiplicites
@@ -406,10 +425,11 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
 
 cout << "Mg: " << p_multiplicity_pspec << " Etot: " << p_total_energy_pspec << endl;
 
-p_multiplicity_pspec = p_multiplicity_pspec;//F;
-p_total_energy_pspec = p_total_energy_pspec;//F;
+p_multiplicity_pspec = p_multiplicity_pspec/F;
+p_total_energy_pspec = p_total_energy_pspec/F;
 
-cout << "p_multiplicity_pspec: " << p_multiplicity_pspec << " " << "p_total_energy_pspec" << p_total_energy_pspec << "  " << "p_avg_energy_pspec" << p_total_energy_pspec/p_multiplicity_pspec << endl;; 
+cout << "p_multiplicity_pspec: " << p_multiplicity_pspec << " " << "p_total_energy_pspec: " << p_total_energy_pspec << "  " << "p_avg_energy_pspec: " << p_total_energy_pspec/p_multiplicity_pspec << endl;; 
+cout << "\n " << endl;
 
 std::ofstream ofs2;
 ofs2.open ("data_as_func_of_excitation_energy_scaled.dat", std::ofstream::out | std::ofstream::app);
@@ -423,6 +443,9 @@ ofs1 << "Photon Energy [MeV]" << "    " << "Counts per fission" << endl;
 for(int i=0; i<nbins_h_ph_E_total;i++)
   ofs1 << h_ph_E_total_scaled->GetBinCenter(i) << "        " << (h_ph_E_total_scaled->GetBinContent(i))/F << endl;
 ofs1.close();
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 //Total gamma ray energy
 

@@ -68,6 +68,7 @@ int main(){
     int first = 0;
     int second = 0;
     int third = 0;
+    int m_first_total=0;
     
     double Q_first[20], Q_second[20], Q_third[20];
     
@@ -287,23 +288,40 @@ int main(){
         // then ! read photons from #2:
         if (m2>0) for(m=1;m<=m2;m++) eventfile >> q2[0][m] >> q2[1][m] >> q2[2][m]>> q2[3][m];
 
+        //cout << "m0: " << m0 << " m1: " << m1 << " m2: " << m2 << endl; 
+
         //Handle multi-chance fission, n0 determines which chance
         if(n0==0){
             //First chance fission, count photons
             //cout << "First " << n0 << endl; 
             m_first = m1 + m2;
             first += 1;
-            //Loop over number of gammas, add energies?
-            for(n=1;n<=m_first;n++){
-                Q_first[n]=q1[0][n] + q2[0][n];
+
+            for(n=1;n<=m1;n++) {
+                Q_first[n]=q1[0][n];
+                //cout << " Q_first1: " << Q_first[n] << endl;
+            }
+            for(n=1;n<=m2;n++) {
+                Q_first[m1+n]=q2[0][n];
+                //cout << " Q_first2: " << Q_first[n] << endl;
             }
         }
+
+
         if(n0==1){
             //Second chance fission
             //cout << "Second " << n0 << endl;
             m_second = m1 + m2;
             second += 1;
-            for(n=1;n<=m_second;n++) {Q_second[n]=q1[0][n] + q2[0][n];}
+
+            for(n=1;n<=m1;n++) {
+                Q_second[n]=q1[0][n];
+                //cout << " Q_first1: " << Q_first[n] << endl;
+            }
+            for(n=1;n<=m2;n++) {
+                Q_second[m1+n]=q2[0][n];
+                //cout << " Q_first2: " << Q_first[n] << endl;
+            }
         }
 
         if(n0==2){
@@ -311,8 +329,20 @@ int main(){
             //cout << "Second " << n0 << endl;
             m_third = m1 + m2;
             third += 1;
-            for(n=1;n<=m_third;n++) {Q_third[n]=q1[0][n] + q2[0][n];}
+
+            for(n=1;n<=m1;n++) {
+                Q_third[n]=q1[0][n];
+                //cout << " Q_first1: " << Q_first[n] << endl;
+            }
+            for(n=1;n<=m2;n++) {
+                Q_third[m1+n]=q2[0][n];
+                //cout << " Q_first2: " << Q_first[n] << endl;
+            }
         }
+
+        //cout << "m_first: " << m_first << endl;
+
+        //cout << "////////////////" << endl;
         
         // Convert vector components into azimuthal/polar angles
         
@@ -347,9 +377,12 @@ int main(){
         // Fill the Tree
         
         t1->Fill();
+        m_first_total += m_first;
         
         
     }// for over nbevent				! =======================
+
+    //cout << "m_first_total: " << m_first_total << "///////////////" << endl;
     
     
     // Read the last line (which should be '0 0 0'):
@@ -361,6 +394,12 @@ int main(){
     multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
     multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
     multichance_file.close();
+
+    ofstream multichance_disposable;
+    multichance_disposable.open("multichance_file_disp.dat");
+    multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    multichance_disposable.close();
+
 
     //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;
     
