@@ -338,8 +338,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_first += hframe_ph_E_first->GetBinContent(i);
   p_total_energy_pspec_first += hframe_ph_E_first->GetBinContent(i)*hframe_ph_E_first->GetBinCenter(i);
 }
-p_multiplicity_pspec_first = p_multiplicity_pspec_first;///F_first;
-p_total_energy_pspec_first = p_total_energy_pspec_first;///F_first;
+p_multiplicity_pspec_first = p_multiplicity_pspec_first/F_first;
+p_total_energy_pspec_first = p_total_energy_pspec_first/F_first;
 
 cout << "Mg_first: " << p_multiplicity_pspec_first << " Etot_first: " << p_total_energy_pspec_first << endl;
 
@@ -350,8 +350,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_second += hframe_ph_E_second->GetBinContent(i);
   p_total_energy_pspec_second += hframe_ph_E_second->GetBinContent(i)*hframe_ph_E_second->GetBinCenter(i);
 }
-p_multiplicity_pspec_second = p_multiplicity_pspec_second;///F_second;
-p_total_energy_pspec_second = p_total_energy_pspec_second;///F_second;
+p_multiplicity_pspec_second = p_multiplicity_pspec_second/F_second;
+p_total_energy_pspec_second = p_total_energy_pspec_second/F_second;
 
 cout << "Mg_second: " << p_multiplicity_pspec_second << " Etot_second: " << p_total_energy_pspec_second << endl;
 
@@ -361,8 +361,8 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_multiplicity_pspec_third += hframe_ph_E_third->GetBinContent(i);
   p_total_energy_pspec_third += hframe_ph_E_third->GetBinContent(i)*hframe_ph_E_third->GetBinCenter(i);
 }
-p_multiplicity_pspec_third = p_multiplicity_pspec_third;///F_third;
-p_total_energy_pspec_third = p_total_energy_pspec_third;///F_third;
+p_multiplicity_pspec_third = p_multiplicity_pspec_third/F_third;
+p_total_energy_pspec_third = p_total_energy_pspec_third/F_third;
 
 cout << "Mg_third: " << p_multiplicity_pspec_third << " Etot_third: " << p_total_energy_pspec_third << endl;
 
@@ -401,16 +401,16 @@ int nbins_h_ph_E_total= h_ph_E_total->GetNbinsX();
 
 TH1F *h_ph_E_total_scaled = (TH1F*) h_ph_E_total->Clone();
 //Must scale the low-energy gammas in order to reproduce experiment
-// Double_t FREYA_scale = 3.7272612980187914*log(800)-18.139593352492675;
-// for(int i=1;i<nbins_h_ph_E_total;i++){
-//   if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130){
-//     h_ph_E_total_scaled->SetBinContent(i,0);
-//   }
+Double_t FREYA_scale = 3.7272612980187914*log(800)-18.139593352492675;
+for(int i=1;i<nbins_h_ph_E_total;i++){
+  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130){
+    h_ph_E_total_scaled->SetBinContent(i,0);
+  }
 
-//   if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450 && h_ph_E_total_scaled->GetBinCenter(i) > 0.130){
-//     h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*(3.7272612980187914*log(h_ph_E_total_scaled->GetBinCenter(i)*1000)-18.139593352492675)/FREYA_scale);
-//   }
-// }
+  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450 && h_ph_E_total_scaled->GetBinCenter(i) > 0.130){
+    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*(3.7272612980187914*log(h_ph_E_total_scaled->GetBinCenter(i)*1000)-18.139593352492675)/FREYA_scale);
+  }
+}
 
 h_ph_E_total_scaled->SetLineColor(2);
 h_ph_E_total_scaled->Draw("same");
@@ -423,7 +423,7 @@ for(int i=0;i<nbins_h_ph_E_total+1;i++){
   p_total_energy_pspec += h_ph_E_total_scaled->GetBinContent(i)*h_ph_E_total_scaled->GetBinCenter(i);
 }
 
-cout << "Mg: " << p_multiplicity_pspec << " Etot: " << p_total_energy_pspec << endl;
+//cout << "Mg: " << p_multiplicity_pspec << " Etot: " << p_total_energy_pspec << endl;
 
 p_multiplicity_pspec = p_multiplicity_pspec/F;
 p_total_energy_pspec = p_total_energy_pspec/F;

@@ -17,8 +17,8 @@ import numpy as np
 
 run_or_err = 0 #parameter deciding if running FREYA for values(0) or error calculation(1)
 
-Ex = [0,1,2,3,4,5,5.25,5.5,5.75,6.25,6.5,6.75,7,7.25] #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
-
+Ex = [0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.25,5.5,5.75,6.25,6.5,6.75,7,7.25] #input energy to FREYA-> neutron energy if neutron induced, excitation energy if spontaneous fission
+#Ex = [1,2,3,4,5,5.25,5.5,5.75,6.25,6.5,6.75,7,7.25]
 
 if run_or_err==0:
 	call(["rm", "data_as_func_of_excitation_energy.dat"])
@@ -27,6 +27,7 @@ if run_or_err==0:
 	for i in range(len(Ex)):
 		p = Popen('./events', stdin=PIPE)
 		p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "1000000", "Pu240.dat"]))
+		#p.communicate(os.linesep.join(["94", "240", "1", "%f" % Ex[i], "10000", "Pu240.dat"]))
 
 		o = Popen("./EventToRoot_compilable", stdin=PIPE)
 		o.communicate(os.linesep.join([" "])) #makes sure the program stops?
