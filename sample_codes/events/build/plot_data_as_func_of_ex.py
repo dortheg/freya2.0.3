@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 #data = np.loadtxt('gmin=122_tmax=3ns_11des2018/data_as_func_of_excitation_energy.dat.unchanged', skiprows=0, usecols=(0,1,2,3,4,5,6,7,8,9,10))
 #unc = np.loadtxt('gmin=122_tmax=3ns_11des2018/uncertainties.dat', skiprows=0, usecols=(0,1,2))
-data = np.loadtxt('data_as_func_of_excitation_energy.dat.unchanged', skiprows=0, usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21))
+data = np.loadtxt('gmin=122_tmax=3ns_noscale_14jan2019/data_as_func_of_excitation_energy.dat.unchanged', skiprows=0, usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21))
 #n0 = np.loadtxt('pre-fission-neutrons.dat', skiprows=0, usecols=(0,1,2))
 
 Ex = data[:,4]
@@ -89,4 +89,52 @@ plt.show()
 # plt.xlabel("Excitation energy of Pu241*")
 # plt.ylabel("Avg number of pre-fission neutrons")
 # plt.show()
+
+
+#Multichance fission handling
+first_second_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/multichance_file.dat', skip_header=0, usecols=(0,1,2,3,4))
+
+Sn_Pu241 = 5.24152 #MeV
+Bf_240 = 6.05
+
+F = first_second_data[0][4]
+
+
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,1]/F*100, "bx-", label="First chance")
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,2]/F*100, "kx-", label="Second chance")
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,3]/F*100, "gx-", label="Third chance")
+plt.axvline(x=Sn_Pu241 + Bf_240, color="r", label="Sn(241Pu) + Bf(240Pu)")
+plt.legend(fontsize=12)
+plt.ylabel("Percent of fissions", fontsize=12)
+plt.xlabel("Ex= S_n + E_n [MeV]", fontsize=12)
+plt.grid()
+plt.show()
+
+#Fission fragment mass distribution
+fragment_mass_data = np.genfromtxt('fragment_mass_distr.dat', skip_header=0, usecols=(0,1,2))
+
+# plt.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,1], label="FF1")
+# plt.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,2], label="FF2")
+# plt.legend()
+# plt.xlabel("Ex= S_n + E_n [MeV]", fontsize=12)
+# plt.ylabel("Mass [A]")
+# plt.grid()
+# plt.show()
+
+f, (ax2, ax) = plt.subplots(2, 1, sharex=True)
+
+# plot the same data on both axes
+ax.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,1], "x-", label="FF1, total")
+ax2.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,2], "x-", label="FF2, total")
+ax.set_ylim(100, 102)  # outliers only
+ax2.set_ylim(139, 141)  # most of the data
+ax.spines['top'].set_visible(False)
+ax2.spines['bottom'].set_visible(False)
+plt.xlabel("Ex= S_n + E_n [MeV]", fontsize=12)
+plt.ylabel("Mass [A]")
+ax.grid()
+ax.legend()
+ax2.grid()
+ax2.legend()
+plt.show()
 

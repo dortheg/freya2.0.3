@@ -400,6 +400,11 @@ int main(){
     multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
     multichance_disposable.close();
 
+    std::ofstream ofs20;
+    ofs20.open ("fragment_mass_distr.dat", std::ofstream::out | std::ofstream::app);
+    ofs20 << Elab << " ";
+    ofs20.close();
+
 
     //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;
     

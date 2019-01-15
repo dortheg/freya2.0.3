@@ -104,10 +104,27 @@ Q_third: energy from PFG's from third chance
 void freya_root_analyzer() {
 
 create_frames();
-
+//Fission fragment distribution
 TCanvas *c1 = new TCanvas("c1","Fragment Yield",150,10,990,660);
 mytree->Draw("iAf1>>hframe_fragyield");
+hframe_fragyield->SetLineColor(2);
 mytree->Draw("iAf2>>hframe_fragyield2");
+hframe_fragyield2->SetLineColor(1);
+hframe_fragyield2->GetXaxis()->SetTitle("Mass [A]");
+hframe_fragyield2->GetYaxis()->SetTitle("Counts");
+hframe_fragyield2->SetTitle("Fission fragment distribution");
+hframe_fragyield2->Draw();
+hframe_fragyield->Draw("same");
+
+
+cout << "Initial mass FF1 [A]: " << hframe_fragyield->GetMean() << " Initial mass FF2 [A]: " << hframe_fragyield2->GetMean() << endl;
+cout << "\n" << endl;
+
+std::ofstream ofs20;
+ofs20.open ("fragment_mass_distr.dat", std::ofstream::out | std::ofstream::app);
+ofs20 << hframe_fragyield->GetMean() << "  " << hframe_fragyield2->GetMean() << endl;
+ofs20.close();
+
 
 
 int sum_F = 0;
@@ -401,16 +418,16 @@ int nbins_h_ph_E_total= h_ph_E_total->GetNbinsX();
 
 TH1F *h_ph_E_total_scaled = (TH1F*) h_ph_E_total->Clone();
 //Must scale the low-energy gammas in order to reproduce experiment
-Double_t FREYA_scale = 3.7272612980187914*log(800)-18.139593352492675;
-for(int i=1;i<nbins_h_ph_E_total;i++){
-  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130){
-    h_ph_E_total_scaled->SetBinContent(i,0);
-  }
+// Double_t FREYA_scale = 3.7272612980187914*log(800)-18.139593352492675;
+// for(int i=1;i<nbins_h_ph_E_total;i++){
+//   if(h_ph_E_total_scaled->GetBinCenter(i) < 0.130){
+//     h_ph_E_total_scaled->SetBinContent(i,0);
+//   }
 
-  if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450 && h_ph_E_total_scaled->GetBinCenter(i) > 0.130){
-    h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*(3.7272612980187914*log(h_ph_E_total_scaled->GetBinCenter(i)*1000)-18.139593352492675)/FREYA_scale);
-  }
-}
+//   if(h_ph_E_total_scaled->GetBinCenter(i) < 0.450 && h_ph_E_total_scaled->GetBinCenter(i) > 0.130){
+//     h_ph_E_total_scaled->SetBinContent(i,h_ph_E_total->GetBinContent(i)*(3.7272612980187914*log(h_ph_E_total_scaled->GetBinCenter(i)*1000)-18.139593352492675)/FREYA_scale);
+//   }
+// }
 
 h_ph_E_total_scaled->SetLineColor(2);
 h_ph_E_total_scaled->Draw("same");
@@ -431,10 +448,10 @@ p_total_energy_pspec = p_total_energy_pspec/F;
 cout << "p_multiplicity_pspec: " << p_multiplicity_pspec << " " << "p_total_energy_pspec: " << p_total_energy_pspec << "  " << "p_avg_energy_pspec: " << p_total_energy_pspec/p_multiplicity_pspec << endl;; 
 cout << "\n " << endl;
 
-std::ofstream ofs2;
-ofs2.open ("data_as_func_of_excitation_energy_scaled.dat", std::ofstream::out | std::ofstream::app);
-ofs2 << "         " << p_multiplicity_pspec << "       " << p_total_energy_pspec/p_multiplicity_pspec <<"             " << p_total_energy_pspec << endl;
-ofs2.close();
+//std::ofstream ofs2;
+//ofs2.open ("data_as_func_of_excitation_energy_scaled.dat", std::ofstream::out | std::ofstream::app);
+//ofs2 << "         " << p_multiplicity_pspec << "       " << p_total_energy_pspec/p_multiplicity_pspec <<"             " << p_total_energy_pspec << endl;
+//ofs2.close();
 
 
 std::ofstream ofs1;
