@@ -64,15 +64,27 @@ int main(){
     double P2[10],Q2[20],P2x[10],P2y[10],P2z[10],Q2x[20],Q2y[20],Q2z[20];
     double th2,ph2;// azimuthal and polar angles calculated for the fission products
 
-    int m_first, m_second, m_third; //Photons from first, second or third chance fission
+    //Remember to zero everything, else stuff will be wrong if use +=!
+    //If zero out, then the value will be sent as 0 to program -> Help :-(
+    // int m_first = 0;
+    // int m_second= 0;
+    // int m_third = 0; //Photons from first, second or third chance fission
     int first = 0;
     int second = 0;
     int third = 0;
     int m_first_total=0;
 
-    int n_first, n_second, n_third;  //Neutrons fom first, second or third chance fissions
+    // int n_first = 0;
+    // int n_second = 0;
+    // int n_third = 0;  //Neutrons fom first, second or third chance fissions
+
+    int m_first, m_second, m_third;
+    int n_first, n_second, n_third;
     
+    //Photon spectrum
     double Q_first[20], Q_second[20], Q_third[20];
+    //Neutron spectrum
+    double P_first[20], P_second[20], P_third[20];
     
     int Mn=10;
     int Mg=20;
@@ -189,7 +201,7 @@ int main(){
         // zero everything
         for(j=0;j<4;j++) for(k=0;k<Mn;k++)  {p0[j][k]=0.;p1[j][k]=0.;p2[j][k]=0.;}
         for(j=0;j<4;j++) for(k=0;k<Mg;k++)  {q0[j][k]=0.;q1[j][k]=0.;q2[j][k]=0.;}
-        for(k=0;k<Mn;k++)  {P0[k]=0.;P1[k]=0;P2[k]=0.;P0x[k]=0.;P1x[k]=0;P2x[k]=0.;P0y[k]=0.;P1y[k]=0;P2y[k]=0.;P0z[k]=0.;P1z[k]=0;P2z[k]=0.;}
+        for(k=0;k<Mn;k++)  {P0[k]=0.;P1[k]=0;P2[k]=0.;P0x[k]=0.;P1x[k]=0;P2x[k]=0.;P0y[k]=0.;P1y[k]=0;P2y[k]=0.;P0z[k]=0.;P1z[k]=0;P2z[k]=0.;P_first[k]=0.;P_second[k]=0.;P_third[k]=0.;}
         for(k=0;k<Mg;k++)  {Q0[k]=0.;Q1[k]=0.;Q2[k]=0.;Q0x[k]=0.;Q1x[k]=0;Q2x[k]=0.;Q0y[k]=0.;Q1y[k]=0;Q2y[k]=0.;Q0z[k]=0.;Q1z[k]=0;Q2z[k]=0.;Q_first[k]=0.;Q_second[k]=0.;Q_third[k]=0.;}
         
         
@@ -312,6 +324,14 @@ int main(){
                 Q_first[m1+n]=q2[0][n];
                 //cout << " Q_first2: " << Q_first[n] << endl;
             }
+
+            for(n=1;n<=n1;n++) {
+                P_first[n]=p1[0][n];
+            }
+            for(n=1;n<=n2;n++) {
+                P_first[n1+n]=p2[0][n];
+            }
+
         }
 
 
@@ -330,6 +350,13 @@ int main(){
                 Q_second[m1+n]=q2[0][n];
                 //cout << " Q_first2: " << Q_first[n] << endl;
             }
+
+            for(n=1;n<=n1;n++) {
+                P_second[n]=p1[0][n];
+            }
+            for(n=1;n<=n2;n++) {
+                P_second[n1+n]=p2[0][n];
+            }
         }
 
         if(n0==2){
@@ -347,9 +374,20 @@ int main(){
                 Q_third[m1+n]=q2[0][n];
                 //cout << " Q_first2: " << Q_first[n] << endl;
             }
+
+            for(n=1;n<=n1;n++) {
+                P_third[n]=p1[0][n];
+            }
+            for(n=1;n<=n2;n++) {
+                P_third[n1+n]=p2[0][n];
+            }
+
         }
 
-        //cout << "m_first: " << m_first << endl;
+        // cout <<
+        // cout << "n_first: " << n_first << " n_second: " << n_second << " n_third: " << n_third << endl; "m_first: " << m_first << " m_second: " << m_second << " m_third: " << m_third << endl;
+
+        // cout << "////////" << "\n" << endl;
 
         //cout << "////////////////" << endl;
         
@@ -399,15 +437,15 @@ int main(){
     if(k0+k1+k2 != 0) std::cout << " Something went wrong with the event file " << k0 << " " << k1 << " " << k2 << std::endl;
     else std::cout << nbevent << " events written in " << rootfile << std::endl;
 
-    // std::ofstream multichance_file;
-    // multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
-    // multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
-    // multichance_file.close();
+    std::ofstream multichance_file;
+    multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
+    multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    multichance_file.close();
 
-    // ofstream multichance_disposable;
-    // multichance_disposable.open("multichance_file_disp.dat");
-    // multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
-    // multichance_disposable.close();
+    ofstream multichance_disposable;
+    multichance_disposable.open("multichance_file_disp.dat");
+    multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    multichance_disposable.close();
 
     // std::ofstream ofs20;
     // ofs20.open ("fragment_mass_distr.dat", std::ofstream::out | std::ofstream::app);
@@ -418,6 +456,11 @@ int main(){
     // ofs18.open ("fragment_kinE.dat", std::ofstream::out | std::ofstream::app);
     // ofs18 << Elab << " ";
     // ofs18.close();
+
+    std::ofstream ofs17;
+    ofs17.open ("neutron_mult.dat", std::ofstream::out | std::ofstream::app);
+    ofs17 << Elab << " ";
+    ofs17.close();
 
 
     //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;
