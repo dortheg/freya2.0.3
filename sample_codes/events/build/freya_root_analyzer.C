@@ -65,9 +65,15 @@ TH1D *hframe_ph_E_0;
 TH1D *hframe_ph_E_1;
 TH1D *hframe_ph_E_2;
 TH1D *h_ph_E_total;
+TH1D *hframe_n_E_1;
+TH1D *hframe_n_E_2;
+TH1D *h_n_E_total;
 TH1D *hframe_ph_E_first;
 TH1D *hframe_ph_E_second;
 TH1D *hframe_ph_E_third;
+TH1D *hframe_n_E_first;
+TH1D *hframe_n_E_second;
+TH1D *hframe_n_E_third;
 TH1D *hframe_fragkin1;
 TH1D *hframe_fragkin2;
 // TH1D *h_n_E_Boltzmann;
@@ -399,7 +405,7 @@ mytree->Draw("Q_first>>hframe_ph_E_first");
 mytree->Draw("Q_second>>hframe_ph_E_second");
 mytree->Draw("Q_third>>hframe_ph_E_third");
 
-hframe_ph_E_first->GetXaxis()->SetTitle("Photon Energy En [MeV]");
+hframe_ph_E_first->GetXaxis()->SetTitle("Photon Energy Eg [MeV]");
 hframe_ph_E_first->GetYaxis()->SetTitle("Number of Photons");
 hframe_ph_E_first->SetTitle("Photon spectrum from multichance fission");
 hframe_ph_E_first->SetLineColor(2);
@@ -416,9 +422,9 @@ hframe_ph_E_third->Draw("same");
 auto legend_19 = new TLegend(0.7,0.75,0.9,0.9);
 legend_19->SetTextSize(0.03);
 // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
-legend_19->AddEntry(hframe_p_mult_first,     "First","l");
-legend_19->AddEntry(hframe_p_mult_second,     "Second","l");
-legend_19->AddEntry(hframe_p_mult_third,     "Third","l");
+legend_19->AddEntry(hframe_ph_E_first,     "First","l");
+legend_19->AddEntry(hframe_ph_E_second,     "Second","l");
+legend_19->AddEntry(hframe_ph_E_third,     "Third","l");
 legend_19->Draw();
 
 double En;
@@ -462,7 +468,6 @@ p_total_energy_pspec_third = p_total_energy_pspec_third/F_third;
 
 cout << "Mg_third: " << p_multiplicity_pspec_third << " Etot_third: " << p_total_energy_pspec_third << endl;
 
-//Now neutron multiplicities
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -543,6 +548,92 @@ for(int i=0; i<nbins_h_ph_E_total;i++)
 ofs1.close();
 
 
+/////////////////////////////////////////////////////////////////
+// Neutron energies
+/////////////////////////////////////////////////////////////////
+TCanvas *c16 = new TCanvas("c16","Neutron Energy Spectrum, Multichance fission ",150,10,990,660);
+mytree->Draw("P_first>>hframe_n_E_first");
+mytree->Draw("P_second>>hframe_n_E_second");
+mytree->Draw("P_third>>hframe_n_E_third");
+hframe_n_E_first->GetXaxis()->SetTitle("Neutron Energy Eg [MeV]");
+hframe_n_E_first->GetYaxis()->SetTitle("Number of neutrons");
+hframe_n_E_first->SetLineColor(2);
+hframe_n_E_first->Draw();
+hframe_n_E_first->SetBinContent(1,0);
+hframe_n_E_second->SetLineColor(1);
+hframe_n_E_second->SetBinContent(1,0);
+hframe_n_E_second->Draw("same");
+hframe_n_E_third->SetLineColor(3);
+c19->SetLogy();
+hframe_n_E_third->SetBinContent(1,0);
+hframe_n_E_third->Draw("same");
+
+Double_t n_multiplicity_pspec_first = 0;
+Double_t n_total_energy_pspec_first = 0;
+for(int i=0;i<2*nbins_h_ph_E_total+1;i++){
+  n_multiplicity_pspec_first += hframe_n_E_first->GetBinContent(i);
+  n_total_energy_pspec_first += hframe_n_E_first->GetBinContent(i)*hframe_n_E_first->GetBinCenter(i);
+}
+n_multiplicity_pspec_first = n_multiplicity_pspec_first/F_first;
+n_total_energy_pspec_first = n_total_energy_pspec_first/F_first;
+
+cout << "Mn_first: " << n_multiplicity_pspec_first << " Etot_n_first: " << n_total_energy_pspec_first << endl;
+
+Double_t n_multiplicity_pspec_second = 0;
+Double_t n_total_energy_pspec_second = 0;
+for(int i=0;i<2*nbins_h_ph_E_total+1;i++){
+  n_multiplicity_pspec_second += hframe_n_E_second->GetBinContent(i);
+  n_total_energy_pspec_second += hframe_n_E_second->GetBinContent(i)*hframe_n_E_second->GetBinCenter(i);
+}
+n_multiplicity_pspec_second = n_multiplicity_pspec_second/F_second;
+n_total_energy_pspec_second = n_total_energy_pspec_second/F_second;
+
+cout << "Mn_second: " << n_multiplicity_pspec_second << " Etot_n_second: " << n_total_energy_pspec_second << endl;
+
+Double_t n_multiplicity_pspec_third = 0;
+Double_t n_total_energy_pspec_third = 0;
+for(int i=0;i<2*nbins_h_ph_E_total+1;i++){
+  n_multiplicity_pspec_third += hframe_n_E_third->GetBinContent(i);
+  n_total_energy_pspec_third += hframe_n_E_third->GetBinContent(i)*hframe_n_E_third->GetBinCenter(i);
+}
+n_multiplicity_pspec_third = n_multiplicity_pspec_third/F_third;
+n_total_energy_pspec_third = n_total_energy_pspec_third/F_third;
+
+cout << "Mn_third: " << n_multiplicity_pspec_third << " Etot_n_third: " << n_total_energy_pspec_third << endl;
+
+
+TCanvas *c15 = new TCanvas("15","Neutron Energy Spectrum ",150,10,990,660);
+//mytree->Draw("Q0>>hframe_ph_E_0");
+mytree->Draw("P1>>hframe_n_E_1");
+mytree->Draw("P2>>hframe_n_E_2");
+//h_ph_E_total->Add(hframe_ph_E_0,1.0);
+h_n_E_total->Add(hframe_n_E_1,1.0);
+h_n_E_total->Add(hframe_n_E_2,1.0);
+h_n_E_total->SetBinContent(1,0);
+c15->SetLogy();
+h_n_E_total->GetXaxis()->SetTitle("Neutron Energy En [MeV]");
+h_n_E_total->GetYaxis()->SetTitle("Number of neutrons");
+h_n_E_total->SetTitle("Neutron spectrum");
+h_n_E_total->Draw("E");
+int nbins_h_n_E_total= h_n_E_total->GetNbinsX();
+
+Double_t n_multiplicity_pspec = 0;
+Double_t n_total_energy_pspec = 0;
+
+for(int i=0;i<2*nbins_h_ph_E_total+1;i++){
+  n_multiplicity_pspec += h_n_E_total->GetBinContent(i);
+  n_total_energy_pspec += h_n_E_total->GetBinContent(i)*h_n_E_total->GetBinCenter(i);
+}
+
+//cout << "Mg: " << p_multiplicity_pspec << " Etot: " << p_total_energy_pspec << endl;
+
+n_multiplicity_pspec = n_multiplicity_pspec/F;
+n_total_energy_pspec = n_total_energy_pspec/F;
+
+cout << "n_multiplicity_pspec: " << n_multiplicity_pspec << " " << "n_total_energy_pspec: " << n_total_energy_pspec << "  " << "n_avg_energy_pspec: " << n_total_energy_pspec/n_multiplicity_pspec << endl;; 
+
+
+cout << "\n" << endl;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 //Total gamma ray energy
@@ -684,9 +775,17 @@ hframe_ph_E_1 = new TH1D("hframe_ph_E_1","",nbins,0,maxbin);
 hframe_ph_E_2 = new TH1D("hframe_ph_E_2","",nbins,0,maxbin);
 h_ph_E_total = new TH1D("h_ph_E_total","",nbins,0,maxbin);
 
+hframe_n_E_1 = new TH1D("hframe_n_E_1","",2*nbins,0,20);
+hframe_n_E_2 = new TH1D("hframe_n_E_2","",2*nbins,0,20);
+h_n_E_total = new TH1D("h_n_E_total","",2*nbins,0,20);
+
 hframe_ph_E_first = new TH1D("hframe_ph_E_first","",nbins,0,maxbin);
 hframe_ph_E_second = new TH1D("hframe_ph_E_second","",nbins,0,maxbin);
 hframe_ph_E_third = new TH1D("hframe_ph_E_third","",nbins,0,maxbin);
+
+hframe_n_E_first = new TH1D("hframe_n_E_first","",2*nbins,0,20);
+hframe_n_E_second = new TH1D("hframe_n_E_second","",2*nbins,0,20);
+hframe_n_E_third = new TH1D("hframe_n_E_third","",2*nbins,0,20);
 
 hframe_fragkin1 = new TH1D("hframe_fragkin1","",1000,0,150);
 hframe_fragkin2 = new TH1D("hframe_fragkin2","",1000,0,150);

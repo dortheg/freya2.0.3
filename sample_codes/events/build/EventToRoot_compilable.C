@@ -167,6 +167,10 @@ int main(){
     t1->Branch("Q_first",Q_first,"Q_first[Mg]/D");
     t1->Branch("Q_second",Q_second,"Q_second[Mg]/D");
     t1->Branch("Q_third",Q_third,"Q_third[Mg]/D");
+
+    t1->Branch("P_first",P_first,"P_first[Mg]/D");
+    t1->Branch("P_second",P_second,"P_second[Mg]/D");
+    t1->Branch("P_third",P_third,"Q_third[Mg]/D");
     
     t1->Branch("Q0x",Q0x,"Q0x[Mg]/D");
     t1->Branch("Q1x",Q1x,"Q1x[Mg]/D");
