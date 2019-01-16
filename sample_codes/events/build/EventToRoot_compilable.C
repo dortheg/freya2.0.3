@@ -405,6 +405,11 @@ int main(){
     ofs20 << Elab << " ";
     ofs20.close();
 
+    std::ofstream ofs18;
+    ofs18.open ("fragment_kinE.dat", std::ofstream::out | std::ofstream::app);
+    ofs18 << Elab << " ";
+    ofs18.close();
+
 
     //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;
     

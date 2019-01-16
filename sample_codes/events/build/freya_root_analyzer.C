@@ -63,6 +63,8 @@ TH1D *h_ph_E_total;
 TH1D *hframe_ph_E_first;
 TH1D *hframe_ph_E_second;
 TH1D *hframe_ph_E_third;
+TH1D *hframe_fragkin1;
+TH1D *hframe_fragkin2;
 // TH1D *h_n_E_Boltzmann;
 int nbins_h_ph_E_total  = 500;
 int max_h_ph_E  = 7; // in MeV
@@ -76,8 +78,8 @@ iAf1: fission fragment 1, mass number
 iAf2: fission fragment 2, mass number
 iAp1: product fission fragment 1, mass number (after initial fragment has decayed)
 iAp2: product fission fragment 2, mass number (after initial fragment has decayed)
-Ekin1: kinetic energy of 1 fragment
-Ekin2: kinetic energy of second fragment
+E1kin: kinetic energy of 1 fragment
+E2kin: kinetic energy of second fragment
 n0: neutrons from compound nuclei
 n1: neutrons from first fission fragment
 n2: neutrons from second fission fragment
@@ -107,14 +109,15 @@ create_frames();
 //Fission fragment distribution
 TCanvas *c1 = new TCanvas("c1","Fragment Yield",150,10,990,660);
 mytree->Draw("iAf1>>hframe_fragyield");
-hframe_fragyield->SetLineColor(2);
+hframe_fragyield->SetLineColor(1);
 mytree->Draw("iAf2>>hframe_fragyield2");
-hframe_fragyield2->SetLineColor(1);
+hframe_fragyield2->SetLineColor(2);
 hframe_fragyield2->GetXaxis()->SetTitle("Mass [A]");
 hframe_fragyield2->GetYaxis()->SetTitle("Counts");
 hframe_fragyield2->SetTitle("Fission fragment distribution");
-hframe_fragyield2->Draw();
-hframe_fragyield->Draw("same");
+hframe_fragyield->Draw();
+hframe_fragyield2->Draw("same");
+
 
 
 cout << "Initial mass FF1 [A]: " << hframe_fragyield->GetMean() << " Initial mass FF2 [A]: " << hframe_fragyield2->GetMean() << endl;
@@ -126,7 +129,34 @@ ofs20 << hframe_fragyield->GetMean() << "  " << hframe_fragyield2->GetMean() << 
 ofs20.close();
 
 
+//Find average kinetic energy of the two fission fragments
+TCanvas *c18 = new TCanvas("c18", "Fragment kinetic energy",150,10,990,660);
+mytree->Draw("E1kin>>hframe_fragkin1");
+mytree->Draw("E2kin>>hframe_fragkin2");
+hframe_fragkin1->SetLineColor(1);
+hframe_fragkin2->SetLineColor(2);
+//hframe_fragkin2->GetXaxis()->SetTitle("Mass [A]");
+//hframe_fragkin2->GetYaxis()->SetTitle("Counts");
+hframe_fragkin2->GetYaxis()->SetRangeUser(0,10000);
+hframe_fragkin2->GetXaxis()->SetTitle("Energy [MeV]");
+hframe_fragkin1->GetYaxis()->SetTitle("Counts");
+hframe_fragkin2->Draw();
+hframe_fragkin1->Draw("same");
 
+auto legend_18 = new TLegend(0.7,0.75,0.9,0.9);
+legend_18->SetTextSize(0.03);
+// legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+legend_18->AddEntry(hframe_fragkin1,     "FF1","l");
+legend_18->AddEntry(hframe_fragkin2,     "FF2","l");
+legend_18->Draw();
+
+std::ofstream ofs18;
+ofs18.open ("fragment_kinE.dat", std::ofstream::out | std::ofstream::app);
+ofs18 << hframe_fragkin1->GetMean() << "  " << hframe_fragkin2->GetMean() << endl;
+ofs18.close();
+
+
+///////////////////////////////////////
 int sum_F = 0;
 
 for(int i=0;i<300;i++){
@@ -602,6 +632,9 @@ h_ph_E_total = new TH1D("h_ph_E_total","",nbins,0,maxbin);
 hframe_ph_E_first = new TH1D("hframe_ph_E_first","",nbins,0,maxbin);
 hframe_ph_E_second = new TH1D("hframe_ph_E_second","",nbins,0,maxbin);
 hframe_ph_E_third = new TH1D("hframe_ph_E_third","",nbins,0,maxbin);
+
+hframe_fragkin1 = new TH1D("hframe_fragkin1","",1000,0,150);
+hframe_fragkin2 = new TH1D("hframe_fragkin2","",1000,0,150);
 
 }
 
