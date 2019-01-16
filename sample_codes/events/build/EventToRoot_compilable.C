@@ -64,11 +64,13 @@ int main(){
     double P2[10],Q2[20],P2x[10],P2y[10],P2z[10],Q2x[20],Q2y[20],Q2z[20];
     double th2,ph2;// azimuthal and polar angles calculated for the fission products
 
-    int m_first, m_second, m_third;
+    int m_first, m_second, m_third; //Photons from first, second or third chance fission
     int first = 0;
     int second = 0;
     int third = 0;
     int m_first_total=0;
+
+    int n_first, n_second, n_third;  //Neutrons fom first, second or third chance fissions
     
     double Q_first[20], Q_second[20], Q_third[20];
     
@@ -96,6 +98,10 @@ int main(){
     t1->Branch("m_first", &m_first, "m_first/I" );
     t1->Branch("m_second", &m_second, "m_second/I" );
     t1->Branch("m_third", &m_third, "m_third/I" );
+
+    t1->Branch("n_first", &n_first, "n_first/I" );
+    t1->Branch("n_second", &n_second, "n_second/I" );
+    t1->Branch("n_third", &n_third, "n_third/I" );
 
     t1->Branch("iA0", &iA0, "iA0/I" );
     t1->Branch("iAf1", &iAf1, "iAf1/I" );
@@ -295,6 +301,7 @@ int main(){
             //First chance fission, count photons
             //cout << "First " << n0 << endl; 
             m_first = m1 + m2;
+            n_first = n1 + n2;
             first += 1;
 
             for(n=1;n<=m1;n++) {
@@ -312,6 +319,7 @@ int main(){
             //Second chance fission
             //cout << "Second " << n0 << endl;
             m_second = m1 + m2;
+            n_second = n1 + n2;
             second += 1;
 
             for(n=1;n<=m1;n++) {
@@ -328,6 +336,7 @@ int main(){
             //Third chance fission
             //cout << "Second " << n0 << endl;
             m_third = m1 + m2;
+            n_third = n1 + n2;
             third += 1;
 
             for(n=1;n<=m1;n++) {
@@ -390,25 +399,25 @@ int main(){
     if(k0+k1+k2 != 0) std::cout << " Something went wrong with the event file " << k0 << " " << k1 << " " << k2 << std::endl;
     else std::cout << nbevent << " events written in " << rootfile << std::endl;
 
-    std::ofstream multichance_file;
-    multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
-    multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
-    multichance_file.close();
+    // std::ofstream multichance_file;
+    // multichance_file.open ("multichance_file.dat", std::ofstream::out | std::ofstream::app);
+    // multichance_file << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    // multichance_file.close();
 
-    ofstream multichance_disposable;
-    multichance_disposable.open("multichance_file_disp.dat");
-    multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
-    multichance_disposable.close();
+    // ofstream multichance_disposable;
+    // multichance_disposable.open("multichance_file_disp.dat");
+    // multichance_disposable  << Elab << "   " << first << "   " << second << "   " << third << "   " << nbevent << std::endl;
+    // multichance_disposable.close();
 
-    std::ofstream ofs20;
-    ofs20.open ("fragment_mass_distr.dat", std::ofstream::out | std::ofstream::app);
-    ofs20 << Elab << " ";
-    ofs20.close();
+    // std::ofstream ofs20;
+    // ofs20.open ("fragment_mass_distr.dat", std::ofstream::out | std::ofstream::app);
+    // ofs20 << Elab << " ";
+    // ofs20.close();
 
-    std::ofstream ofs18;
-    ofs18.open ("fragment_kinE.dat", std::ofstream::out | std::ofstream::app);
-    ofs18 << Elab << " ";
-    ofs18.close();
+    // std::ofstream ofs18;
+    // ofs18.open ("fragment_kinE.dat", std::ofstream::out | std::ofstream::app);
+    // ofs18 << Elab << " ";
+    // ofs18.close();
 
 
     //std::cout << "Number of first chance: " << first << " Number of second chance: " << second << std::endl;

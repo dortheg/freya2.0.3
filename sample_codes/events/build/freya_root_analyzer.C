@@ -56,6 +56,11 @@ TH1D *hframe_p_mult_second;
 TH1D *hframe_p_mult_third;
 int nbins_h_p_mult_total  = 20;
 
+//Neutron emission multiplicities
+TH1D *hframe_n_mult_first;
+TH1D *hframe_n_mult_second;
+TH1D *hframe_n_mult_third;
+
 TH1D *hframe_ph_E_0;
 TH1D *hframe_ph_E_1;
 TH1D *hframe_ph_E_2;
@@ -111,13 +116,19 @@ TCanvas *c1 = new TCanvas("c1","Fragment Yield",150,10,990,660);
 mytree->Draw("iAf1>>hframe_fragyield");
 hframe_fragyield->SetLineColor(1);
 mytree->Draw("iAf2>>hframe_fragyield2");
-hframe_fragyield2->SetLineColor(2);
-hframe_fragyield2->GetXaxis()->SetTitle("Mass [A]");
-hframe_fragyield2->GetYaxis()->SetTitle("Counts");
-hframe_fragyield2->SetTitle("Fission fragment distribution");
+hframe_fragyield->SetLineColor(2);
+hframe_fragyield->GetXaxis()->SetTitle("Mass [A]");
+hframe_fragyield->GetYaxis()->SetTitle("Counts");
+hframe_fragyield->SetTitle("Fission fragment mass distribution");
 hframe_fragyield->Draw();
 hframe_fragyield2->Draw("same");
 
+auto legend_c1 = new TLegend(0.7,0.75,0.9,0.9);
+legend_c1->SetTextSize(0.03);
+// legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+legend_c1->AddEntry(hframe_fragyield,     "FF1, light,","l");
+legend_c1->AddEntry(hframe_fragyield2,     "FF2, heavy","l");
+legend_c1->Draw();
 
 
 cout << "Initial mass FF1 [A]: " << hframe_fragyield->GetMean() << " Initial mass FF2 [A]: " << hframe_fragyield2->GetMean() << endl;
@@ -137,17 +148,18 @@ hframe_fragkin1->SetLineColor(1);
 hframe_fragkin2->SetLineColor(2);
 //hframe_fragkin2->GetXaxis()->SetTitle("Mass [A]");
 //hframe_fragkin2->GetYaxis()->SetTitle("Counts");
-hframe_fragkin2->GetYaxis()->SetRangeUser(0,10000);
-hframe_fragkin2->GetXaxis()->SetTitle("Energy [MeV]");
+hframe_fragkin1->GetYaxis()->SetRangeUser(0,10000);
+hframe_fragkin1->GetXaxis()->SetTitle("Energy [MeV]");
 hframe_fragkin1->GetYaxis()->SetTitle("Counts");
-hframe_fragkin2->Draw();
-hframe_fragkin1->Draw("same");
+hframe_fragkin1->SetTitle("Fission fragment kinE distribution");
+hframe_fragkin1->Draw();
+hframe_fragkin2->Draw("same");
 
 auto legend_18 = new TLegend(0.7,0.75,0.9,0.9);
 legend_18->SetTextSize(0.03);
 // legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
-legend_18->AddEntry(hframe_fragkin1,     "FF1","l");
-legend_18->AddEntry(hframe_fragkin2,     "FF2","l");
+legend_18->AddEntry(hframe_fragkin1,     "FF1, light","l");
+legend_18->AddEntry(hframe_fragkin2,     "FF2, heavy","l");
 legend_18->Draw();
 
 std::ofstream ofs18;
@@ -172,6 +184,40 @@ Double_t norm = 2;
 Double_t nu;
 Double_t value;
 
+
+/////////////////////////////////////////
+// Neutron multiplicities
+/////////////////////////////////////////
+
+TCanvas *c17 = new TCanvas("c17", "Neutron multiplicities",150,10,990,660);
+mytree->Draw("n_first>>hframe_n_mult_first");
+mytree->Draw("n_second>>hframe_n_mult_second");
+hframe_n_mult_first->SetLineColor(1);
+//hframe_n_mult_first->GetYaxis()->SetRangeUser(0,350000);
+hframe_n_mult_first->Draw();
+hframe_n_mult_first->SetTitle("Neutron multiplicities");
+hframe_n_mult_second->SetLineColor(2);
+hframe_n_mult_second->Draw("same");
+//mytree->Draw("n_third>>hframe_n_mult_third");
+//hframe_n_mult_third->Draw("same");
+
+auto legend_17 = new TLegend(0.7,0.75,0.9,0.9);
+legend_17->SetTextSize(0.03);
+// legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+legend_17->AddEntry(hframe_n_mult_first,     "First","l");
+legend_17->AddEntry(hframe_n_mult_second,     "Second","l");
+//legend_17->AddEntry(hframe_p_mult_third,     "Third","l");
+legend_17->Draw();
+
+//cout << "N first" << hframe_n_mult_first->GetMean() << " N second" << hframe_n_mult_second->GetMean() << endl;
+
+int sum_n_first = 0;
+for(int n=0;n<20;n++){
+  sum_n_first += hframe_n_mult_first->GetBinCenter(n)*hframe_n_mult_first->GetBinContent(n);
+}
+
+cout << "n_first" << sum_n_first << endl;
+
 //////////////////////////////////////////////////////
 //Photon multiplicities
 //////////////////////////////////////////////////////
@@ -180,6 +226,7 @@ Double_t value;
 //Debugged this, yields the correct multiplicity
 TCanvas *c20 = new TCanvas("c20", "Photon multiplicities",150,10,990,660);
 mytree->Draw("m_first>>hframe_p_mult_first");
+hframe_p_mult_first->SetTitle("Photon multiplicities");
 hframe_p_mult_first->Draw();
 mytree->Draw("m_second>>hframe_p_mult_second");
 hframe_p_mult_second->Draw("same");
@@ -193,9 +240,9 @@ for(int n=0;n<20;n++){
 
 cout << "Integral m_first: " << sum_m_first << endl;
 
-hframe_p_mult_first->SetLineColor(2);
+hframe_p_mult_first->SetLineColor(1);
 hframe_p_mult_first->Draw();
-hframe_p_mult_second->SetLineColor(1);
+hframe_p_mult_second->SetLineColor(2);
 hframe_p_mult_second->Draw("same");
 //hframe_p_mult_third->SetLineColor(3);
 //hframe_p_mult_third->SetBinContent(1,0);
@@ -621,6 +668,10 @@ h_p_mult_total = new TH1D("h_p_mult_total","",nbins,-0.5,maxbin-.5);
 hframe_p_mult_first = new TH1D("hframe_p_mult_first","",nbins,-0.5,maxbin-.5);
 hframe_p_mult_second = new TH1D("hframe_p_mult_second","",nbins,-0.5,maxbin-.5);
 hframe_p_mult_third = new TH1D("hframe_p_mult_third","",nbins,-0.5,maxbin-.5);
+
+hframe_n_mult_first = new TH1D("hframe_n_mult_first","",10,-0.5,10-0.5);
+hframe_n_mult_second = new TH1D("hframe_n_mult_second","",10,-0.5,10-0.5);
+hframe_n_mult_third = new TH1D("hframe_n_mult_third","",10,-0.5,10-0.5);
 
 nbins = nbins_h_ph_E_total;
 maxbin = max_h_ph_E;
