@@ -42,7 +42,7 @@ plt.figure(0)
 #plt.errorbar(Ex, avg_ph_mult, yerr=unc[:,0], fmt="-x")
 plt.plot(Ex, avg_ph_mult, "bo-", label="Total")
 plt.plot(Ex, avg_ph_mult_first, "ro-", label="First chance")
-plt.plot(Ex[3:-1], avg_ph_mult_second[3:-1], "ko-", label="Second chanve")
+plt.plot(Ex[3:-1], avg_ph_mult_second[3:-1], "ko-", label="Second chance")
 #plt.title("Mg")
 #plt.title("Average photon multiplicity as function of Pu241 Ex-energy")
 plt.xlabel("Excitation energy [MeV]", fontsize=15)
@@ -146,29 +146,29 @@ ax2.grid()
 ax2.legend()
 plt.show()
 
-# #Fission fragment kinetic energy
-# fragment_kinE_data = np.genfromtxt('fragment_kinE.dat', skip_header=0, usecols=(0,1,2))
-# f2, (ax22, ax2) = plt.subplots(2, 1, sharex=True)
+#Fission fragment kinetic energy
+fragment_kinE_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/fragment_kinE.dat', skip_header=0, usecols=(0,1,2))
+f2, (ax22, ax2) = plt.subplots(2, 1, sharex=True)
 
-# # plot the same data on both axes
-# ax2.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,1], "bo-", label="Light fission fragment")
-# ax22.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,2], "ro-", label="Heavy fission fragment")
-# ax2.set_ylim(98, 102)  # outliers only
-# ax22.set_ylim(72, 75)  # most of the data
-# ax2.spines['top'].set_visible(False)
-# ax22.spines['bottom'].set_visible(False)
-# plt.xlabel("Excitation energy [MeV]", fontsize=14)
-# plt.ylabel("Kinetic energy [MeV]", position=(1,1))
-# plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
-# ax2.grid()
-# ax2.legend()
-# ax22.grid()
-# ax22.legend()
-# plt.show()
+# plot the same data on both axes
+ax2.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,1], "bo-", label="Light fission fragment")
+ax22.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,2], "ro-", label="Heavy fission fragment")
+ax2.set_ylim(98, 102)  # outliers only
+ax22.set_ylim(72, 75)  # most of the data
+ax2.spines['top'].set_visible(False)
+ax22.spines['bottom'].set_visible(False)
+plt.xlabel("Excitation energy [MeV]", fontsize=14)
+plt.ylabel("Kinetic energy [MeV]", position=(1,1))
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
+ax2.grid()
+ax2.legend()
+ax22.grid()
+ax22.legend()
+plt.show()
 
 #Neutron multiplicity
 
-neutron_data = np.genfromtxt('neutron_mult.dat', skip_header=0, usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12))
+neutron_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/neutron_mult.dat', skip_header=0, usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12))
 
 avg_n_mult = neutron_data[:,1]
 avg_n_energy = neutron_data[:,2]

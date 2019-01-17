@@ -1,0 +1,5 @@
+10**6 fissions for the values, 10**6/10 for uncertanty calculation
+
+No scaling factor in gamma spectrum
+
+Correct handling of multichance fission, splits gammas into whether they come from first, second or third chance fission
