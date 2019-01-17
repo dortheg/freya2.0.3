@@ -130,10 +130,9 @@ fragment_mass_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/fragment
 # plt.show()
 
 f, (ax2, ax) = plt.subplots(2, 1, sharex=True)
-
 # plot the same data on both axes
-ax.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,1], "bo-", label="Light fission fragment")
-ax2.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,2], "ro-", label="Heavy fission fragment")
+ax.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,1], "bo-", label="Light fission fragment (as formed, not product)")
+ax2.plot(fragment_mass_data[:,0] + Sn_Pu241, fragment_mass_data[:,2], "ro-", label="Heavy fission fragment (as formed, not product)")
 ax.set_ylim(100, 102)  # outliers only
 ax2.set_ylim(139, 141)  # most of the data
 ax.spines['top'].set_visible(False)
@@ -146,4 +145,75 @@ ax.legend()
 ax2.grid()
 ax2.legend()
 plt.show()
+
+# #Fission fragment kinetic energy
+# fragment_kinE_data = np.genfromtxt('fragment_kinE.dat', skip_header=0, usecols=(0,1,2))
+# f2, (ax22, ax2) = plt.subplots(2, 1, sharex=True)
+
+# # plot the same data on both axes
+# ax2.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,1], "bo-", label="Light fission fragment")
+# ax22.plot(fragment_kinE_data[:,0] + Sn_Pu241, fragment_kinE_data[:,2], "ro-", label="Heavy fission fragment")
+# ax2.set_ylim(98, 102)  # outliers only
+# ax22.set_ylim(72, 75)  # most of the data
+# ax2.spines['top'].set_visible(False)
+# ax22.spines['bottom'].set_visible(False)
+# plt.xlabel("Excitation energy [MeV]", fontsize=14)
+# plt.ylabel("Kinetic energy [MeV]", position=(1,1))
+# plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
+# ax2.grid()
+# ax2.legend()
+# ax22.grid()
+# ax22.legend()
+# plt.show()
+
+#Neutron multiplicity
+
+neutron_data = np.genfromtxt('neutron_mult.dat', skip_header=0, usecols=(0,1,2,3,4,5,6,7,8,9,10,11,12))
+
+avg_n_mult = neutron_data[:,1]
+avg_n_energy = neutron_data[:,2]
+total_n_E = neutron_data[:,3]
+
+avg_n_mult_first = neutron_data[:,4]
+avg_n_energy_first = neutron_data[:,5]
+total_n_E_first = neutron_data[:,6]
+
+avg_n_mult_second = neutron_data[:,7]
+avg_n_energy_second = neutron_data[:,8]
+total_n_E_second = neutron_data[:,9]
+
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_mult, "bo-", label="Total")
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_mult_first, "ro-", label="First chance")
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_mult_second, "ko-", label="Second chance")
+plt.xlabel("Excitation energy [MeV]", fontsize=15)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
+#plt.yticks(np.arange(6.9,7.4, step=0.05), [6.9,"",7.0,"",7.1,"",7.2,"",7.3,"",7.4], fontsize=14)
+plt.ylabel("Average neutron multiplicity", fontsize=15)
+plt.legend()
+plt.grid()
+plt.show()
+
+plt.plot(neutron_data[:,0] + Sn_Pu241, total_n_E, "bo-", label="Total")
+plt.plot(neutron_data[:,0] + Sn_Pu241, total_n_E_first, "ro-", label="First chance")
+plt.plot(neutron_data[:,0] + Sn_Pu241, total_n_E_second, "ko-", label="Second chance")
+plt.xlabel("Excitation energy [MeV]", fontsize=15)
+plt.ylabel("Total neutron energy [MeV]", fontsize=15)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
+#plt.yticks(np.arange(6.75, 7.2, step=0.05), ["", 6.8,"",6.9,"",7.0,"",7.1,"",7.2], fontsize=14)
+plt.legend()
+plt.grid()
+plt.show()
+
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_energy, "bo-", label="Total")
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_energy_first, "ro-", label="First chance")
+plt.plot(neutron_data[:,0] + Sn_Pu241, avg_n_energy_second, "ko-", label="Second chance")
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
+#plt.yticks(np.arange(0.960,1, step=0.005), [0.960, "",0.970, "",0.980, "", 0.990, "", 1.00], fontsize=14)
+plt.xlabel("Excitation energy [MeV]", fontsize=15)
+plt.ylabel("Average neutron energy [MeV]", fontsize=15)
+plt.legend()
+#plt.title("Eg")
+plt.grid()
+plt.show()
+
 

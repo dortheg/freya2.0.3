@@ -634,6 +634,16 @@ cout << "n_multiplicity_pspec: " << n_multiplicity_pspec << " " << "n_total_ener
 
 
 cout << "\n" << endl;
+
+std::ofstream ofs16;
+ofs16.open ("neutron_mult.dat", std::ofstream::out | std::ofstream::app);
+ofs16 << "         " << n_multiplicity_pspec <<  "       " << n_total_energy_pspec/p_multiplicity_pspec << "       "<< n_total_energy_pspec;
+ofs16 << "         " << n_multiplicity_pspec_first  << "       " << n_total_energy_pspec_first/p_multiplicity_pspec_first << "        " << n_total_energy_pspec_first;
+ofs16 << "         " << n_multiplicity_pspec_second << "       " << n_total_energy_pspec_second/p_multiplicity_pspec_second << "        " << n_total_energy_pspec_second;
+ofs16 << "         " << n_multiplicity_pspec_third  << "       " << n_total_energy_pspec_third/p_multiplicity_pspec_third  << "        " << n_total_energy_pspec_third << endl;
+
+ofs16.close();
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 //Total gamma ray energy
