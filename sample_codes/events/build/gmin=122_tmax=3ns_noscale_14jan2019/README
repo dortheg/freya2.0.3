@@ -3,3 +3,5 @@
 No scaling factor in gamma spectrum
 
 Correct handling of multichance fission, splits gammas into whether they come from first, second or third chance fission
+
+I noticed that something started to misbehave in the neutron calculation for 10^6 iterations for one specific excitation energy, which is why the neutron spectrum is only run with 10^5 events
