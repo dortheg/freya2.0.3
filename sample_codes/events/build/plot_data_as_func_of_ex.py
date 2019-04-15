@@ -1,5 +1,6 @@
 import numpy as np 
 import matplotlib.pyplot as plt 
+import matplotlib.ticker as mtick
 
 #data = np.loadtxt('gmin=122_tmax=3ns_11des2018/data_as_func_of_excitation_energy.dat.unchanged', skiprows=0, usecols=(0,1,2,3,4,5,6,7,8,9,10))
 #unc = np.loadtxt('gmin=122_tmax=3ns_11des2018/uncertainties.dat', skiprows=0, usecols=(0,1,2))
@@ -84,23 +85,67 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 # plt.show()
 
 #With zoom-parts
+f0, axarr0 = plt.subplots(2, sharex=True)
+plt.yticks(fontsize=15)
+axarr0[0].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1f'))
+axarr0[0].plot(Ex, total_ph_E_first, "ro-", label="First chance")
+axarr0[0].plot(Ex[3:-1], total_ph_E_second[3:-1], "ko-", label="Second chance")
+axarr0[0].plot(Ex, total_ph_E, "bo-", label="Total")
+axarr0[0].axis([5,13,4.5,10.5])
+axarr0[0].legend(fontsize=14)
+axarr0[0].grid()
+axarr0[0].yaxis.set_tick_params(labelsize=15)
+axarr0[1].plot(Ex, total_ph_E_first, "ro-", label="First chance")
+axarr0[1].plot(Ex[3:-1], total_ph_E_second[3:-1], "ko-", label="Second chance")
+axarr0[1].plot(Ex, total_ph_E, "bo-", label="Total")
+axarr0[1].axis([5,13,6.7,7.21])
+axarr0[1].grid()
+plt.yticks(fontsize=15)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=15)
+plt.xlabel("E$_{x}$ [MeV]", fontsize=17)
+plt.ylabel("E$_{tot}$ [MeV/fission]", fontsize=17, position=(1,1))
+plt.show()
+
+f1, axarr1 = plt.subplots(2, sharex=True)
+plt.yticks(fontsize=15)
+axarr1[0].plot(Ex, avg_ph_mult_first, "ro-", label="First chance")
+axarr1[0].plot(Ex[3:-1], avg_ph_mult_second[3:-1], "ko-", label="Second chance")
+axarr1[0].plot(Ex, avg_ph_mult, "bo-", label="Total")
+axarr1[0].axis([5,13,6,9])
+axarr1[0].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.1f'))
+axarr1[0].legend(fontsize=14)
+axarr1[0].grid()
+axarr1[0].yaxis.set_tick_params(labelsize=15)
+axarr1[1].plot(Ex, avg_ph_mult_first, "ro-", label="First chance")
+axarr1[1].plot(Ex[3:-1], avg_ph_mult_second[3:-1], "ko-", label="Second chance")
+axarr1[1].plot(Ex, avg_ph_mult, "bo-", label="Total")
+axarr1[1].axis([5,13,6.89,7.41])
+axarr1[1].grid()
+plt.yticks(fontsize=15)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=15)
+plt.xlabel("E$_{x}$ [MeV]", fontsize=17)
+plt.ylabel("M$_{g}$ [photons/fission]", fontsize=17, position=(1,1))
+plt.show()
+
+
 f, axarr = plt.subplots(2, sharex=True)
-plt.yticks(fontsize=14)
+plt.yticks(fontsize=15)
 axarr[0].plot(Ex, avg_ph_energy_first, "ro-", label="First chance")
 axarr[0].plot(Ex[3:-1], avg_ph_energy_second[3:-1], "ko-", label="Second chance")
 axarr[0].plot(Ex, avg_ph_energy, "bo-", label="Total")
 axarr[0].axis([5,13,0.6,1.3])
-axarr[0].legend()
+axarr[0].legend(fontsize=14)
 axarr[0].grid()
+axarr[0].yaxis.set_tick_params(labelsize=15)
 axarr[1].plot(Ex, avg_ph_energy_first, "ro-", label="First chance")
 axarr[1].plot(Ex[3:-1], avg_ph_energy_second[3:-1], "ko-", label="Second chance")
 axarr[1].plot(Ex, avg_ph_energy, "bo-", label="Total")
 axarr[1].axis([5,13,0.955,1.002])
 axarr[1].grid()
-plt.yticks(fontsize=13)
-plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
-plt.xlabel("Excitation energy [MeV]", fontsize=15)
-plt.ylabel("Average photon energy [MeV]", fontsize=15, position=(1,1))
+plt.yticks(fontsize=15)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=15)
+plt.xlabel("E$_{x}$ [MeV]", fontsize=17)
+plt.ylabel("E$_{g}$ [MeV/photon]", fontsize=17, position=(1,1))
 plt.show()
 
 
@@ -127,26 +172,26 @@ plt.show()
 # plt.show()
 
 
-# #Multichance fission handling
-# first_second_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/multichance_file.dat', skip_header=0, usecols=(0,1,2,3,4))
+#Multichance fission handling
+first_second_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/multichance_file.dat', skip_header=0, usecols=(0,1,2,3,4))
 
-# Sn_Pu241 = 5.24152 #MeV
-# Bf_240 = 6.05
+Sn_Pu241 = 5.24152 #MeV
+Bf_240 = 6.05
 
-# F = first_second_data[0][4]
+F = first_second_data[0][4]
 
 
-# plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,1]/F*100, "bx-", label="First chance")
-# plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,2]/F*100, "kx-", label="Second chance")
-# plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,3]/F*100, "gx-", label="Third chance")
-# plt.axvline(x=Sn_Pu241 + Bf_240, color="r", label="$S_n(241Pu) + B_f(240Pu)$")
-# plt.legend(fontsize=12)
-# plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=14)
-# plt.yticks(np.arange(0, 120, step=10), [0,"",20,"",40,"",60,"",80,"",100], fontsize=14)
-# plt.ylabel("Share of fissions [%]", fontsize=14)
-# plt.xlabel("Excitation energy [MeV]", fontsize=14)
-# plt.grid()
-# plt.show()
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,1]/F*100, "bo-", label="First chance")
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,2]/F*100, "ko-", label="Second chance")
+plt.plot(first_second_data[:,0] + Sn_Pu241, first_second_data[:,3]/F*100, "go-", label="Third chance")
+plt.axvline(x=Sn_Pu241 + Bf_240, color="r", label="$S_n(241Pu) + B_f(240Pu)$", linewidth=1.5)
+plt.legend(fontsize=14)
+plt.xticks(np.arange(5, 13, step=0.5), [5," " ,6, " ",7, " ",8, " ",9, " " ,10, " ",11, " ",12, " ",13], fontsize=15)
+plt.yticks(np.arange(0, 120, step=10), [0,"",20,"",40,"",60,"",80,"",100], fontsize=15)
+plt.ylabel("Share of fissions [%]", fontsize=15, position=(10,0.5))
+plt.xlabel("Excitation energy [MeV]", fontsize=15)
+plt.grid()
+plt.show()
 
 # #Fission fragment mass distribution
 # fragment_mass_data = np.genfromtxt('gmin=122_tmax=3ns_noscale_14jan2019/fragment_mass_distr.dat', skip_header=0, usecols=(0,1,2))
