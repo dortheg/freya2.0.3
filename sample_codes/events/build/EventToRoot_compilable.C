@@ -429,6 +429,12 @@ int main(){
         
         t1->Fill();
         m_first_total += m_first;
+
+        //Write file needed to find average Sn
+        std::ofstream ofs16;
+        ofs16.open ("Product_nuclei.dat", std::ofstream::out | std::ofstream::app);
+        ofs16 << iZ1 << " " << iAp1 << " "<< iZ2 << " " << iAp2 <<std::endl;
+        ofs16.close();
         
         
     }// for over nbevent				! =======================

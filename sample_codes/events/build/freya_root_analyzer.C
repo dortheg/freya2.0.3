@@ -89,8 +89,8 @@ iAf1: fission fragment 1, mass number
 iAf2: fission fragment 2, mass number
 iAp1: product fission fragment 1, mass number (after initial fragment has decayed)
 iAp2: product fission fragment 2, mass number (after initial fragment has decayed)
-E1kin: kinetic energy of 1 fragment
-E2kin: kinetic energy of second fragment
+E1kin: kinetic energy of 1 product
+E2kin: kinetic energy of second product
 n0: neutrons from compound nuclei
 n1: neutrons from first fission fragment
 n2: neutrons from second fission fragment
